@@ -1,11 +1,12 @@
 import React from "react";
-import { Button } from "react-bootstrap";
 import "./assets/styles/main.scss";
+import { Header, MainDesk } from "./components";
 
 function App() {
   return (
     <div className="App">
-      <Button variant="success">Success</Button>
+      <Header />
+      <MainDesk />
     </div>
   );
 }
