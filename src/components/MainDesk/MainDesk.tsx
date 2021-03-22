@@ -1,14 +1,16 @@
 import { Container, Row, Col } from "react-bootstrap";
 import css from "./MainDesk.module.scss";
+import { Column } from "../index";
 
 const MainDesk = () => {
   return (
     <main className={css.main}>
       <Container>
         <Row>
-          <Col>1 of 3</Col>
-          <Col>2 of 3</Col>
-          <Col>3 of 3</Col>
+          <Column />
+          <Col>In Progres</Col>
+          <Col>Testing</Col>
+          <Col>Done</Col>
         </Row>
       </Container>
     </main>

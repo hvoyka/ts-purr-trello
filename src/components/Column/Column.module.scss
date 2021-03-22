@@ -1,0 +1,14 @@
+.column {
+  height: calc(100vh - 66px);
+  margin-top: 10px;
+  border-radius: 10px;
+  background-color: azure;
+  border: 1px solid #f3f3f3;
+  box-shadow: 2px 2px 5px rgba($color: #000000, $alpha: 0.3);
+  &__title {
+    text-align: center;
+  }
+}
+.column__title {
+  border-bottom: 1px solid gray;
+}
