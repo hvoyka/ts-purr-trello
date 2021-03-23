@@ -1,17 +1,18 @@
-import { Container, Row, Col } from "react-bootstrap";
-import css from "./MainDesk.module.scss";
-
+import { Row, Container } from "react-bootstrap";
+import { Column } from "../index";
+import { StyledMain } from "./MainDesk.elements";
 const MainDesk = () => {
   return (
-    <main className={css.main}>
-      <Container>
+    <StyledMain>
+      <Container fluid>
         <Row>
-          <Col>1 of 3</Col>
-          <Col>2 of 3</Col>
-          <Col>3 of 3</Col>
+          <Column name={"TODO"} />
+          <Column name={"In Progres"} />
+          <Column name={"Testing"} />
+          <Column name={"Done"} />
         </Row>
       </Container>
-    </main>
+    </StyledMain>
   );
 };
 
