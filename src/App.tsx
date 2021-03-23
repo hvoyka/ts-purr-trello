@@ -1,10 +1,12 @@
 import React from "react";
-import "./assets/styles/main.scss";
+import "./assets/styles/bootstrap.min.css";
+import GlobalStyle from "./assets/styles/globalStyles.elements";
 import { Header, MainDesk } from "./components";
 
 function App() {
   return (
     <div className="App">
+      <GlobalStyle />
       <Header />
       <MainDesk />
     </div>
