@@ -6,9 +6,12 @@ interface Props {
 }
 
 const Column = (props: Props) => {
+  const items = props.items.map((item) => <li key={item.id}>{item.title}</li>);
+
   return (
     <StyledColumn>
       <StyledTitle>{props.name}</StyledTitle>
+      <ul>{items}</ul>
     </StyledColumn>
   );
 };
