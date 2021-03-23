@@ -1,5 +1,5 @@
 import { Navbar } from "react-bootstrap";
-import css from "./Header.module.scss";
+
 const Header = () => {
   return (
     <header>

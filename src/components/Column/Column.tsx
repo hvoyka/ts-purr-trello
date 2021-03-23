@@ -1,10 +1,14 @@
-import css from "./Column.module.scss";
-import { Col } from "react-bootstrap";
-const Column = () => {
+import { StyledColumn, StyledTitle } from "./Column.elements";
+
+interface Props {
+  name: string;
+}
+
+const Column = (props: Props) => {
   return (
-    <Col className={css.column}>
-      <h4 className={css.column__title}>TODO</h4>
-    </Col>
+    <StyledColumn>
+      <StyledTitle>{props.name}</StyledTitle>
+    </StyledColumn>
   );
 };
 
