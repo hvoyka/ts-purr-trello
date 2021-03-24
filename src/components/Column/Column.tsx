@@ -1,4 +1,9 @@
-import { StyledColumn, StyledTitle } from "./Column.elements";
+import {
+  StyledColumn,
+  TextArea,
+  ListHeader,
+  StyledButton,
+} from "./Column.elements";
 
 interface Props {
   name: string;
@@ -10,7 +15,17 @@ const Column = (props: Props) => {
 
   return (
     <StyledColumn>
-      <StyledTitle>{props.name}</StyledTitle>
+      <ListHeader>
+        <TextArea
+          maxLength={100}
+          spellCheck={false}
+          rows={1}
+          value={props.name}
+        >
+          {props.name}
+        </TextArea>
+        <StyledButton>+</StyledButton>
+      </ListHeader>
       <ul>{items}</ul>
     </StyledColumn>
   );
