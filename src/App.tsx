@@ -11,6 +11,7 @@ function App() {
     ],
     todo: {
       title: "TODO",
+      column: "todo",
       items: [
         { id: 1, title: "First todo item", ownerId: 2 },
         { id: 2, title: "Second todo item", ownerId: 1 },
@@ -19,6 +20,7 @@ function App() {
     },
     progress: {
       title: "In Progres",
+      column: "progress",
       items: [
         { id: 1, title: "First progress item", ownerId: 2 },
         { id: 2, title: "Second progress item", ownerId: 2 },
@@ -27,6 +29,7 @@ function App() {
     },
     testing: {
       title: "Testing",
+      column: "testing",
       items: [
         { id: 1, title: "First testing item", ownerId: 1 },
         { id: 2, title: "Second testing item", ownerId: 1 },
@@ -35,15 +38,49 @@ function App() {
     },
     done: {
       title: "Done",
+      column: "done",
       items: [{ id: 1, title: "First done item", ownerId: 1 }],
     },
   });
+
+  const setColumnTitle = (title: string, columnName: string) => {
+    switch (columnName) {
+      case "todo":
+        setTrelloState({
+          ...trelloState,
+          todo: { ...trelloState.todo, title },
+        });
+        break;
+      case "progress":
+        setTrelloState({
+          ...trelloState,
+          progress: { ...trelloState.progress, title },
+        });
+        break;
+      case "testing":
+        setTrelloState({
+          ...trelloState,
+          testing: { ...trelloState.testing, title },
+        });
+        break;
+      case "done":
+        setTrelloState({
+          ...trelloState,
+          done: { ...trelloState.done, title },
+        });
+        break;
+      default:
+        setTrelloState({
+          ...trelloState,
+        });
+    }
+  };
 
   return (
     <div className="App">
       <GlobalStyle />
       <Header />
-      <MainDesk state={trelloState} />
+      <MainDesk state={trelloState} setColumnTitle={setColumnTitle} />
     </div>
   );
 }

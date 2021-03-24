@@ -1,8 +1,15 @@
-import { StyledColumn, StyledTitle } from "./Column.elements";
+import {
+  StyledColumn,
+  TextArea,
+  ListHeader,
+  StyledButton,
+} from "./Column.elements";
 
 interface Props {
   name: string;
+  column: string;
   items: { id: number; title: string; ownerId: number }[];
+  setColumnTitle: (newTitle: string, columnName: string) => void;
 }
 
 const Column = (props: Props) => {
@@ -10,7 +17,18 @@ const Column = (props: Props) => {
 
   return (
     <StyledColumn>
-      <StyledTitle>{props.name}</StyledTitle>
+      <ListHeader>
+        <TextArea
+          maxLength={100}
+          spellCheck={false}
+          value={props.name}
+          onChange={(e: any) => {
+            props.setColumnTitle(e.target.value, props.column);
+          }}
+        ></TextArea>
+        {/*  <div contentEditable={true}></div> */}
+        <StyledButton>+</StyledButton>
+      </ListHeader>
       <ul>{items}</ul>
     </StyledColumn>
   );
