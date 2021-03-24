@@ -1,6 +1,5 @@
 import React, { useState } from "react";
-import "./assets/styles/bootstrap.min.css";
-import GlobalStyle from "./assets/styles/globalStyles.elements";
+
 import { Header, MainDesk } from "./components";
 
 function App() {
@@ -78,7 +77,6 @@ function App() {
 
   return (
     <div className="App">
-      <GlobalStyle />
       <Header />
       <MainDesk state={trelloState} setColumnTitle={setColumnTitle} />
     </div>
