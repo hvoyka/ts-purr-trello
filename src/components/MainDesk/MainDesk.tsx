@@ -1,6 +1,6 @@
 import { Row, Container } from "react-bootstrap";
 import { Column } from "../index";
-import { StyledMain } from "./MainDesk.elements";
+import styled from "styled-components";
 
 interface Props {
   state: {
@@ -65,3 +65,7 @@ const MainDesk = ({ state, setColumnTitle }: Props) => {
 };
 
 export default MainDesk;
+
+const StyledMain = styled.main`
+  flex-grow: 1;
+`;
