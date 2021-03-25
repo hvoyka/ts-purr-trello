@@ -1,7 +1,38 @@
 import styled from "styled-components";
 import { Col, Button } from "react-bootstrap";
 
-export const StyledColumn = styled(Col)`
+interface Props {
+  name: string;
+  column: string;
+  items: { id: number; title: string; ownerId: number }[];
+  setColumnTitle: (newTitle: string, columnName: string) => void;
+}
+
+const Column = (props: Props) => {
+  const items = props.items.map((item) => <li key={item.id}>{item.title}</li>);
+
+  return (
+    <StyledColumn>
+      <ListHeader>
+        <TextArea
+          maxLength={100}
+          spellCheck={false}
+          value={props.name}
+          onChange={(e: any) => {
+            props.setColumnTitle(e.target.value, props.column);
+          }}
+        ></TextArea>
+        {/*  <div contentEditable={true}></div> */}
+        <StyledButton>+</StyledButton>
+      </ListHeader>
+      <ul>{items}</ul>
+    </StyledColumn>
+  );
+};
+
+export default Column;
+
+const StyledColumn = styled(Col)`
   margin-top: 10px;
   border-radius: 10px;
   border: 1px solid #f3f3f3;
@@ -15,7 +46,7 @@ export const StyledColumn = styled(Col)`
   padding-right: 5px;
   padding-left: 5px;
 `;
-export const StyledButton = styled(Button)`
+const StyledButton = styled(Button)`
   position: absolute;
   right: 4px;
   top: 4px;
@@ -26,7 +57,7 @@ export const StyledButton = styled(Button)`
   top: 50%;
   transform: translateY(-50%);
 `;
-export const TextArea = styled.textarea`
+const TextArea = styled.textarea`
   overflow: hidden;
   overflow-wrap: break-word;
   resize: none;
@@ -49,7 +80,7 @@ export const TextArea = styled.textarea`
     box-shadow: inset 0 0 0 2px #0079bf;
   }
 `;
-export const ListHeader = styled.div`
+const ListHeader = styled.div`
   flex: 0 0 auto;
   padding: 10px 8px;
   padding-right: 8px;
