@@ -1,5 +1,5 @@
 import { Row, Container } from "react-bootstrap";
-import { Column } from "../index";
+import { Column } from "./components";
 import styled from "styled-components";
 
 interface Props {
