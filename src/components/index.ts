@@ -1,4 +1,4 @@
-import Header from "./Header/Header";
-import MainDesk from "./MainDesk/MainDesk";
+import { Header } from "./Header";
+import { MainDesk } from "./MainDesk";
 
 export { Header, MainDesk };
