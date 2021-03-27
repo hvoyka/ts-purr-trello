@@ -1,21 +1,31 @@
 import styled from "styled-components";
 import { Col, Button } from "react-bootstrap";
-import { IColumn } from "../../../../App";
 
-const Column: React.FC<IColumn> = ({ title, id }) => {
+interface Props {
+  name: string;
+  column: string;
+  items: { id: number; title: string; ownerId: number }[];
+  setColumnTitle: (newTitle: string, columnName: string) => void;
+}
+
+const Column = (props: Props) => {
+  const items = props.items.map((item) => <li key={item.id}>{item.title}</li>);
+
   return (
     <StyledColumn>
       <ListHeader>
         <TextArea
           maxLength={100}
           spellCheck={false}
-          value={title}
-          onChange={(e: any) => {}}
+          value={props.name}
+          onChange={(e: any) => {
+            props.setColumnTitle(e.target.value, props.column);
+          }}
         ></TextArea>
         {/*  <div contentEditable={true}></div> */}
         <StyledButton>+</StyledButton>
       </ListHeader>
-      <ul>LIst</ul>
+      <ul>{items}</ul>
     </StyledColumn>
   );
 };
@@ -25,9 +35,9 @@ export default Column;
 const StyledColumn = styled(Col)`
   margin-top: 10px;
   border-radius: 10px;
-  border: 1px solid var(--gray3);
-  box-shadow: 2px 2px 5px rgba($color: var(--black), $alpha: 0.3);
-  background-color: var(--gray4);
+  border: 1px solid #f3f3f3;
+  box-shadow: 2px 2px 5px rgba($color: #000000, $alpha: 0.3);
+  background-color: #ebecf0;
   display: flex;
   flex-direction: column;
   max-height: 100%;
@@ -35,7 +45,6 @@ const StyledColumn = styled(Col)`
   white-space: normal;
   padding-right: 5px;
   padding-left: 5px;
-  margin: 10px 4px;
 `;
 const StyledButton = styled(Button)`
   position: absolute;
@@ -66,10 +75,9 @@ const TextArea = styled.textarea`
   -webkit-appearance: none;
   border-radius: 3px;
   display: block;
-  color: var(--blue2);
   &:focus {
-    background-color: var(--white);
-    box-shadow: inset 0 0 0 2px var(--blue2);
+    background-color: #fff;
+    box-shadow: inset 0 0 0 2px #0079bf;
   }
 `;
 const ListHeader = styled.div`
