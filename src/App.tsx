@@ -9,6 +9,9 @@ export interface IColumn {
 
 export interface IColumns {
   columns: IColumn[];
+  addColumn: (title: string) => void;
+  changeColumnTitle: (title: string, id: string) => void;
+  removeColumn: (id: string) => void;
 }
 export interface IUser {
   user: string;
@@ -69,10 +72,32 @@ function App() {
 
   const [user, setUser] = useState("Hvo");
 
+  const changeColumnTitle = (title: string, id: string) => {
+    const newState = columns.map((column) => {
+      if (column.id === id) return { title, id };
+      return column;
+    });
+
+    setColumns([...newState]);
+  };
+
+  const addColumn = (title: string) => {
+    setColumns([...columns, { title, id: uuid() }]);
+  };
+
+  const removeColumn = (id: string) => {
+    const newState = columns.filter((column) => column.id !== id);
+    setColumns(newState);
+  };
   return (
     <div className="App">
       <Header name={user} />
-      <MainDesk columns={columns} />
+      <MainDesk
+        columns={columns}
+        addColumn={addColumn}
+        changeColumnTitle={changeColumnTitle}
+        removeColumn={removeColumn}
+      />
     </div>
   );
 }
