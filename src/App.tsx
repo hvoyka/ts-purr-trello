@@ -5,7 +5,25 @@ import { Header, MainDesk } from "./components";
 export interface IColumns {
   [index: number]: { title: string; id: string };
 }
-
+export interface IUser {
+  user: string;
+}
+export interface ICard {
+  [index: number]: {
+    id: string;
+    columnId: string;
+    title: string;
+    text: string;
+  };
+}
+export interface IComments {
+  [index: number]: {
+    id: string;
+    cardId: string;
+    text: string;
+    author: string;
+  };
+}
 function App() {
   const [columns, setColumns] = useState([
     {
@@ -25,6 +43,26 @@ function App() {
       id: uuid(),
     },
   ]);
+
+  const [cards, setCards] = useState([
+    {
+      id: uuid(),
+      columnId: "",
+      title: "First card",
+      text: "First text",
+    },
+  ]);
+
+  const [comments, setComments] = useState([
+    {
+      id: uuid(),
+      cardId: "",
+      text: "First text",
+      author: "Hvo",
+    },
+  ]);
+
+  const [user, setUser] = useState("");
 
   return (
     <div className="App">
