@@ -1,19 +1,15 @@
 import styled from "styled-components";
 import { Col, Button } from "react-bootstrap";
+import { IColumn } from "../../../../App";
 
-interface Props {
-  name: string;
-  id: string;
-}
-
-const Column = (props: Props) => {
+const Column: React.FC<IColumn> = ({ title, id }) => {
   return (
     <StyledColumn>
       <ListHeader>
         <TextArea
           maxLength={100}
           spellCheck={false}
-          value={props.name}
+          value={title}
           onChange={(e: any) => {}}
         ></TextArea>
         {/*  <div contentEditable={true}></div> */}

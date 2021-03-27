@@ -2,8 +2,13 @@ import React, { useState } from "react";
 import { v1 as uuid } from "uuid";
 import { Header, MainDesk } from "./components";
 
+export interface IColumn {
+  title: string;
+  id: string;
+}
+
 export interface IColumns {
-  [index: number]: { title: string; id: string };
+  columns: IColumn[];
 }
 export interface IUser {
   user: string;
@@ -62,11 +67,11 @@ function App() {
     },
   ]);
 
-  const [user, setUser] = useState("");
+  const [user, setUser] = useState("Hvo");
 
   return (
     <div className="App">
-      <Header />
+      <Header name={user} />
       <MainDesk columns={columns} />
     </div>
   );
