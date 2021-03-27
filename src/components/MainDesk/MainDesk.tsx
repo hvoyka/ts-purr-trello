@@ -1,17 +1,16 @@
 import { Row, Container } from "react-bootstrap";
-
+import { IColumn, IColumns } from "../../App";
 import { Column } from "./components";
 import styled from "styled-components";
-import { IColumns } from "../../App";
 
-const MainDesk = ({ columns }: any) => {
+const MainDesk: React.FC<IColumns> = ({ columns }) => {
   return (
     <StyledMain>
       <Container fluid>
         <Row>
-          {columns.map((column: any) => {
+          {columns.map((column: IColumn) => {
             return (
-              <Column name={column.title} key={column.id} id={column.id} />
+              <Column title={column.title} key={column.id} id={column.id} />
             );
           })}
         </Row>
