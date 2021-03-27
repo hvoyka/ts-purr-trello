@@ -26,8 +26,14 @@ const Column: React.FC<ColumnProps> = ({
             changeColumnTitle(e.target.value, id);
           }}
         ></TextArea>
-        <StyledButton>+</StyledButton>
-        <button onClick={() => removeColumn(id)}>X</button>
+        <RemoveColumnButton
+          title="Remove column"
+          variant="danger"
+          onClick={() => removeColumn(id)}
+        >
+          X
+        </RemoveColumnButton>
+        <AddCardButton title="Add card">+</AddCardButton>
       </ListHeader>
       <ul>LIst</ul>
     </StyledColumn>
@@ -56,7 +62,7 @@ const StyledColumn = styled.li`
   padding-left: 5px;
   margin: 10px 4px;
 `;
-const StyledButton = styled(Button)`
+const RemoveColumnButton = styled(Button)`
   position: absolute;
   right: 4px;
   top: 4px;
@@ -64,8 +70,15 @@ const StyledButton = styled(Button)`
   padding: 5px;
   font-size: 15px;
   line-height: 15px;
-  top: 50%;
-  transform: translateY(-50%);
+`;
+const AddCardButton = styled(Button)`
+  position: absolute;
+  right: 4px;
+  top: 40px;
+  z-index: 1;
+  padding: 5px;
+  font-size: 15px;
+  line-height: 15px;
 `;
 const TextArea = styled.textarea`
   overflow: hidden;
@@ -92,6 +105,7 @@ const TextArea = styled.textarea`
   }
 `;
 const ListHeader = styled.div`
+  position: relative;
   flex: 0 0 auto;
   padding: 10px 8px;
   padding-right: 8px;
