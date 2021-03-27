@@ -1,8 +1,20 @@
 import styled from "styled-components";
-import { Col, Button } from "react-bootstrap";
+import { Button } from "react-bootstrap";
 import { IColumn } from "../../../../App";
 
-const Column: React.FC<IColumn> = ({ title, id }) => {
+export interface ColumnProps {
+  title: string;
+  id: string;
+  changeColumnTitle: (title: string, id: string) => void;
+  removeColumn: (id: string) => void;
+}
+
+const Column: React.FC<ColumnProps> = ({
+  title,
+  id,
+  changeColumnTitle,
+  removeColumn,
+}) => {
   return (
     <StyledColumn>
       <ListHeader>
@@ -10,10 +22,12 @@ const Column: React.FC<IColumn> = ({ title, id }) => {
           maxLength={100}
           spellCheck={false}
           value={title}
-          onChange={(e: any) => {}}
+          onChange={(e: any) => {
+            changeColumnTitle(e.target.value, id);
+          }}
         ></TextArea>
-        {/*  <div contentEditable={true}></div> */}
         <StyledButton>+</StyledButton>
+        <button onClick={() => removeColumn(id)}>X</button>
       </ListHeader>
       <ul>LIst</ul>
     </StyledColumn>
@@ -22,16 +36,21 @@ const Column: React.FC<IColumn> = ({ title, id }) => {
 
 export default Column;
 
-const StyledColumn = styled(Col)`
-  margin-top: 10px;
+const StyledColumn = styled.li`
+  position: relative;
+  flex: 0 0 272px;
+  width: 272px;
   border-radius: 10px;
+
   border: 1px solid var(--gray3);
   box-shadow: 2px 2px 5px rgba($color: var(--black), $alpha: 0.3);
   background-color: var(--gray4);
+
   display: flex;
   flex-direction: column;
+
   max-height: 100%;
-  position: relative;
+
   white-space: normal;
   padding-right: 5px;
   padding-left: 5px;
