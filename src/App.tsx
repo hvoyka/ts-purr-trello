@@ -1,84 +1,78 @@
 import React, { useState } from "react";
-
+import { v1 as uuid } from "uuid";
 import { Header, MainDesk } from "./components";
 
-function App() {
-  const [trelloState, setTrelloState] = useState({
-    users: [
-      { id: 1, name: "Hvo" },
-      { id: 2, name: "Admin" },
-    ],
-    todo: {
-      title: "TODO",
-      column: "todo",
-      items: [
-        { id: 1, title: "First todo item", ownerId: 2 },
-        { id: 2, title: "Second todo item", ownerId: 1 },
-        { id: 3, title: "Third todo item", ownerId: 1 },
-      ],
-    },
-    progress: {
-      title: "In Progres",
-      column: "progress",
-      items: [
-        { id: 1, title: "First progress item", ownerId: 2 },
-        { id: 2, title: "Second progress item", ownerId: 2 },
-        { id: 3, title: "Third progress item", ownerId: 2 },
-      ],
-    },
-    testing: {
-      title: "Testing",
-      column: "testing",
-      items: [
-        { id: 1, title: "First testing item", ownerId: 1 },
-        { id: 2, title: "Second testing item", ownerId: 1 },
-        { id: 3, title: "Third testing item", ownerId: 1 },
-      ],
-    },
-    done: {
-      title: "Done",
-      column: "done",
-      items: [{ id: 1, title: "First done item", ownerId: 1 }],
-    },
-  });
+export interface IColumn {
+  title: string;
+  id: string;
+}
 
-  const setColumnTitle = (title: string, columnName: string) => {
-    switch (columnName) {
-      case "todo":
-        setTrelloState({
-          ...trelloState,
-          todo: { ...trelloState.todo, title },
-        });
-        break;
-      case "progress":
-        setTrelloState({
-          ...trelloState,
-          progress: { ...trelloState.progress, title },
-        });
-        break;
-      case "testing":
-        setTrelloState({
-          ...trelloState,
-          testing: { ...trelloState.testing, title },
-        });
-        break;
-      case "done":
-        setTrelloState({
-          ...trelloState,
-          done: { ...trelloState.done, title },
-        });
-        break;
-      default:
-        setTrelloState({
-          ...trelloState,
-        });
-    }
+export interface IColumns {
+  columns: IColumn[];
+}
+export interface IUser {
+  user: string;
+}
+export interface ICard {
+  [index: number]: {
+    id: string;
+    columnId: string;
+    title: string;
+    text: string;
   };
+}
+export interface IComments {
+  [index: number]: {
+    id: string;
+    cardId: string;
+    text: string;
+    author: string;
+  };
+}
+function App() {
+  const [columns, setColumns] = useState([
+    {
+      title: "TODO",
+      id: uuid(),
+    },
+    {
+      title: "In Progres",
+      id: uuid(),
+    },
+    {
+      title: "Testing",
+      id: uuid(),
+    },
+    {
+      title: "Done",
+      id: uuid(),
+    },
+  ]);
+
+  const [cards, setCards] = useState([
+    {
+      id: uuid(),
+      columnId: "",
+      title: "First card",
+      text: "First text",
+    },
+  ]);
+
+  const [comments, setComments] = useState([
+    {
+      id: uuid(),
+      cardId: "",
+      text: "First text",
+      author: "Hvo",
+    },
+  ]);
+
+  const [user, setUser] = useState("Hvo");
 
   return (
     <div className="App">
-      <Header />
-      <MainDesk state={trelloState} setColumnTitle={setColumnTitle} />
+      <Header name={user} />
+      <MainDesk columns={columns} />
     </div>
   );
 }
