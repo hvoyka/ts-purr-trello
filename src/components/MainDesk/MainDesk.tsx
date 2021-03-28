@@ -1,64 +1,50 @@
-import { Row, Container } from "react-bootstrap";
+import { Container, Button } from "react-bootstrap";
+import { IColumn, IColumns } from "../../App";
 import { Column } from "./components";
 import styled from "styled-components";
 
-interface Props {
-  state: {
-    users: { id: number; name: string }[];
-    todo: {
-      title: string;
-      column: string;
-      items: { id: number; title: string; ownerId: number }[];
-    };
-    progress: {
-      title: string;
-      column: string;
-      items: { id: number; title: string; ownerId: number }[];
-    };
-    testing: {
-      title: string;
-      column: string;
-      items: { id: number; title: string; ownerId: number }[];
-    };
-    done: {
-      title: string;
-      column: string;
-      items: { id: number; title: string; ownerId: number }[];
-    };
-  };
-  setColumnTitle: (newTitle: string, columnName: string) => void;
-}
-
-const MainDesk = ({ state, setColumnTitle }: Props) => {
+const MainDesk: React.FC<IColumns> = ({
+  columns,
+  addColumn,
+  changeColumnTitle,
+  removeColumn,
+  cards,
+  addCard,
+  removeCard,
+  changeCardTitle,
+  changeCardText,
+}) => {
   return (
     <StyledMain>
       <Container fluid>
-        <Row>
-          <Column
-            name={state.todo.title}
-            items={state.todo.items}
-            column={state.todo.column}
-            setColumnTitle={setColumnTitle}
-          />
-          <Column
-            name={state.progress.title}
-            items={state.progress.items}
-            column={state.progress.column}
-            setColumnTitle={setColumnTitle}
-          />
-          <Column
-            name={state.testing.title}
-            items={state.testing.items}
-            column={state.testing.column}
-            setColumnTitle={setColumnTitle}
-          />
-          <Column
-            name={state.done.title}
-            items={state.done.items}
-            column={state.done.column}
-            setColumnTitle={setColumnTitle}
-          />
-        </Row>
+        <ColumnList>
+          {columns.map((column: IColumn) => {
+            return (
+              <Column
+                title={column.title}
+                key={column.id}
+                id={column.id}
+                changeColumnTitle={changeColumnTitle}
+                removeColumn={removeColumn}
+                cards={cards}
+                addCard={addCard}
+                removeCard={removeCard}
+                changeCardTitle={changeCardTitle}
+                changeCardText={changeCardText}
+              />
+            );
+          })}
+          <EmptyColumn>
+            <Button
+              variant="secondary"
+              onClick={() => {
+                addColumn("New column");
+              }}
+            >
+              Add column
+            </Button>
+          </EmptyColumn>
+        </ColumnList>
       </Container>
     </StyledMain>
   );
@@ -68,4 +54,30 @@ export default MainDesk;
 
 const StyledMain = styled.main`
   flex-grow: 1;
+`;
+const ColumnList = styled.ul`
+  display: flex;
+  align-items: flex-start;
+  height: calc(100vh - 56px);
+  user-select: none;
+  white-space: nowrap;
+  margin-bottom: 8px;
+  overflow-x: auto;
+  overflow-y: hidden;
+`;
+const EmptyColumn = styled.li`
+  position: relative;
+  flex: 0 0 272px;
+  width: 272px;
+  border-radius: 10px;
+
+  display: flex;
+  flex-direction: column;
+
+  max-height: 100%;
+
+  white-space: normal;
+  padding-right: 5px;
+  padding-left: 5px;
+  margin: 10px 4px;
 `;

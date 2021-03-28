@@ -1,52 +1,104 @@
 import styled from "styled-components";
-import { Col, Button } from "react-bootstrap";
+import { Button } from "react-bootstrap";
+import { IColumn, ICard } from "../../../../App";
+import { Card } from "../Card";
 
-interface Props {
-  name: string;
-  column: string;
-  items: { id: number; title: string; ownerId: number }[];
-  setColumnTitle: (newTitle: string, columnName: string) => void;
+export interface ColumnProps {
+  title: string;
+  id: string;
+  changeColumnTitle: (title: string, id: string) => void;
+  removeColumn: (id: string) => void;
+  addCard: (title: string, columnId: string, text: string) => void;
+  removeCard: (id: string) => void;
+  changeCardTitle: (title: string, id: string) => void;
+  changeCardText: (text: string, id: string) => void;
+  cards: ICard[];
 }
 
-const Column = (props: Props) => {
-  const items = props.items.map((item) => <li key={item.id}>{item.title}</li>);
-
+const Column: React.FC<ColumnProps> = ({
+  title,
+  id,
+  changeColumnTitle,
+  removeColumn,
+  cards,
+  addCard,
+  removeCard,
+  changeCardTitle,
+  changeCardText,
+}) => {
   return (
     <StyledColumn>
       <ListHeader>
         <TextArea
           maxLength={100}
           spellCheck={false}
-          value={props.name}
+          rows={2}
+          placeholder={"Column title"}
+          value={title}
           onChange={(e: any) => {
-            props.setColumnTitle(e.target.value, props.column);
+            changeColumnTitle(e.target.value, id);
           }}
         ></TextArea>
-        {/*  <div contentEditable={true}></div> */}
-        <StyledButton>+</StyledButton>
+        <RemoveColumnButton
+          title="Remove column"
+          variant="danger"
+          onClick={() => removeColumn(id)}
+        >
+          X
+        </RemoveColumnButton>
+        <AddCardButton
+          title="Add card"
+          onClick={() => {
+            addCard("New card", "Text", id);
+          }}
+        >
+          +
+        </AddCardButton>
       </ListHeader>
-      <ul>{items}</ul>
+      <CardList>
+        {cards
+          .filter((card) => card.columnId === id)
+          .map((fCard) => {
+            return (
+              <Card
+                key={fCard.id}
+                id={fCard.id}
+                title={fCard.title}
+                text={fCard.text}
+                removeCard={removeCard}
+                changeCardTitle={changeCardTitle}
+                changeCardText={changeCardText}
+              />
+            );
+          })}
+      </CardList>
     </StyledColumn>
   );
 };
 
 export default Column;
 
-const StyledColumn = styled(Col)`
-  margin-top: 10px;
+const StyledColumn = styled.li`
+  position: relative;
+  flex: 0 0 272px;
+  width: 272px;
   border-radius: 10px;
-  border: 1px solid #f3f3f3;
-  box-shadow: 2px 2px 5px rgba($color: #000000, $alpha: 0.3);
-  background-color: #ebecf0;
+
+  border: 1px solid var(--gray3);
+  box-shadow: 2px 2px 5px rgba($color: var(--black), $alpha: 0.3);
+  background-color: var(--gray4);
+
   display: flex;
   flex-direction: column;
+
   max-height: 100%;
-  position: relative;
+
   white-space: normal;
   padding-right: 5px;
   padding-left: 5px;
+  margin: 10px 4px;
 `;
-const StyledButton = styled(Button)`
+const RemoveColumnButton = styled(Button)`
   position: absolute;
   right: 4px;
   top: 4px;
@@ -54,8 +106,15 @@ const StyledButton = styled(Button)`
   padding: 5px;
   font-size: 15px;
   line-height: 15px;
-  top: 50%;
-  transform: translateY(-50%);
+`;
+const AddCardButton = styled(Button)`
+  position: absolute;
+  right: 4px;
+  top: 40px;
+  z-index: 1;
+  padding: 5px;
+  font-size: 15px;
+  line-height: 15px;
 `;
 const TextArea = styled.textarea`
   overflow: hidden;
@@ -75,16 +134,22 @@ const TextArea = styled.textarea`
   -webkit-appearance: none;
   border-radius: 3px;
   display: block;
+  color: var(--blue2);
   &:focus {
-    background-color: #fff;
-    box-shadow: inset 0 0 0 2px #0079bf;
+    background-color: var(--white);
+    box-shadow: inset 0 0 0 2px var(--blue2);
   }
 `;
 const ListHeader = styled.div`
+  position: relative;
   flex: 0 0 auto;
   padding: 10px 8px;
   padding-right: 8px;
   position: relative;
   min-height: 20px;
   padding-right: 36px;
+`;
+const CardList = styled.ul`
+  padding: 0;
+  margin: 0;
 `;
