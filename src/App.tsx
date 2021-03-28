@@ -30,6 +30,7 @@ export interface IColumns {
   addCard: (title: string, columnId: string, text: string) => void;
   removeCard: (id: string) => void;
   changeCardTitle: (title: string, id: string) => void;
+  changeCardText: (text: string, id: string) => void;
 }
 export interface IUser {
   user: string;
@@ -82,13 +83,13 @@ function App() {
   ]);
 
   const [userName, setUserName] = useState("");
-  const [isModalShow, setIsModalShow] = useState(true);
+  const [isUserModalShow, setIsUserModalShow] = useState(true);
 
   useEffect(() => {
     //load username
     const usernameFromLS = loadUserLS();
     if (usernameFromLS) {
-      setIsModalShow(false);
+      setIsUserModalShow(false);
       setUserName(usernameFromLS);
     }
 
@@ -102,7 +103,6 @@ function App() {
 
     //load cards
     const cardsFromLS = loadCardsLS();
-    console.log(cardsFromLS);
     if (cardsFromLS) {
       setCards(cardsFromLS);
     }
@@ -145,6 +145,16 @@ function App() {
     saveCardsLS(newState);
   };
 
+  const changeCardText = (id: string, text: string) => {
+    const newState = cards.map((card) => {
+      if (card.id === id) return { ...card, text };
+      return card;
+    });
+
+    setCards(newState);
+    saveCardsLS(newState);
+  };
+
   const addCard = (title: string, text: string, columnId: string) => {
     const newState = [...cards, { id: uuid(), columnId, title, text }];
     setCards(newState);
@@ -160,7 +170,7 @@ function App() {
   return (
     <div className="App">
       <Header name={userName} />
-      <UserModal addUserName={addUserName} isModalShow={isModalShow} />
+      <UserModal addUserName={addUserName} isUserModalShow={isUserModalShow} />
       <MainDesk
         columns={columns}
         addColumn={addColumn}
@@ -170,6 +180,7 @@ function App() {
         addCard={addCard}
         removeCard={removeCard}
         changeCardTitle={changeCardTitle}
+        changeCardText={changeCardText}
       />
     </div>
   );
