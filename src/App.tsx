@@ -96,6 +96,8 @@ function App() {
     const columnsFromLS = loadColumnsLS();
     if (columnsFromLS) {
       setColumns(columnsFromLS);
+    } else {
+      saveColumnsLS(columns);
     }
 
     //load cards
