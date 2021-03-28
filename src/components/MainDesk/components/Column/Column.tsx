@@ -49,7 +49,7 @@ const Column: React.FC<ColumnProps> = ({
         <AddCardButton
           title="Add card"
           onClick={() => {
-            addCard("New card", "Text", id);
+            addCard("", "", id);
           }}
         >
           +

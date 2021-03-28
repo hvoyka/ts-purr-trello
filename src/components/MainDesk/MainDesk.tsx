@@ -38,7 +38,7 @@ const MainDesk: React.FC<IColumns> = ({
             <Button
               variant="secondary"
               onClick={() => {
-                addColumn("New column");
+                addColumn("");
               }}
             >
               Add column
