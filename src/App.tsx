@@ -1,7 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { v1 as uuid } from "uuid";
 import { Header, MainDesk, UserModal } from "./components";
-import { saveUserLS, loadUserLS } from "./utils/local-storage";
+import {
+  saveUserLS,
+  loadUserLS,
+  saveColumnsLS,
+  loadColumnsLS,
+} from "./utils/local-storage";
 
 export interface IColumn {
   title: string;
@@ -78,10 +83,17 @@ function App() {
   const [isModalShow, setIsModalShow] = useState(true);
 
   useEffect(() => {
+    //load username
     const usernameFromLS = loadUserLS();
     if (usernameFromLS) {
       setIsModalShow(false);
       setUserName(usernameFromLS);
+    }
+
+    //load columns
+    const columnsFromLS = loadColumnsLS();
+    if (columnsFromLS) {
+      setColumns(columnsFromLS);
     }
   }, []);
 
@@ -96,16 +108,19 @@ function App() {
       return column;
     });
 
-    setColumns([...newState]);
+    setColumns(newState);
+    saveColumnsLS(newState);
   };
 
   const addColumn = (title: string) => {
     setColumns([...columns, { title, id: uuid() }]);
+    saveColumnsLS([...columns]);
   };
 
   const removeColumn = (id: string) => {
     const newState = columns.filter((column) => column.id !== id);
     setColumns(newState);
+    saveColumnsLS(newState);
   };
   const changeCardTitle = (id: string, title: string) => {
     const newState = cards.map((card) => {
