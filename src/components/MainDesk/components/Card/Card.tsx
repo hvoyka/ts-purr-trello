@@ -6,13 +6,14 @@ export interface CardProps {
   id: string;
   title: string;
   text?: string;
+  removeCard: (id: string) => void;
 }
 
-const Card: React.FC<CardProps> = ({ id, title, text }) => {
+const Card: React.FC<CardProps> = ({ id, title, text, removeCard }) => {
   return (
     <StyledCardBox>
       <StyledCard>{title}</StyledCard>
-      <button>X</button>
+      <button onClick={() => removeCard(id)}>X</button>
     </StyledCardBox>
   );
 };

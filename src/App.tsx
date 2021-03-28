@@ -20,6 +20,7 @@ export interface IColumns {
   changeColumnTitle: (title: string, id: string) => void;
   removeColumn: (id: string) => void;
   addCard: (title: string, columnId: string, text: string) => void;
+  removeCard: (id: string) => void;
 }
 export interface IUser {
   user: string;
@@ -95,6 +96,11 @@ function App() {
     setCards([...cards, { id: uuid(), columnId, title, text }]);
   };
 
+  const removeCard = (id: string) => {
+    const newState = cards.filter((card) => card.id !== id);
+    setCards(newState);
+  };
+
   return (
     <div className="App">
       <Header name={user} />
@@ -105,6 +111,7 @@ function App() {
         removeColumn={removeColumn}
         cards={cards}
         addCard={addCard}
+        removeCard={removeCard}
       />
     </div>
   );

@@ -9,6 +9,7 @@ export interface ColumnProps {
   changeColumnTitle: (title: string, id: string) => void;
   removeColumn: (id: string) => void;
   addCard: (title: string, columnId: string, text: string) => void;
+  removeCard: (id: string) => void;
   cards: ICard[];
 }
 
@@ -19,6 +20,7 @@ const Column: React.FC<ColumnProps> = ({
   removeColumn,
   cards,
   addCard,
+  removeCard,
 }) => {
   return (
     <StyledColumn>
@@ -51,7 +53,14 @@ const Column: React.FC<ColumnProps> = ({
         {cards
           .filter((card) => card.columnId === id)
           .map((fCard) => {
-            return <Card key={fCard.id} id={fCard.id} title={fCard.title} />;
+            return (
+              <Card
+                key={fCard.id}
+                id={fCard.id}
+                title={fCard.title}
+                removeCard={removeCard}
+              />
+            );
           })}
       </CardList>
     </StyledColumn>
