@@ -7,12 +7,28 @@ export interface CardProps {
   title: string;
   text?: string;
   removeCard: (id: string) => void;
+  changeCardTitle: (title: string, id: string) => void;
 }
 
-const Card: React.FC<CardProps> = ({ id, title, text, removeCard }) => {
+const Card: React.FC<CardProps> = ({
+  id,
+  title,
+  text,
+  removeCard,
+  changeCardTitle,
+}) => {
   return (
     <StyledCardBox>
-      <StyledCard>{title}</StyledCard>
+      <textarea
+        maxLength={100}
+        spellCheck={false}
+        rows={1}
+        placeholder={"Card title"}
+        value={title}
+        onChange={(e: any) => {
+          changeCardTitle(id, e.target.value);
+        }}
+      ></textarea>
       <button onClick={() => removeCard(id)}>X</button>
     </StyledCardBox>
   );

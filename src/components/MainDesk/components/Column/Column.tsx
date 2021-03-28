@@ -10,6 +10,7 @@ export interface ColumnProps {
   removeColumn: (id: string) => void;
   addCard: (title: string, columnId: string, text: string) => void;
   removeCard: (id: string) => void;
+  changeCardTitle: (title: string, id: string) => void;
   cards: ICard[];
 }
 
@@ -21,6 +22,7 @@ const Column: React.FC<ColumnProps> = ({
   cards,
   addCard,
   removeCard,
+  changeCardTitle,
 }) => {
   return (
     <StyledColumn>
@@ -28,6 +30,8 @@ const Column: React.FC<ColumnProps> = ({
         <TextArea
           maxLength={100}
           spellCheck={false}
+          rows={2}
+          placeholder={"Column title"}
           value={title}
           onChange={(e: any) => {
             changeColumnTitle(e.target.value, id);
@@ -43,7 +47,7 @@ const Column: React.FC<ColumnProps> = ({
         <AddCardButton
           title="Add card"
           onClick={() => {
-            addCard("ADD CARD", "", id);
+            addCard("New card", "", id);
           }}
         >
           +
@@ -59,6 +63,7 @@ const Column: React.FC<ColumnProps> = ({
                 id={fCard.id}
                 title={fCard.title}
                 removeCard={removeCard}
+                changeCardTitle={changeCardTitle}
               />
             );
           })}
