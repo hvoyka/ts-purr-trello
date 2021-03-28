@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { v1 as uuid } from "uuid";
 import { Header, MainDesk, UserModal } from "./components";
+import { saveUserLS, loadUserLS } from "./utils/local-storage";
 
 export interface IColumn {
   title: string;
@@ -73,10 +74,20 @@ function App() {
     },
   ]);
 
-  const [userName, setUserName] = useState("Hvo");
+  const [userName, setUserName] = useState("");
+  const [isModalShow, setIsModalShow] = useState(true);
+
+  useEffect(() => {
+    const usernameFromLS = loadUserLS();
+    if (usernameFromLS) {
+      setIsModalShow(false);
+      setUserName(usernameFromLS);
+    }
+  }, []);
 
   const addUserName = (name: string) => {
     setUserName(name);
+    saveUserLS(name);
   };
 
   const changeColumnTitle = (title: string, id: string) => {
@@ -116,7 +127,7 @@ function App() {
   return (
     <div className="App">
       <Header name={userName} />
-      <UserModal addUserName={addUserName} />
+      <UserModal addUserName={addUserName} isModalShow={isModalShow} />
       <MainDesk
         columns={columns}
         addColumn={addColumn}
