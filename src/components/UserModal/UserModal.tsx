@@ -2,17 +2,18 @@ import React, { useState, useEffect } from "react";
 import { Button, Modal } from "react-bootstrap";
 
 interface UserModalProps {
+  isModalShow: boolean;
   addUserName: (name: string) => void;
 }
 
-const UserModal: React.FC<UserModalProps> = ({ addUserName }) => {
+const UserModal: React.FC<UserModalProps> = ({ addUserName, isModalShow }) => {
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
 
   useEffect(() => {
-    setShow(true);
-  }, []);
+    setShow(isModalShow);
+  }, [isModalShow]);
 
   const [user, setUser] = useState("");
 

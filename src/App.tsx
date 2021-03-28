@@ -1,6 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { v1 as uuid } from "uuid";
 import { Header, MainDesk, UserModal } from "./components";
+import {
+  saveUserLS,
+  loadUserLS,
+  saveColumnsLS,
+  loadColumnsLS,
+  saveCardsLS,
+  loadCardsLS,
+} from "./utils/local-storage";
 
 export interface IColumn {
   title: string;
@@ -73,10 +81,36 @@ function App() {
     },
   ]);
 
-  const [userName, setUserName] = useState("Hvo");
+  const [userName, setUserName] = useState("");
+  const [isModalShow, setIsModalShow] = useState(true);
+
+  useEffect(() => {
+    //load username
+    const usernameFromLS = loadUserLS();
+    if (usernameFromLS) {
+      setIsModalShow(false);
+      setUserName(usernameFromLS);
+    }
+
+    //load columns
+    const columnsFromLS = loadColumnsLS();
+    if (columnsFromLS) {
+      setColumns(columnsFromLS);
+    } else {
+      saveColumnsLS(columns);
+    }
+
+    //load cards
+    const cardsFromLS = loadCardsLS();
+    console.log(cardsFromLS);
+    if (cardsFromLS) {
+      setCards(cardsFromLS);
+    }
+  }, []);
 
   const addUserName = (name: string) => {
     setUserName(name);
+    saveUserLS(name);
   };
 
   const changeColumnTitle = (title: string, id: string) => {
@@ -85,17 +119,22 @@ function App() {
       return column;
     });
 
-    setColumns([...newState]);
+    setColumns(newState);
+    saveColumnsLS(newState);
   };
 
   const addColumn = (title: string) => {
-    setColumns([...columns, { title, id: uuid() }]);
+    const newState = [...columns, { title, id: uuid() }];
+    setColumns(newState);
+    saveColumnsLS(newState);
   };
 
   const removeColumn = (id: string) => {
     const newState = columns.filter((column) => column.id !== id);
     setColumns(newState);
+    saveColumnsLS(newState);
   };
+
   const changeCardTitle = (id: string, title: string) => {
     const newState = cards.map((card) => {
       if (card.id === id) return { ...card, title };
@@ -103,20 +142,25 @@ function App() {
     });
 
     setCards(newState);
+    saveCardsLS(newState);
   };
+
   const addCard = (title: string, text: string, columnId: string) => {
-    setCards([...cards, { id: uuid(), columnId, title, text }]);
+    const newState = [...cards, { id: uuid(), columnId, title, text }];
+    setCards(newState);
+    saveCardsLS(newState);
   };
 
   const removeCard = (id: string) => {
     const newState = cards.filter((card) => card.id !== id);
     setCards(newState);
+    saveCardsLS(newState);
   };
 
   return (
     <div className="App">
       <Header name={userName} />
-      <UserModal addUserName={addUserName} />
+      <UserModal addUserName={addUserName} isModalShow={isModalShow} />
       <MainDesk
         columns={columns}
         addColumn={addColumn}
