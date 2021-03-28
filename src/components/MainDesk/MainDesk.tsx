@@ -8,6 +8,10 @@ const MainDesk: React.FC<IColumns> = ({
   addColumn,
   changeColumnTitle,
   removeColumn,
+  cards,
+  addCard,
+  removeCard,
+  changeCardTitle,
 }) => {
   return (
     <StyledMain>
@@ -21,6 +25,10 @@ const MainDesk: React.FC<IColumns> = ({
                 id={column.id}
                 changeColumnTitle={changeColumnTitle}
                 removeColumn={removeColumn}
+                cards={cards}
+                addCard={addCard}
+                removeCard={removeCard}
+                changeCardTitle={changeCardTitle}
               />
             );
           })}
