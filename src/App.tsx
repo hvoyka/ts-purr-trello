@@ -6,6 +6,8 @@ import {
   loadUserLS,
   saveColumnsLS,
   loadColumnsLS,
+  saveCardsLS,
+  loadCardsLS,
 } from "./utils/local-storage";
 
 export interface IColumn {
@@ -95,6 +97,13 @@ function App() {
     if (columnsFromLS) {
       setColumns(columnsFromLS);
     }
+
+    //load cards
+    const cardsFromLS = loadCardsLS();
+    console.log(cardsFromLS);
+    if (cardsFromLS) {
+      setCards(cardsFromLS);
+    }
   }, []);
 
   const addUserName = (name: string) => {
@@ -113,8 +122,9 @@ function App() {
   };
 
   const addColumn = (title: string) => {
-    setColumns([...columns, { title, id: uuid() }]);
-    saveColumnsLS([...columns]);
+    const newState = [...columns, { title, id: uuid() }];
+    setColumns(newState);
+    saveColumnsLS(newState);
   };
 
   const removeColumn = (id: string) => {
@@ -122,6 +132,7 @@ function App() {
     setColumns(newState);
     saveColumnsLS(newState);
   };
+
   const changeCardTitle = (id: string, title: string) => {
     const newState = cards.map((card) => {
       if (card.id === id) return { ...card, title };
@@ -129,14 +140,19 @@ function App() {
     });
 
     setCards(newState);
+    saveCardsLS(newState);
   };
+
   const addCard = (title: string, text: string, columnId: string) => {
-    setCards([...cards, { id: uuid(), columnId, title, text }]);
+    const newState = [...cards, { id: uuid(), columnId, title, text }];
+    setCards(newState);
+    saveCardsLS(newState);
   };
 
   const removeCard = (id: string) => {
     const newState = cards.filter((card) => card.id !== id);
     setCards(newState);
+    saveCardsLS(newState);
   };
 
   return (
