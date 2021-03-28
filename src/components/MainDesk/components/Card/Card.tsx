@@ -1,11 +1,11 @@
 import styled from "styled-components";
-import { Button } from "react-bootstrap";
-import { IColumn, ICard } from "../../../../App";
+import { CardModal } from "../CardModal";
+import React, { useState } from "react";
 
 export interface CardProps {
   id: string;
   title: string;
-  text?: string;
+  text: string;
   removeCard: (id: string) => void;
   changeCardTitle: (title: string, id: string) => void;
 }
@@ -17,6 +17,15 @@ const Card: React.FC<CardProps> = ({
   removeCard,
   changeCardTitle,
 }) => {
+  const [isCardModalOpen, setIsCardModalOpen] = useState(false);
+
+  const enterClickHandler = () => {
+    setIsCardModalOpen(true);
+  };
+  const closeModalHandler = () => {
+    setIsCardModalOpen(false);
+  };
+
   return (
     <StyledCardBox>
       <CardTextArea
@@ -29,9 +38,21 @@ const Card: React.FC<CardProps> = ({
           changeCardTitle(id, e.target.value);
         }}
       ></CardTextArea>
+
+      <EnterCardButton title="To card info" onClick={() => enterClickHandler()}>
+        &#8617;
+      </EnterCardButton>
       <RemoveCardButton title="Remove card" onClick={() => removeCard(id)}>
         X
       </RemoveCardButton>
+      <CardModal
+        isCardModalOpen={isCardModalOpen}
+        closeModalHandler={closeModalHandler}
+        id={id}
+        title={title}
+        text={text}
+        changeCardTitle={changeCardTitle}
+      />
     </StyledCardBox>
   );
 };
@@ -81,5 +102,14 @@ const RemoveCardButton = styled.button`
   border: 1px solid transparent;
   &:hover {
     border: 1px solid var(--blue2);
+  }
+`;
+const EnterCardButton = styled.button`
+  background-color: transparent;
+  border: none;
+  color: var(--blue2);
+  border: 1px solid transparent;
+  &:hover {
+    transform: scale(1.05);
   }
 `;

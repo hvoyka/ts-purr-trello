@@ -82,13 +82,13 @@ function App() {
   ]);
 
   const [userName, setUserName] = useState("");
-  const [isModalShow, setIsModalShow] = useState(true);
+  const [isUserModalShow, setIsUserModalShow] = useState(true);
 
   useEffect(() => {
     //load username
     const usernameFromLS = loadUserLS();
     if (usernameFromLS) {
-      setIsModalShow(false);
+      setIsUserModalShow(false);
       setUserName(usernameFromLS);
     }
 
@@ -102,7 +102,6 @@ function App() {
 
     //load cards
     const cardsFromLS = loadCardsLS();
-    console.log(cardsFromLS);
     if (cardsFromLS) {
       setCards(cardsFromLS);
     }
@@ -160,7 +159,7 @@ function App() {
   return (
     <div className="App">
       <Header name={userName} />
-      <UserModal addUserName={addUserName} isModalShow={isModalShow} />
+      <UserModal addUserName={addUserName} isUserModalShow={isUserModalShow} />
       <MainDesk
         columns={columns}
         addColumn={addColumn}

@@ -47,7 +47,7 @@ const Column: React.FC<ColumnProps> = ({
         <AddCardButton
           title="Add card"
           onClick={() => {
-            addCard("New card", "", id);
+            addCard("New card", "Text", id);
           }}
         >
           +
@@ -62,6 +62,7 @@ const Column: React.FC<ColumnProps> = ({
                 key={fCard.id}
                 id={fCard.id}
                 title={fCard.title}
+                text={fCard.text}
                 removeCard={removeCard}
                 changeCardTitle={changeCardTitle}
               />
