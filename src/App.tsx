@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { v1 as uuid } from "uuid";
-import { Header, MainDesk } from "./components";
+import { Header, MainDesk, UserModal } from "./components";
 
 export interface IColumn {
   title: string;
@@ -73,7 +73,11 @@ function App() {
     },
   ]);
 
-  const [user, setUser] = useState("Hvo");
+  const [userName, setUserName] = useState("Hvo");
+
+  const addUserName = (name: string) => {
+    setUserName(name);
+  };
 
   const changeColumnTitle = (title: string, id: string) => {
     const newState = columns.map((column) => {
@@ -111,7 +115,8 @@ function App() {
 
   return (
     <div className="App">
-      <Header name={user} />
+      <Header name={userName} />
+      <UserModal addUserName={addUserName} />
       <MainDesk
         columns={columns}
         addColumn={addColumn}
