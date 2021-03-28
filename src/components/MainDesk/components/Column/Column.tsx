@@ -11,6 +11,7 @@ export interface ColumnProps {
   addCard: (title: string, columnId: string, text: string) => void;
   removeCard: (id: string) => void;
   changeCardTitle: (title: string, id: string) => void;
+  changeCardText: (text: string, id: string) => void;
   cards: ICard[];
 }
 
@@ -23,6 +24,7 @@ const Column: React.FC<ColumnProps> = ({
   addCard,
   removeCard,
   changeCardTitle,
+  changeCardText,
 }) => {
   return (
     <StyledColumn>
@@ -65,6 +67,7 @@ const Column: React.FC<ColumnProps> = ({
                 text={fCard.text}
                 removeCard={removeCard}
                 changeCardTitle={changeCardTitle}
+                changeCardText={changeCardText}
               />
             );
           })}

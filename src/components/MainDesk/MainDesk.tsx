@@ -12,6 +12,7 @@ const MainDesk: React.FC<IColumns> = ({
   addCard,
   removeCard,
   changeCardTitle,
+  changeCardText,
 }) => {
   return (
     <StyledMain>
@@ -29,6 +30,7 @@ const MainDesk: React.FC<IColumns> = ({
                 addCard={addCard}
                 removeCard={removeCard}
                 changeCardTitle={changeCardTitle}
+                changeCardText={changeCardText}
               />
             );
           })}

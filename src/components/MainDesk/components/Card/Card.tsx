@@ -8,6 +8,7 @@ export interface CardProps {
   text: string;
   removeCard: (id: string) => void;
   changeCardTitle: (title: string, id: string) => void;
+  changeCardText: (text: string, id: string) => void;
 }
 
 const Card: React.FC<CardProps> = ({
@@ -16,6 +17,7 @@ const Card: React.FC<CardProps> = ({
   text,
   removeCard,
   changeCardTitle,
+  changeCardText,
 }) => {
   const [isCardModalOpen, setIsCardModalOpen] = useState(false);
 
@@ -52,6 +54,7 @@ const Card: React.FC<CardProps> = ({
         title={title}
         text={text}
         changeCardTitle={changeCardTitle}
+        changeCardText={changeCardText}
       />
     </StyledCardBox>
   );

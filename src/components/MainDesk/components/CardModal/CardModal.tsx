@@ -9,6 +9,7 @@ interface CardModalProps {
   isCardModalOpen: boolean;
   closeModalHandler: () => void;
   changeCardTitle: (title: string, id: string) => void;
+  changeCardText: (text: string, id: string) => void;
 }
 
 const CardModal: React.FC<CardModalProps> = ({
@@ -18,6 +19,7 @@ const CardModal: React.FC<CardModalProps> = ({
   title,
   text,
   changeCardTitle,
+  changeCardText,
 }) => {
   const [show, setShow] = useState(false);
 
@@ -48,7 +50,14 @@ const CardModal: React.FC<CardModalProps> = ({
           </TextArea>
         </Modal.Header>
         <Modal.Body>
-          <TextArea placeholder={"Card text"}>{text}</TextArea>
+          <TextArea
+            placeholder={"Card text"}
+            onChange={(e: any) => {
+              changeCardText(id, e.target.value);
+            }}
+          >
+            {text}
+          </TextArea>
         </Modal.Body>
         <Modal.Body>
           <div>Comments</div>

@@ -30,6 +30,7 @@ export interface IColumns {
   addCard: (title: string, columnId: string, text: string) => void;
   removeCard: (id: string) => void;
   changeCardTitle: (title: string, id: string) => void;
+  changeCardText: (text: string, id: string) => void;
 }
 export interface IUser {
   user: string;
@@ -144,6 +145,16 @@ function App() {
     saveCardsLS(newState);
   };
 
+  const changeCardText = (id: string, text: string) => {
+    const newState = cards.map((card) => {
+      if (card.id === id) return { ...card, text };
+      return card;
+    });
+
+    setCards(newState);
+    saveCardsLS(newState);
+  };
+
   const addCard = (title: string, text: string, columnId: string) => {
     const newState = [...cards, { id: uuid(), columnId, title, text }];
     setCards(newState);
@@ -169,6 +180,7 @@ function App() {
         addCard={addCard}
         removeCard={removeCard}
         changeCardTitle={changeCardTitle}
+        changeCardText={changeCardText}
       />
     </div>
   );
