@@ -6,24 +6,25 @@ export interface IColumn {
   title: string;
   id: string;
 }
+export interface ICard {
+  id: string;
+  columnId: string;
+  title: string;
+  text: string;
+}
 
 export interface IColumns {
   columns: IColumn[];
+  cards: ICard[];
   addColumn: (title: string) => void;
   changeColumnTitle: (title: string, id: string) => void;
   removeColumn: (id: string) => void;
+  addCard: (title: string, columnId: string, text: string) => void;
 }
 export interface IUser {
   user: string;
 }
-export interface ICard {
-  [index: number]: {
-    id: string;
-    columnId: string;
-    title: string;
-    text: string;
-  };
-}
+
 export interface IComments {
   [index: number]: {
     id: string;
@@ -55,7 +56,7 @@ function App() {
   const [cards, setCards] = useState([
     {
       id: uuid(),
-      columnId: "",
+      columnId: "11111",
       title: "First card",
       text: "First text",
     },
@@ -89,6 +90,11 @@ function App() {
     const newState = columns.filter((column) => column.id !== id);
     setColumns(newState);
   };
+
+  const addCard = (title: string, text: string, columnId: string) => {
+    setCards([...cards, { id: uuid(), columnId, title, text }]);
+  };
+
   return (
     <div className="App">
       <Header name={user} />
@@ -97,6 +103,8 @@ function App() {
         addColumn={addColumn}
         changeColumnTitle={changeColumnTitle}
         removeColumn={removeColumn}
+        cards={cards}
+        addCard={addCard}
       />
     </div>
   );

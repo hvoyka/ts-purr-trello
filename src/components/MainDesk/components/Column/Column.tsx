@@ -1,12 +1,15 @@
 import styled from "styled-components";
 import { Button } from "react-bootstrap";
-import { IColumn } from "../../../../App";
+import { IColumn, ICard } from "../../../../App";
+import { Card } from "../Card";
 
 export interface ColumnProps {
   title: string;
   id: string;
   changeColumnTitle: (title: string, id: string) => void;
   removeColumn: (id: string) => void;
+  addCard: (title: string, columnId: string, text: string) => void;
+  cards: ICard[];
 }
 
 const Column: React.FC<ColumnProps> = ({
@@ -14,6 +17,8 @@ const Column: React.FC<ColumnProps> = ({
   id,
   changeColumnTitle,
   removeColumn,
+  cards,
+  addCard,
 }) => {
   return (
     <StyledColumn>
@@ -33,9 +38,22 @@ const Column: React.FC<ColumnProps> = ({
         >
           X
         </RemoveColumnButton>
-        <AddCardButton title="Add card">+</AddCardButton>
+        <AddCardButton
+          title="Add card"
+          onClick={() => {
+            addCard("ADD CARD", "", id);
+          }}
+        >
+          +
+        </AddCardButton>
       </ListHeader>
-      <ul>LIst</ul>
+      <CardList>
+        {cards
+          .filter((card) => card.columnId === id)
+          .map((fCard) => {
+            return <Card key={fCard.id} id={fCard.id} title={fCard.title} />;
+          })}
+      </CardList>
     </StyledColumn>
   );
 };
@@ -112,4 +130,8 @@ const ListHeader = styled.div`
   position: relative;
   min-height: 20px;
   padding-right: 36px;
+`;
+const CardList = styled.ul`
+  padding: 0;
+  margin: 0;
 `;
