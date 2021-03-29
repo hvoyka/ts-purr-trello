@@ -85,9 +85,11 @@ function App() {
   };
 
   const addColumn = (title: string) => {
-    /* const newState = [...columns, { title, id: uuid() }];
-    setColumns(newState);
-    saveColumnsLS(newState); */
+    const clone = JSON.parse(JSON.stringify(columns));
+    clone[uuid()] = { title };
+
+    setColumns(clone);
+    saveColumnsLS(clone);
   };
 
   const removeColumn = (id: string) => {
