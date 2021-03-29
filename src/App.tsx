@@ -20,21 +20,23 @@ export interface ICard {
   text: string;
 }
 
+const defaultColumns = {
+  "1": {
+    title: "TODO",
+  },
+  "2": {
+    title: "In Progres",
+  },
+  "3": {
+    title: "Testing",
+  },
+  "4": {
+    title: "Done",
+  },
+};
+
 function App() {
-  const [columns, setColumns] = useState({
-    "1": {
-      title: "TODO",
-    },
-    "2": {
-      title: "In Progres",
-    },
-    "3": {
-      title: "Testing",
-    },
-    "4": {
-      title: "Done",
-    },
-  });
+  const [columns, setColumns] = useState({});
 
   const [cards, setCards] = useState([
     {
@@ -66,12 +68,13 @@ function App() {
     }
 
     //load columns
-    /*  const columnsFromLS = loadColumnsLS();
+    const columnsFromLS = loadColumnsLS();
     if (columnsFromLS) {
       setColumns(columnsFromLS);
     } else {
-      saveColumnsLS(columns);
-    } */
+      setColumns(defaultColumns);
+      saveColumnsLS(defaultColumns);
+    }
 
     //load cards
     const cardsFromLS = loadCardsLS();
