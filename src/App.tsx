@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { v1 as uuid } from "uuid";
 import { Header, MainDesk, UserModal } from "./components";
+import { defaultColumns } from "./utils/default-data";
 import {
   saveUserLS,
   loadUserLS,
@@ -19,21 +20,6 @@ export interface ICard {
   title: string;
   text: string;
 }
-
-const defaultColumns = {
-  "1": {
-    title: "TODO",
-  },
-  "2": {
-    title: "In Progres",
-  },
-  "3": {
-    title: "Testing",
-  },
-  "4": {
-    title: "Done",
-  },
-};
 
 function App() {
   const [columns, setColumns] = useState({});
