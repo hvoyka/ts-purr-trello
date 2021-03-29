@@ -4,7 +4,7 @@ import { Column } from "./components";
 import styled from "styled-components";
 
 export interface MainDeskProps {
-  columns: IColumn[];
+  columns: IColumn;
   cards: ICard[];
   addColumn: (title: string) => void;
   changeColumnTitle: (title: string, id: string) => void;
@@ -30,12 +30,12 @@ const MainDesk: React.FC<MainDeskProps> = ({
     <StyledMain>
       <Container fluid>
         <ColumnList>
-          {columns.map((column: IColumn) => {
+          {Object.values(columns).map((column: any, index: any) => {
             return (
               <Column
                 title={column.title}
-                key={column.id}
-                id={column.id}
+                key={index}
+                id={index}
                 changeColumnTitle={changeColumnTitle}
                 removeColumn={removeColumn}
                 cards={cards}

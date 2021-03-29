@@ -11,8 +11,7 @@ import {
 } from "./utils/local-storage";
 
 export interface IColumn {
-  title: string;
-  id: string;
+  [index: string]: { title: string };
 }
 export interface ICard {
   id: string;
@@ -22,24 +21,20 @@ export interface ICard {
 }
 
 function App() {
-  const [columns, setColumns] = useState([
-    {
+  const [columns, setColumns] = useState({
+    "1": {
       title: "TODO",
-      id: uuid(),
     },
-    {
+    "2": {
       title: "In Progres",
-      id: uuid(),
     },
-    {
+    "3": {
       title: "Testing",
-      id: uuid(),
     },
-    {
+    "4": {
       title: "Done",
-      id: uuid(),
     },
-  ]);
+  });
 
   const [cards, setCards] = useState([
     {
@@ -71,12 +66,12 @@ function App() {
     }
 
     //load columns
-    const columnsFromLS = loadColumnsLS();
+    /*  const columnsFromLS = loadColumnsLS();
     if (columnsFromLS) {
       setColumns(columnsFromLS);
     } else {
       saveColumnsLS(columns);
-    }
+    } */
 
     //load cards
     const cardsFromLS = loadCardsLS();
@@ -91,25 +86,25 @@ function App() {
   };
 
   const changeColumnTitle = (title: string, id: string) => {
-    const newState = columns.map((column) => {
+    /*  const newState = columns.map((column) => {
       if (column.id === id) return { ...column, title };
       return column;
     });
 
     setColumns(newState);
-    saveColumnsLS(newState);
+    saveColumnsLS(newState); */
   };
 
   const addColumn = (title: string) => {
-    const newState = [...columns, { title, id: uuid() }];
+    /* const newState = [...columns, { title, id: uuid() }];
     setColumns(newState);
-    saveColumnsLS(newState);
+    saveColumnsLS(newState); */
   };
 
   const removeColumn = (id: string) => {
-    const newState = columns.filter((column) => column.id !== id);
+    /*  const newState = columns.filter((column) => column.id !== id);
     setColumns(newState);
-    saveColumnsLS(newState);
+    saveColumnsLS(newState); */
   };
 
   const changeCardTitle = (id: string, title: string) => {
