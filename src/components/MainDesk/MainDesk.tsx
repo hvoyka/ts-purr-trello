@@ -1,9 +1,21 @@
 import { Container, Button } from "react-bootstrap";
-import { IColumn, IColumns } from "../../App";
+import { IColumn, ICard } from "../../App";
 import { Column } from "./components";
 import styled from "styled-components";
 
-const MainDesk: React.FC<IColumns> = ({
+export interface MainDeskProps {
+  columns: IColumn[];
+  cards: ICard[];
+  addColumn: (title: string) => void;
+  changeColumnTitle: (title: string, id: string) => void;
+  removeColumn: (id: string) => void;
+  addCard: (title: string, columnId: string, text: string) => void;
+  removeCard: (id: string) => void;
+  changeCardTitle: (title: string, id: string) => void;
+  changeCardText: (text: string, id: string) => void;
+}
+
+const MainDesk: React.FC<MainDeskProps> = ({
   columns,
   addColumn,
   changeColumnTitle,

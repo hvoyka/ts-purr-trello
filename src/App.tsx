@@ -21,29 +21,6 @@ export interface ICard {
   text: string;
 }
 
-export interface IColumns {
-  columns: IColumn[];
-  cards: ICard[];
-  addColumn: (title: string) => void;
-  changeColumnTitle: (title: string, id: string) => void;
-  removeColumn: (id: string) => void;
-  addCard: (title: string, columnId: string, text: string) => void;
-  removeCard: (id: string) => void;
-  changeCardTitle: (title: string, id: string) => void;
-  changeCardText: (text: string, id: string) => void;
-}
-export interface IUser {
-  user: string;
-}
-
-export interface IComments {
-  [index: number]: {
-    id: string;
-    cardId: string;
-    text: string;
-    author: string;
-  };
-}
 function App() {
   const [columns, setColumns] = useState([
     {

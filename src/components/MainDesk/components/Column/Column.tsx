@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { Button } from "react-bootstrap";
-import { IColumn, ICard } from "../../../../App";
+import { ICard } from "../../../../App";
 import { Card } from "../Card";
 
 export interface ColumnProps {
