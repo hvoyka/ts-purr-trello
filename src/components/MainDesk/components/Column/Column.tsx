@@ -6,8 +6,8 @@ import { Card } from "../Card";
 export interface ColumnProps {
   title: string;
   id: string;
-  changeColumnTitle: (title: string, id: string) => void;
-  removeColumn: (id: string) => void;
+  onChangeColumnTitle: (title: string, id: string) => void;
+  onRemoveColumn: (id: string) => void;
   addCard: (title: string, columnId: string, text: string) => void;
   removeCard: (id: string) => void;
   changeCardTitle: (title: string, id: string) => void;
@@ -18,8 +18,8 @@ export interface ColumnProps {
 const Column: React.FC<ColumnProps> = ({
   title,
   id,
-  changeColumnTitle,
-  removeColumn,
+  onChangeColumnTitle,
+  onRemoveColumn,
   cards,
   addCard,
   removeCard,
@@ -36,13 +36,13 @@ const Column: React.FC<ColumnProps> = ({
           placeholder={"Column title"}
           value={title}
           onChange={(e: any) => {
-            changeColumnTitle(e.target.value, id);
+            onChangeColumnTitle(e.target.value, id);
           }}
         ></TextArea>
         <RemoveColumnButton
           title="Remove column"
           variant="danger"
-          onClick={() => removeColumn(id)}
+          onClick={() => onRemoveColumn(id)}
         >
           X
         </RemoveColumnButton>

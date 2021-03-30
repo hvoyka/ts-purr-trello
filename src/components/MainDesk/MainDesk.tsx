@@ -6,9 +6,9 @@ import styled from "styled-components";
 export interface MainDeskProps {
   columns: IColumn;
   cards: ICard[];
-  addColumn: (title: string) => void;
-  changeColumnTitle: (title: string, id: string) => void;
-  removeColumn: (id: string) => void;
+  onAddColumn: (title: string) => void;
+  onChangeColumnTitle: (title: string, id: string) => void;
+  onRemoveColumn: (id: string) => void;
   addCard: (title: string, columnId: string, text: string) => void;
   removeCard: (id: string) => void;
   changeCardTitle: (title: string, id: string) => void;
@@ -17,9 +17,9 @@ export interface MainDeskProps {
 
 const MainDesk: React.FC<MainDeskProps> = ({
   columns,
-  addColumn,
-  changeColumnTitle,
-  removeColumn,
+  onAddColumn,
+  onChangeColumnTitle,
+  onRemoveColumn,
   cards,
   addCard,
   removeCard,
@@ -36,8 +36,8 @@ const MainDesk: React.FC<MainDeskProps> = ({
                 title={column.title}
                 key={id}
                 id={id}
-                changeColumnTitle={changeColumnTitle}
-                removeColumn={removeColumn}
+                onChangeColumnTitle={onChangeColumnTitle}
+                onRemoveColumn={onRemoveColumn}
                 cards={cards}
                 addCard={addCard}
                 removeCard={removeCard}
@@ -50,7 +50,7 @@ const MainDesk: React.FC<MainDeskProps> = ({
             <Button
               variant="secondary"
               onClick={() => {
-                addColumn("");
+                onAddColumn("");
               }}
             >
               Add column

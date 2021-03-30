@@ -74,7 +74,7 @@ function App() {
     saveUserLS(name);
   };
 
-  const changeColumnTitle = (title: string, id: string) => {
+  const onChangeColumnTitle = (title: string, id: string) => {
     const clone = JSON.parse(JSON.stringify(columns));
     clone[id] = { title };
 
@@ -82,7 +82,7 @@ function App() {
     saveColumnsLS(clone);
   };
 
-  const addColumn = (title: string) => {
+  const onAddColumn = (title: string) => {
     const clone = JSON.parse(JSON.stringify(columns));
     clone[uuid()] = { title };
 
@@ -90,7 +90,7 @@ function App() {
     saveColumnsLS(clone);
   };
 
-  const removeColumn = (id: string) => {
+  const onRemoveColumn = (id: string) => {
     const clone = JSON.parse(JSON.stringify(columns));
     delete clone[id];
 
@@ -136,9 +136,9 @@ function App() {
       <UserModal addUserName={addUserName} isUserModalShow={isUserModalShow} />
       <MainDesk
         columns={columns}
-        addColumn={addColumn}
-        changeColumnTitle={changeColumnTitle}
-        removeColumn={removeColumn}
+        onAddColumn={onAddColumn}
+        onChangeColumnTitle={onChangeColumnTitle}
+        onRemoveColumn={onRemoveColumn}
         cards={cards}
         addCard={addCard}
         removeCard={removeCard}
