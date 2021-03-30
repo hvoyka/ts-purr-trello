@@ -75,13 +75,11 @@ function App() {
   };
 
   const changeColumnTitle = (title: string, id: string) => {
-    /*  const newState = columns.map((column) => {
-      if (column.id === id) return { ...column, title };
-      return column;
-    });
+    const clone = JSON.parse(JSON.stringify(columns));
+    clone[id] = { title };
 
-    setColumns(newState);
-    saveColumnsLS(newState); */
+    setColumns(clone);
+    saveColumnsLS(clone);
   };
 
   const addColumn = (title: string) => {
@@ -93,9 +91,11 @@ function App() {
   };
 
   const removeColumn = (id: string) => {
-    /*  const newState = columns.filter((column) => column.id !== id);
-    setColumns(newState);
-    saveColumnsLS(newState); */
+    const clone = JSON.parse(JSON.stringify(columns));
+    delete clone[id];
+
+    setColumns(clone);
+    saveColumnsLS(clone);
   };
 
   const changeCardTitle = (id: string, title: string) => {

@@ -30,12 +30,12 @@ const MainDesk: React.FC<MainDeskProps> = ({
     <StyledMain>
       <Container fluid>
         <ColumnList>
-          {Object.values(columns).map((column: any, index: any) => {
+          {Object.entries(columns).map(([id, column]) => {
             return (
               <Column
                 title={column.title}
-                key={index}
-                id={index}
+                key={id}
+                id={id}
                 changeColumnTitle={changeColumnTitle}
                 removeColumn={removeColumn}
                 cards={cards}
