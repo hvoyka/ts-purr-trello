@@ -2,13 +2,14 @@ import styled from "styled-components";
 import { Button } from "react-bootstrap";
 import { ICard } from "../../../../App";
 import { Card } from "../Card";
+import { v1 as uuid } from "uuid";
 
 export interface ColumnProps {
   title: string;
   id: string;
   onChangeColumnTitle: (title: string, id: string) => void;
   onRemoveColumn: (id: string) => void;
-  addCard: (title: string, columnId: string, text: string) => void;
+  onAddCard: (columnId: string, title?: string, text?: string) => void;
   removeCard: (id: string) => void;
   changeCardTitle: (title: string, id: string) => void;
   changeCardText: (text: string, id: string) => void;
@@ -21,7 +22,7 @@ const Column: React.FC<ColumnProps> = ({
   onChangeColumnTitle,
   onRemoveColumn,
   cards,
-  addCard,
+  onAddCard,
   removeCard,
   changeCardTitle,
   changeCardText,
@@ -55,7 +56,7 @@ const Column: React.FC<ColumnProps> = ({
         <AddCardButton
           title="Add card"
           onClick={() => {
-            addCard("", "", id);
+            onAddCard(id);
           }}
         >
           +
@@ -64,10 +65,11 @@ const Column: React.FC<ColumnProps> = ({
 
       <CardList>
         {filteredCardsArray.map((fCard) => {
+          const cardId = uuid();
           return (
             <Card
-              key={id}
-              id={id}
+              key={cardId}
+              id={cardId}
               title={fCard.title}
               text={fCard.text}
               removeCard={removeCard}

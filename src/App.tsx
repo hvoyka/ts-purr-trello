@@ -16,7 +16,6 @@ export interface IColumn {
 }
 export interface ICard {
   [index: string]: {
-    id: string;
     columnId: string;
     title: string;
     text: string;
@@ -116,10 +115,11 @@ function App() {
     saveCardsLS(newState); */
   };
 
-  const addCard = (title: string, text: string, columnId: string) => {
-    /*  const newState = [...cards, { id: uuid(), columnId, title, text }];
-    setCards(newState);
-    saveCardsLS(newState); */
+  const onAddCard = (columnId: string, title = "", text = "") => {
+    const clone = JSON.parse(JSON.stringify(cards));
+    clone[uuid()] = { columnId, title, text };
+    setCards(clone);
+    saveCardsLS(clone);
   };
 
   const removeCard = (id: string) => {
@@ -138,7 +138,7 @@ function App() {
         onChangeColumnTitle={onChangeColumnTitle}
         onRemoveColumn={onRemoveColumn}
         cards={cards}
-        addCard={addCard}
+        onAddCard={onAddCard}
         removeCard={removeCard}
         changeCardTitle={changeCardTitle}
         changeCardText={changeCardText}

@@ -9,7 +9,7 @@ export interface MainDeskProps {
   onAddColumn: (title: string) => void;
   onChangeColumnTitle: (title: string, id: string) => void;
   onRemoveColumn: (id: string) => void;
-  addCard: (title: string, columnId: string, text: string) => void;
+  onAddCard: (columnId: string, title?: string, text?: string) => void;
   removeCard: (id: string) => void;
   changeCardTitle: (title: string, id: string) => void;
   changeCardText: (text: string, id: string) => void;
@@ -21,7 +21,7 @@ const MainDesk: React.FC<MainDeskProps> = ({
   onChangeColumnTitle,
   onRemoveColumn,
   cards,
-  addCard,
+  onAddCard,
   removeCard,
   changeCardTitle,
   changeCardText,
@@ -39,7 +39,7 @@ const MainDesk: React.FC<MainDeskProps> = ({
                 onChangeColumnTitle={onChangeColumnTitle}
                 onRemoveColumn={onRemoveColumn}
                 cards={cards}
-                addCard={addCard}
+                onAddCard={onAddCard}
                 removeCard={removeCard}
                 changeCardTitle={changeCardTitle}
                 changeCardText={changeCardText}
