@@ -12,7 +12,7 @@ export interface ColumnProps {
   removeCard: (id: string) => void;
   changeCardTitle: (title: string, id: string) => void;
   changeCardText: (text: string, id: string) => void;
-  cards: ICard[];
+  cards: ICard;
 }
 
 const Column: React.FC<ColumnProps> = ({
@@ -26,6 +26,10 @@ const Column: React.FC<ColumnProps> = ({
   changeCardTitle,
   changeCardText,
 }) => {
+  const filteredCardsArray = Object.values(cards).filter(
+    (card) => card.columnId === id
+  );
+
   return (
     <StyledColumn>
       <ListHeader>
@@ -39,6 +43,7 @@ const Column: React.FC<ColumnProps> = ({
             onChangeColumnTitle(e.target.value, id);
           }}
         ></TextArea>
+
         <RemoveColumnButton
           title="Remove column"
           variant="danger"
@@ -46,6 +51,7 @@ const Column: React.FC<ColumnProps> = ({
         >
           X
         </RemoveColumnButton>
+
         <AddCardButton
           title="Add card"
           onClick={() => {
@@ -55,22 +61,21 @@ const Column: React.FC<ColumnProps> = ({
           +
         </AddCardButton>
       </ListHeader>
+
       <CardList>
-        {cards
-          .filter((card) => card.columnId === id)
-          .map((fCard) => {
-            return (
-              <Card
-                key={fCard.id}
-                id={fCard.id}
-                title={fCard.title}
-                text={fCard.text}
-                removeCard={removeCard}
-                changeCardTitle={changeCardTitle}
-                changeCardText={changeCardText}
-              />
-            );
-          })}
+        {filteredCardsArray.map((fCard) => {
+          return (
+            <Card
+              key={id}
+              id={id}
+              title={fCard.title}
+              text={fCard.text}
+              removeCard={removeCard}
+              changeCardTitle={changeCardTitle}
+              changeCardText={changeCardText}
+            />
+          );
+        })}
       </CardList>
     </StyledColumn>
   );

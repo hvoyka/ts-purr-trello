@@ -12,3 +12,15 @@ export const defaultColumns = {
     title: "Done",
   },
 };
+export const defaultCards = {
+  "1": {
+    columnId: "1",
+    title: "First card",
+    text: "string",
+  },
+  "2": {
+    columnId: "3",
+    title: "Second card",
+    text: "string",
+  },
+};

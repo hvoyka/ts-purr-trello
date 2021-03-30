@@ -5,7 +5,7 @@ import styled from "styled-components";
 
 export interface MainDeskProps {
   columns: IColumn;
-  cards: ICard[];
+  cards: ICard;
   onAddColumn: (title: string) => void;
   onChangeColumnTitle: (title: string, id: string) => void;
   onRemoveColumn: (id: string) => void;
