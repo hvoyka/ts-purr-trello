@@ -2,7 +2,6 @@ import styled from "styled-components";
 import { Button } from "react-bootstrap";
 import { ICard } from "../../../../App";
 import { Card } from "../Card";
-import { v1 as uuid } from "uuid";
 
 export interface ColumnProps {
   title: string;
@@ -65,11 +64,10 @@ const Column: React.FC<ColumnProps> = ({
 
       <CardList>
         {filteredCardsArray.map((fCard) => {
-          const cardId = uuid();
           return (
             <Card
-              key={cardId}
-              id={cardId}
+              key={fCard.id}
+              id={fCard.id}
               title={fCard.title}
               text={fCard.text}
               removeCard={removeCard}

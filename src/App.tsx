@@ -9,10 +9,11 @@ import {
 } from "./utils/local-storage";
 
 export interface IColumn {
-  [index: string]: { title: string };
+  [index: string]: { id: string; title: string };
 }
 export interface ICard {
   [index: string]: {
+    id: string;
     columnId: string;
     title: string;
     text: string;
@@ -69,7 +70,8 @@ function App() {
 
   const onAddColumn = (title: string) => {
     const clone = JSON.parse(JSON.stringify(columns));
-    clone[uuid()] = { title };
+    const columnID = uuid();
+    clone[columnID] = { id: columnID, title };
 
     setColumns(clone);
     setToLocalStorage(clone, LocalStorageKeys.COLUMNS);
@@ -105,7 +107,8 @@ function App() {
 
   const onAddCard = (columnId: string, title = "", text = "") => {
     const clone = JSON.parse(JSON.stringify(cards));
-    clone[uuid()] = { columnId, title, text };
+    const cardID = uuid();
+    clone[cardID] = { id: cardID, columnId, title, text };
     setCards(clone);
     setToLocalStorage(clone, LocalStorageKeys.CARDS);
   };
