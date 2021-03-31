@@ -3,9 +3,10 @@ import { v1 as uuid } from "uuid";
 import { Header, MainDesk, UserModal } from "./components";
 import { defaultColumns, defaultCards } from "./utils/default-data";
 import {
+  LocalStorageKeys,
+  setToLocalStorage,
   saveUserLS,
   loadUserLS,
-  saveColumnsLS,
   loadColumnsLS,
   saveCardsLS,
   loadCardsLS,
@@ -27,15 +28,6 @@ function App() {
 
   const [cards, setCards] = useState({});
 
-  const [comments, setComments] = useState([
-    {
-      id: uuid(),
-      cardId: "",
-      text: "First text",
-      author: "Hvo",
-    },
-  ]);
-
   const [userName, setUserName] = useState("");
   const [isUserModalShow, setIsUserModalShow] = useState(true);
 
@@ -53,7 +45,7 @@ function App() {
       setColumns(columnsFromLS);
     } else {
       setColumns(defaultColumns);
-      saveColumnsLS(defaultColumns);
+      setToLocalStorage(defaultColumns, LocalStorageKeys.COLUMNS);
     }
 
     //load cards
@@ -76,7 +68,7 @@ function App() {
     clone[id] = { title };
 
     setColumns(clone);
-    saveColumnsLS(clone);
+    setToLocalStorage(clone, LocalStorageKeys.COLUMNS);
   };
 
   const onAddColumn = (title: string) => {
@@ -84,7 +76,7 @@ function App() {
     clone[uuid()] = { title };
 
     setColumns(clone);
-    saveColumnsLS(clone);
+    setToLocalStorage(clone, LocalStorageKeys.COLUMNS);
   };
 
   const onRemoveColumn = (id: string) => {
@@ -92,7 +84,7 @@ function App() {
     delete clone[id];
 
     setColumns(clone);
-    saveColumnsLS(clone);
+    setToLocalStorage(clone, LocalStorageKeys.COLUMNS);
   };
 
   const changeCardTitle = (id: string, title: string) => {

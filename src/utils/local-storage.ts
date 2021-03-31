@@ -1,36 +1,41 @@
-const USER_NAME_KEY = "USER_NAME_KEY";
-const COLUMNS_KEY = "COLUMNS_KEY";
-const CARDS_KEY = "CARDS_KEY";
+export enum LocalStorageKeys {
+  USER_NAME = "USER_NAME",
+  COLUMNS = "COLUMNS",
+  CARDS = "CARDS",
+}
+
+export const setToLocalStorage = (
+  data: Record<string, any>,
+  key: LocalStorageKeys
+) => {
+  const stringifyData = JSON.stringify(data);
+  localStorage.setItem(LocalStorageKeys[key], stringifyData);
+};
 
 export const saveUserLS = (name: string) => {
-  localStorage.setItem(USER_NAME_KEY, name);
+  localStorage.setItem(LocalStorageKeys.USER_NAME, name);
 };
 
 export const loadUserLS = (): string => {
-  const nameFromLS = localStorage.getItem(USER_NAME_KEY);
+  const nameFromLS = localStorage.getItem(LocalStorageKeys.USER_NAME);
 
   if (nameFromLS) return nameFromLS;
   return "";
 };
 
-export const saveColumnsLS = (columns: any) => {
-  const columnsSer = JSON.stringify(columns);
-  localStorage.setItem(COLUMNS_KEY, columnsSer);
-};
-
 export const loadColumnsLS = (): any => {
-  const columnsFromLS = localStorage.getItem(COLUMNS_KEY);
+  const columnsFromLS = localStorage.getItem(LocalStorageKeys.COLUMNS);
   if (columnsFromLS) return JSON.parse(columnsFromLS);
   return "";
 };
 
 export const saveCardsLS = (cards: any) => {
   const cardsSer = JSON.stringify(cards);
-  localStorage.setItem(CARDS_KEY, cardsSer);
+  localStorage.setItem(LocalStorageKeys.CARDS, cardsSer);
 };
 
 export const loadCardsLS = (): any => {
-  const cardsFromLS = localStorage.getItem(CARDS_KEY);
+  const cardsFromLS = localStorage.getItem(LocalStorageKeys.CARDS);
   if (cardsFromLS) return JSON.parse(cardsFromLS);
   return "";
 };
