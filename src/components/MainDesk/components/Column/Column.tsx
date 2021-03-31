@@ -38,11 +38,11 @@ const Column: React.FC<ColumnProps> = ({
           spellCheck={false}
           rows={2}
           placeholder={"Column title"}
-          value={title}
+          defaultValue={title}
           onChange={(e: any) => {
             onChangeColumnTitle(e.target.value, id);
           }}
-        ></TextArea>
+        />
 
         <RemoveColumnButton
           title="Remove column"
@@ -63,13 +63,13 @@ const Column: React.FC<ColumnProps> = ({
       </ListHeader>
 
       <CardList>
-        {filteredCardsArray.map((fCard) => {
+        {filteredCardsArray.map((filteredCard) => {
           return (
             <Card
-              key={fCard.id}
-              id={fCard.id}
-              title={fCard.title}
-              text={fCard.text}
+              key={filteredCard.id}
+              id={filteredCard.id}
+              title={filteredCard.title}
+              text={filteredCard.text}
               onRemoveCard={onRemoveCard}
               onChangeCardTitle={onChangeCardTitle}
               onChangeCardText={onChangeCardText}

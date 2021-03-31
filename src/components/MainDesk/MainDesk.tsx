@@ -46,6 +46,7 @@ const MainDesk: React.FC<MainDeskProps> = ({
               />
             );
           })}
+
           <EmptyColumn>
             <Button
               variant="secondary"

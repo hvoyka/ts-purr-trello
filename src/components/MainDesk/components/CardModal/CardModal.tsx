@@ -34,28 +34,28 @@ const CardModal: React.FC<CardModalProps> = ({
 
   return (
     <>
-      <Modal show={show} onHide={handleClose} centered={true}>
+      <Modal show={show} onHide={handleClose} centered={true} animation={false}>
         <Modal.Header closeButton>
           <TextArea
             placeholder={"Card title"}
             rows={1}
+            defaultValue={title}
             onChange={(e: any) => {
               onChangeCardTitle(id, e.target.value);
             }}
-          >
-            {title}
-          </TextArea>
+          />
         </Modal.Header>
+
         <Modal.Body>
           <TextArea
             placeholder={"Card text"}
+            defaultValue={text}
             onChange={(e: any) => {
               onChangeCardText(id, e.target.value);
             }}
-          >
-            {text}
-          </TextArea>
+          />
         </Modal.Body>
+
         <Modal.Body>
           <div>Comments</div>
         </Modal.Body>

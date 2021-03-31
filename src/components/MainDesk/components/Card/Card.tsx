@@ -39,14 +39,16 @@ const Card: React.FC<CardProps> = ({
         onChange={(e: any) => {
           onChangeCardTitle(id, e.target.value);
         }}
-      ></CardTextArea>
+      />
 
       <EnterCardButton title="To card info" onClick={() => enterClickHandler()}>
         &#8617;
       </EnterCardButton>
+
       <RemoveCardButton title="Remove card" onClick={() => onRemoveCard(id)}>
         X
       </RemoveCardButton>
+
       <CardModal
         isCardModalOpen={isCardModalOpen}
         closeModalHandler={closeModalHandler}

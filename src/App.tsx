@@ -117,7 +117,9 @@ function App() {
   return (
     <div className="App">
       <Header name={userName} />
+
       <UserModal addUserName={addUserName} isUserModalShow={isUserModalShow} />
+
       <MainDesk
         columns={columns}
         onAddColumn={onAddColumn}
