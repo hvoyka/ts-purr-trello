@@ -5,15 +5,11 @@ export enum LocalStorageKeys {
 }
 
 export const setToLocalStorage = (
-  data: Record<string, any>,
+  data: Record<string, any> | string,
   key: LocalStorageKeys
 ) => {
   const stringifyData = JSON.stringify(data);
   localStorage.setItem(LocalStorageKeys[key], stringifyData);
-};
-
-export const saveUserLS = (name: string) => {
-  localStorage.setItem(LocalStorageKeys.USER_NAME, name);
 };
 
 export const loadUserLS = (): string => {
@@ -27,11 +23,6 @@ export const loadColumnsLS = (): any => {
   const columnsFromLS = localStorage.getItem(LocalStorageKeys.COLUMNS);
   if (columnsFromLS) return JSON.parse(columnsFromLS);
   return "";
-};
-
-export const saveCardsLS = (cards: any) => {
-  const cardsSer = JSON.stringify(cards);
-  localStorage.setItem(LocalStorageKeys.CARDS, cardsSer);
 };
 
 export const loadCardsLS = (): any => {

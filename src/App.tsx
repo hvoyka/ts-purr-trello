@@ -5,10 +5,8 @@ import { defaultColumns, defaultCards } from "./utils/default-data";
 import {
   LocalStorageKeys,
   setToLocalStorage,
-  saveUserLS,
   loadUserLS,
   loadColumnsLS,
-  saveCardsLS,
   loadCardsLS,
 } from "./utils/local-storage";
 
@@ -54,13 +52,13 @@ function App() {
       setCards(cardsFromLS);
     } else {
       setCards(defaultCards);
-      saveCardsLS(defaultCards);
+      setToLocalStorage(defaultCards, LocalStorageKeys.CARDS);
     }
   }, []);
 
   const addUserName = (name: string) => {
     setUserName(name);
-    saveUserLS(name);
+    setToLocalStorage(name, LocalStorageKeys.USER_NAME);
   };
 
   const onChangeColumnTitle = (title: string, id: string) => {
@@ -111,7 +109,7 @@ function App() {
     const clone = JSON.parse(JSON.stringify(cards));
     clone[uuid()] = { columnId, title, text };
     setCards(clone);
-    saveCardsLS(clone);
+    setToLocalStorage(clone, LocalStorageKeys.CARDS);
   };
 
   const removeCard = (id: string) => {
