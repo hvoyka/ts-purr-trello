@@ -12,21 +12,7 @@ export const setToLocalStorage = (
   localStorage.setItem(LocalStorageKeys[key], stringifyData);
 };
 
-export const loadUserLS = (): string => {
-  const nameFromLS = localStorage.getItem(LocalStorageKeys.USER_NAME);
-
-  if (nameFromLS) return nameFromLS;
-  return "";
-};
-
-export const loadColumnsLS = (): any => {
-  const columnsFromLS = localStorage.getItem(LocalStorageKeys.COLUMNS);
-  if (columnsFromLS) return JSON.parse(columnsFromLS);
-  return "";
-};
-
-export const loadCardsLS = (): any => {
-  const cardsFromLS = localStorage.getItem(LocalStorageKeys.CARDS);
-  if (cardsFromLS) return JSON.parse(cardsFromLS);
-  return "";
+export const loadFromLocalStorage = (key: LocalStorageKeys) => {
+  const stringifyData = localStorage.getItem(LocalStorageKeys[key]);
+  return stringifyData ? JSON.parse(stringifyData) : null;
 };

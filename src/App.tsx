@@ -5,9 +5,7 @@ import { defaultColumns, defaultCards } from "./utils/default-data";
 import {
   LocalStorageKeys,
   setToLocalStorage,
-  loadUserLS,
-  loadColumnsLS,
-  loadCardsLS,
+  loadFromLocalStorage,
 } from "./utils/local-storage";
 
 export interface IColumn {
@@ -31,14 +29,14 @@ function App() {
 
   useEffect(() => {
     //load username
-    const usernameFromLS = loadUserLS();
+    const usernameFromLS = loadFromLocalStorage(LocalStorageKeys.USER_NAME);
     if (usernameFromLS) {
       setIsUserModalShow(false);
       setUserName(usernameFromLS);
     }
 
     //load columns
-    const columnsFromLS = loadColumnsLS();
+    const columnsFromLS = loadFromLocalStorage(LocalStorageKeys.COLUMNS);
     if (columnsFromLS) {
       setColumns(columnsFromLS);
     } else {
@@ -47,7 +45,7 @@ function App() {
     }
 
     //load cards
-    const cardsFromLS = loadCardsLS();
+    const cardsFromLS = loadFromLocalStorage(LocalStorageKeys.CARDS);
     if (cardsFromLS) {
       setCards(cardsFromLS);
     } else {
