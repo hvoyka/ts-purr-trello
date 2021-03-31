@@ -85,24 +85,18 @@ function App() {
     setToLocalStorage(clone, LocalStorageKeys.COLUMNS);
   };
 
-  const changeCardTitle = (id: string, title: string) => {
-    /*   const newState = cards.map((card) => {
-      if (card.id === id) return { ...card, title };
-      return card;
-    });
-
+  const onChangeCardTitle = (id: string, title: string) => {
+    const newState: Record<string, any> = { ...cards };
+    newState[id].title = title;
     setCards(newState);
-    saveCardsLS(newState); */
+    setToLocalStorage(newState, LocalStorageKeys.CARDS);
   };
 
-  const changeCardText = (id: string, text: string) => {
-    /*  const newState = cards.map((card) => {
-      if (card.id === id) return { ...card, text };
-      return card;
-    });
-
+  const onChangeCardText = (id: string, text: string) => {
+    const newState: Record<string, any> = { ...cards };
+    newState[id].text = text;
     setCards(newState);
-    saveCardsLS(newState); */
+    setToLocalStorage(newState, LocalStorageKeys.CARDS);
   };
 
   const onAddCard = (columnId: string, title = "", text = "") => {
@@ -113,10 +107,11 @@ function App() {
     setToLocalStorage(clone, LocalStorageKeys.CARDS);
   };
 
-  const removeCard = (id: string) => {
-    /*  const newState = cards.filter((card) => card.id !== id);
+  const onRemoveCard = (id: string) => {
+    const newState = { ...cards };
+    delete newState[id as keyof typeof cards];
     setCards(newState);
-    saveCardsLS(newState); */
+    setToLocalStorage(newState, LocalStorageKeys.CARDS);
   };
 
   return (
@@ -130,9 +125,9 @@ function App() {
         onRemoveColumn={onRemoveColumn}
         cards={cards}
         onAddCard={onAddCard}
-        removeCard={removeCard}
-        changeCardTitle={changeCardTitle}
-        changeCardText={changeCardText}
+        onRemoveCard={onRemoveCard}
+        onChangeCardTitle={onChangeCardTitle}
+        onChangeCardText={onChangeCardText}
       />
     </div>
   );

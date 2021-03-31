@@ -9,9 +9,9 @@ export interface ColumnProps {
   onChangeColumnTitle: (title: string, id: string) => void;
   onRemoveColumn: (id: string) => void;
   onAddCard: (columnId: string, title?: string, text?: string) => void;
-  removeCard: (id: string) => void;
-  changeCardTitle: (title: string, id: string) => void;
-  changeCardText: (text: string, id: string) => void;
+  onRemoveCard: (id: string) => void;
+  onChangeCardTitle: (title: string, id: string) => void;
+  onChangeCardText: (text: string, id: string) => void;
   cards: ICard;
 }
 
@@ -22,9 +22,9 @@ const Column: React.FC<ColumnProps> = ({
   onRemoveColumn,
   cards,
   onAddCard,
-  removeCard,
-  changeCardTitle,
-  changeCardText,
+  onRemoveCard,
+  onChangeCardTitle,
+  onChangeCardText,
 }) => {
   const filteredCardsArray = Object.values(cards).filter(
     (card) => card.columnId === id
@@ -70,9 +70,9 @@ const Column: React.FC<ColumnProps> = ({
               id={fCard.id}
               title={fCard.title}
               text={fCard.text}
-              removeCard={removeCard}
-              changeCardTitle={changeCardTitle}
-              changeCardText={changeCardText}
+              onRemoveCard={onRemoveCard}
+              onChangeCardTitle={onChangeCardTitle}
+              onChangeCardText={onChangeCardText}
             />
           );
         })}

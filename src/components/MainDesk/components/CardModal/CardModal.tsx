@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Button, Modal } from "react-bootstrap";
+import { Modal } from "react-bootstrap";
 import styled from "styled-components";
 
 interface CardModalProps {
@@ -8,8 +8,8 @@ interface CardModalProps {
   text: string;
   isCardModalOpen: boolean;
   closeModalHandler: () => void;
-  changeCardTitle: (title: string, id: string) => void;
-  changeCardText: (text: string, id: string) => void;
+  onChangeCardTitle: (title: string, id: string) => void;
+  onChangeCardText: (text: string, id: string) => void;
 }
 
 const CardModal: React.FC<CardModalProps> = ({
@@ -18,8 +18,8 @@ const CardModal: React.FC<CardModalProps> = ({
   id,
   title,
   text,
-  changeCardTitle,
-  changeCardText,
+  onChangeCardTitle,
+  onChangeCardText,
 }) => {
   const [show, setShow] = useState(false);
 
@@ -32,9 +32,6 @@ const CardModal: React.FC<CardModalProps> = ({
     setShow(isCardModalOpen);
   }, [isCardModalOpen]);
 
-  const changeHandler = (e: any) => {};
-  const enterHandler = (e: any) => {};
-
   return (
     <>
       <Modal show={show} onHide={handleClose} centered={true}>
@@ -43,7 +40,7 @@ const CardModal: React.FC<CardModalProps> = ({
             placeholder={"Card title"}
             rows={1}
             onChange={(e: any) => {
-              changeCardTitle(id, e.target.value);
+              onChangeCardTitle(id, e.target.value);
             }}
           >
             {title}
@@ -53,7 +50,7 @@ const CardModal: React.FC<CardModalProps> = ({
           <TextArea
             placeholder={"Card text"}
             onChange={(e: any) => {
-              changeCardText(id, e.target.value);
+              onChangeCardText(id, e.target.value);
             }}
           >
             {text}
