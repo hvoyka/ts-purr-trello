@@ -8,9 +8,12 @@ import {
   loadFromLocalStorage,
 } from "./utils/local-storage";
 
-export interface IColumn {
-  [index: string]: { id: string; title: string };
+export interface Column {
+  id: string;
+  title: string;
 }
+export type Columns = Record<string, Column>;
+
 export interface ICard {
   [index: string]: {
     id: string;
@@ -21,7 +24,7 @@ export interface ICard {
 }
 
 function App() {
-  const [columns, setColumns] = useState({});
+  const [columns, setColumns] = useState<Columns>({});
 
   const [cards, setCards] = useState({});
 
@@ -69,7 +72,7 @@ function App() {
   };
 
   const onAddColumn = (title: string) => {
-    const clone = JSON.parse(JSON.stringify(columns));
+    const clone = { ...columns };
     const columnID = uuid();
     clone[columnID] = { id: columnID, title };
 

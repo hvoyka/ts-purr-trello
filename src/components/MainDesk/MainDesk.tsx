@@ -1,10 +1,10 @@
 import { Container, Button } from "react-bootstrap";
-import { IColumn, ICard } from "../../App";
+import { Columns as ColumnsType, ICard } from "../../App";
 import { Column } from "./components";
 import styled from "styled-components";
 
 export interface MainDeskProps {
-  columns: IColumn;
+  columns: ColumnsType;
   cards: ICard;
   onAddColumn: (title: string) => void;
   onChangeColumnTitle: (title: string, id: string) => void;
