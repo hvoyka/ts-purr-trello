@@ -62,57 +62,57 @@ function App() {
   };
 
   const onChangeColumnTitle = (title: string, id: string) => {
-    const clone = JSON.parse(JSON.stringify(columns));
-    clone[id] = { title };
+    const cloneState = { ...columns };
+    cloneState[id] = { id, title };
 
-    setColumns(clone);
-    setToLocalStorage(clone, LocalStorageKeys.COLUMNS);
+    setColumns(cloneState);
+    setToLocalStorage(cloneState, LocalStorageKeys.COLUMNS);
   };
 
   const onAddColumn = (title: string) => {
-    const clone = { ...columns };
+    const cloneState = { ...columns };
     const columnID = uuid();
-    clone[columnID] = { id: columnID, title };
+    cloneState[columnID] = { id: columnID, title };
 
-    setColumns(clone);
-    setToLocalStorage(clone, LocalStorageKeys.COLUMNS);
+    setColumns(cloneState);
+    setToLocalStorage(cloneState, LocalStorageKeys.COLUMNS);
   };
 
   const onRemoveColumn = (id: string) => {
-    const clone = JSON.parse(JSON.stringify(columns));
-    delete clone[id];
+    const cloneState = { ...columns };
+    delete cloneState[id];
 
-    setColumns(clone);
-    setToLocalStorage(clone, LocalStorageKeys.COLUMNS);
+    setColumns(cloneState);
+    setToLocalStorage(cloneState, LocalStorageKeys.COLUMNS);
   };
 
   const onChangeCardTitle = (id: string, title: string) => {
-    const newState: Record<string, any> = { ...cards };
-    newState[id].title = title;
-    setCards(newState);
-    setToLocalStorage(newState, LocalStorageKeys.CARDS);
+    const cloneState = { ...cards };
+    cloneState[id].title = title;
+    setCards(cloneState);
+    setToLocalStorage(cloneState, LocalStorageKeys.CARDS);
   };
 
   const onChangeCardText = (id: string, text: string) => {
-    const newState: Record<string, any> = { ...cards };
-    newState[id].text = text;
-    setCards(newState);
-    setToLocalStorage(newState, LocalStorageKeys.CARDS);
+    const cloneState = { ...cards };
+    cloneState[id].text = text;
+    setCards(cloneState);
+    setToLocalStorage(cloneState, LocalStorageKeys.CARDS);
   };
 
   const onAddCard = (columnId: string, title = "", text = "") => {
-    const clone = JSON.parse(JSON.stringify(cards));
+    const cloneState = { ...cards };
     const cardID = uuid();
-    clone[cardID] = { id: cardID, columnId, title, text };
-    setCards(clone);
-    setToLocalStorage(clone, LocalStorageKeys.CARDS);
+    cloneState[cardID] = { id: cardID, columnId, title, text };
+    setCards(cloneState);
+    setToLocalStorage(cloneState, LocalStorageKeys.CARDS);
   };
 
   const onRemoveCard = (id: string) => {
-    const newState = { ...cards };
-    delete newState[id as keyof typeof cards];
-    setCards(newState);
-    setToLocalStorage(newState, LocalStorageKeys.CARDS);
+    const cloneState = { ...cards };
+    delete cloneState[id];
+    setCards(cloneState);
+    setToLocalStorage(cloneState, LocalStorageKeys.CARDS);
   };
 
   return (
