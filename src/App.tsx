@@ -12,21 +12,19 @@ export interface Column {
   id: string;
   title: string;
 }
-export type Columns = Record<string, Column>;
-
-export interface ICard {
-  [index: string]: {
-    id: string;
-    columnId: string;
-    title: string;
-    text: string;
-  };
+export interface Card {
+  id: string;
+  columnId: string;
+  title: string;
+  text: string;
 }
+export type Columns = Record<string, Column>;
+export type Cards = Record<string, Card>;
 
 function App() {
   const [columns, setColumns] = useState<Columns>({});
 
-  const [cards, setCards] = useState({});
+  const [cards, setCards] = useState<Cards>({});
 
   const [userName, setUserName] = useState("");
   const [isUserModalShow, setIsUserModalShow] = useState(true);

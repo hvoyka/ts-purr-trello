@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { Button } from "react-bootstrap";
-import { ICard } from "../../../../App";
+import { Cards as CardsType } from "../../../../App";
 import { Card } from "../Card";
 
 export interface ColumnProps {
@@ -12,7 +12,7 @@ export interface ColumnProps {
   onRemoveCard: (id: string) => void;
   onChangeCardTitle: (title: string, id: string) => void;
   onChangeCardText: (text: string, id: string) => void;
-  cards: ICard;
+  cards: CardsType;
 }
 
 const Column: React.FC<ColumnProps> = ({
