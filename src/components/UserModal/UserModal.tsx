@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { Button, Modal } from "react-bootstrap";
+import { Button } from "react-bootstrap";
+import { ModalWrapper } from "../UI";
 
 interface UserModalProps {
   isUserModalShow: boolean;
@@ -12,7 +13,9 @@ const UserModal: React.FC<UserModalProps> = ({
 }) => {
   const [show, setShow] = useState(false);
 
-  const handleClose = () => setShow(false);
+  const handleClose = () => {
+    if (user) setShow(false);
+  };
 
   useEffect(() => {
     setShow(isUserModalShow);
@@ -29,40 +32,33 @@ const UserModal: React.FC<UserModalProps> = ({
       handleClose();
     }
   };
+  const modalProps = {};
   return (
     <>
-      <Modal
-        show={show}
-        onHide={handleClose}
-        backdrop="static"
-        keyboard={false}
-        centered={true}
-        animation={false}
+      <ModalWrapper
+        title="Modal"
+        isModalShow={show}
+        showCloseButton={true}
+        modalProps={modalProps}
+        onModalClose={handleClose}
       >
-        <Modal.Header>
-          <Modal.Title>Type username</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <input
-            type="text"
-            placeholder="User name"
-            onChange={changeHandler}
-            defaultValue={user}
-            onKeyDown={enterHandler}
-          />
-        </Modal.Body>
-        <Modal.Footer>
-          <Button
-            onClick={(e) => {
-              addUserName(user);
-              handleClose();
-            }}
-            variant="primary"
-          >
-            Confirm
-          </Button>
-        </Modal.Footer>
-      </Modal>
+        <input
+          type="text"
+          placeholder="User name"
+          onChange={changeHandler}
+          defaultValue={user}
+          onKeyDown={enterHandler}
+        />
+        <Button
+          onClick={(e) => {
+            addUserName(user);
+            handleClose();
+          }}
+          variant="primary"
+        >
+          Confirm
+        </Button>
+      </ModalWrapper>
     </>
   );
 };

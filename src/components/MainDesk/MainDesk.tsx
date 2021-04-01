@@ -71,7 +71,7 @@ const StyledMain = styled.main`
 const ColumnList = styled.ul`
   display: flex;
   align-items: flex-start;
-  height: calc(100vh - 56px);
+  height: calc(100vh - 70px);
   user-select: none;
   white-space: nowrap;
   margin-bottom: 8px;
