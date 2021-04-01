@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { v1 as uuid } from "uuid";
 import { Header, MainDesk, UserModal } from "./components";
+import { CardModal } from "./components/CardModal";
 import { defaultColumns, defaultCards } from "./utils/default-data";
 import {
   LocalStorageKeys,
@@ -18,6 +19,7 @@ export interface Card {
   title: string;
   text: string;
 }
+
 export type Columns = Record<string, Column>;
 export type Cards = Record<string, Card>;
 
@@ -27,9 +29,23 @@ function App() {
   const [cards, setCards] = useState<Cards>({});
 
   const [userName, setUserName] = useState("");
+
   const [isUserModalShow, setIsUserModalShow] = useState(true);
+
   const onUserModalClose = () => {
     setIsUserModalShow(false);
+  };
+
+  const [showCardModal, setshowCardModal] = useState(false);
+  const [idCardModal, setIdCardModal] = useState("");
+
+  const onCardModalClose = () => {
+    setshowCardModal(false);
+  };
+
+  const onCardModalOpen = (id: string) => {
+    setIdCardModal(id);
+    setshowCardModal(true);
   };
 
   useEffect(() => {
@@ -138,7 +154,19 @@ function App() {
         onRemoveCard={onRemoveCard}
         onChangeCardTitle={onChangeCardTitle}
         onChangeCardText={onChangeCardText}
+        onCardModalOpen={onCardModalOpen}
       />
+      {showCardModal ? (
+        <CardModal
+          isCardModalShow={showCardModal}
+          onCardModalClose={onCardModalClose}
+          id={idCardModal}
+          title={cards[idCardModal].title}
+          text={cards[idCardModal].text}
+          onChangeCardTitle={onChangeCardTitle}
+          onChangeCardText={onChangeCardText}
+        />
+      ) : null}
     </div>
   );
 }

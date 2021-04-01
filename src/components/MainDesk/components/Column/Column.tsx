@@ -12,6 +12,7 @@ export interface ColumnProps {
   onRemoveCard: (id: string) => void;
   onChangeCardTitle: (title: string, id: string) => void;
   onChangeCardText: (text: string, id: string) => void;
+  onCardModalOpen: (id: string) => void;
   cards: CardsType;
 }
 
@@ -25,6 +26,7 @@ const Column: React.FC<ColumnProps> = ({
   onRemoveCard,
   onChangeCardTitle,
   onChangeCardText,
+  onCardModalOpen,
 }) => {
   const filteredCardsArray = Object.values(cards).filter(
     (card) => card.columnId === id
@@ -73,6 +75,7 @@ const Column: React.FC<ColumnProps> = ({
               onRemoveCard={onRemoveCard}
               onChangeCardTitle={onChangeCardTitle}
               onChangeCardText={onChangeCardText}
+              onCardModalOpen={onCardModalOpen}
             />
           );
         })}

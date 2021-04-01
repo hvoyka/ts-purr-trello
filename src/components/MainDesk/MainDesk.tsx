@@ -13,6 +13,7 @@ export interface MainDeskProps {
   onRemoveCard: (id: string) => void;
   onChangeCardTitle: (title: string, id: string) => void;
   onChangeCardText: (text: string, id: string) => void;
+  onCardModalOpen: (id: string) => void;
 }
 
 const MainDesk: React.FC<MainDeskProps> = ({
@@ -25,6 +26,7 @@ const MainDesk: React.FC<MainDeskProps> = ({
   onRemoveCard,
   onChangeCardTitle,
   onChangeCardText,
+  onCardModalOpen,
 }) => {
   return (
     <StyledMain>
@@ -43,6 +45,7 @@ const MainDesk: React.FC<MainDeskProps> = ({
                 onRemoveCard={onRemoveCard}
                 onChangeCardTitle={onChangeCardTitle}
                 onChangeCardText={onChangeCardText}
+                onCardModalOpen={onCardModalOpen}
               />
             );
           })}
