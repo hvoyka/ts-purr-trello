@@ -28,6 +28,9 @@ function App() {
 
   const [userName, setUserName] = useState("");
   const [isUserModalShow, setIsUserModalShow] = useState(true);
+  const onUserModalClose = () => {
+    setIsUserModalShow(false);
+  };
 
   useEffect(() => {
     //load username
@@ -119,7 +122,11 @@ function App() {
     <div className="App">
       <Header name={userName} />
 
-      <UserModal addUserName={addUserName} isUserModalShow={isUserModalShow} />
+      <UserModal
+        addUserName={addUserName}
+        isUserModalShow={isUserModalShow}
+        onUserModalClose={onUserModalClose}
+      />
 
       <MainDesk
         columns={columns}

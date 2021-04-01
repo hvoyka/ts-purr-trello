@@ -5,23 +5,19 @@ import { ModalWrapper } from "../UI";
 interface UserModalProps {
   isUserModalShow: boolean;
   addUserName: (name: string) => void;
+  onUserModalClose: () => void;
 }
 
 const UserModal: React.FC<UserModalProps> = ({
   addUserName,
   isUserModalShow,
+  onUserModalClose,
 }) => {
-  const [show, setShow] = useState(false);
-
-  const handleClose = () => {
-    if (user) setShow(false);
-  };
-
-  useEffect(() => {
-    setShow(isUserModalShow);
-  }, [isUserModalShow]);
-
   const [user, setUser] = useState("");
+
+  const closeHandler = () => {
+    if (user) onUserModalClose();
+  };
 
   const changeHandler = (e: any) => {
     setUser(e.target.value);
@@ -29,18 +25,18 @@ const UserModal: React.FC<UserModalProps> = ({
   const enterHandler = (e: any) => {
     if (e.key === "Enter") {
       addUserName(user);
-      handleClose();
+      closeHandler();
     }
   };
   const modalProps = {};
   return (
     <>
       <ModalWrapper
-        title="Modal"
-        isModalShow={show}
+        title="User Modal"
+        isModalShow={isUserModalShow}
         showCloseButton={true}
         modalProps={modalProps}
-        onModalClose={handleClose}
+        onModalClose={closeHandler}
       >
         <input
           type="text"
@@ -52,7 +48,7 @@ const UserModal: React.FC<UserModalProps> = ({
         <Button
           onClick={(e) => {
             addUserName(user);
-            handleClose();
+            closeHandler();
           }}
           variant="primary"
         >
