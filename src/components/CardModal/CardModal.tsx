@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { ModalWrapper } from "../UI";
+import { Modal } from "../UI";
 import { ColumnCard } from "../../App";
 
 interface CardModalProps {
@@ -27,7 +27,7 @@ const CardModal: React.FC<CardModalProps> = ({
   const modalProps = {};
   return (
     <>
-      <ModalWrapper
+      <Modal
         title="Card Modal"
         isModalShow={isCardModalShow}
         showCloseButton={true}
@@ -50,7 +50,7 @@ const CardModal: React.FC<CardModalProps> = ({
           }}
         />
         <div>Comments</div>
-      </ModalWrapper>
+      </Modal>
     </>
   );
 };

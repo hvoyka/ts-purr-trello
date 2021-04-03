@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Button } from "react-bootstrap";
-import { ModalWrapper } from "../UI";
+import { Modal } from "../UI";
 
 interface UserModalProps {
   isUserModalShow: boolean;
@@ -31,7 +31,7 @@ const UserModal: React.FC<UserModalProps> = ({
   const modalProps = {};
   return (
     <>
-      <ModalWrapper
+      <Modal
         title="User Modal"
         isModalShow={isUserModalShow}
         showCloseButton={true}
@@ -54,7 +54,7 @@ const UserModal: React.FC<UserModalProps> = ({
         >
           Confirm
         </Button>
-      </ModalWrapper>
+      </Modal>
     </>
   );
 };

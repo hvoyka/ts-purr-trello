@@ -1,5 +1,5 @@
 import React from "react";
-import { Modal } from "react-bootstrap";
+import { Modal as BoostrapModal } from "react-bootstrap";
 
 interface UserModalProps {
   title?: string;
@@ -10,7 +10,7 @@ interface UserModalProps {
   onModalClose: () => void;
 }
 
-const ModalWrapper: React.FC<UserModalProps> = ({
+const Modal: React.FC<UserModalProps> = ({
   isModalShow,
   onModalClose,
   showCloseButton,
@@ -20,18 +20,20 @@ const ModalWrapper: React.FC<UserModalProps> = ({
 }) => {
   return (
     <>
-      <Modal
+      <BoostrapModal
         onHide={onModalClose}
         show={isModalShow}
         {...modalProps}
         animation={false}
         centered={true}
       >
-        <Modal.Header closeButton={showCloseButton}>{title}</Modal.Header>
+        <BoostrapModal.Header closeButton={showCloseButton}>
+          {title}
+        </BoostrapModal.Header>
         {children}
-      </Modal>
+      </BoostrapModal>
     </>
   );
 };
 
-export default ModalWrapper;
+export default Modal;

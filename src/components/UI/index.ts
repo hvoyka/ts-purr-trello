@@ -1,3 +1,3 @@
-import { ModalWrapper } from "./ModalWrapper";
+import { Modal } from "./Modal";
 
-export { ModalWrapper };
+export { Modal };
