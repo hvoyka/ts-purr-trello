@@ -72,7 +72,7 @@ export default MainDesk;
 const StyledMain = styled.main`
   flex-grow: 1;
 `;
-const ColumnList = styled.ul`
+const ColumnList = styled.div`
   display: flex;
   align-items: flex-start;
   height: calc(100vh - 70px);
@@ -82,7 +82,7 @@ const ColumnList = styled.ul`
   overflow-x: auto;
   overflow-y: hidden;
 `;
-const EmptyColumn = styled.li`
+const EmptyColumn = styled.div`
   position: relative;
   flex: 0 0 272px;
   width: 272px;

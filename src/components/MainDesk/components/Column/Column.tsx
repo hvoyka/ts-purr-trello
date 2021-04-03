@@ -87,7 +87,7 @@ const Column: React.FC<ColumnProps> = ({
 
 export default Column;
 
-const StyledColumn = styled.li`
+const StyledColumn = styled.div`
   position: relative;
   flex: 0 0 272px;
   width: 272px;
