@@ -6,7 +6,7 @@ import { defaultColumns, defaultCards } from "./utils/default-data";
 import {
   LocalStorageKeys,
   setToLocalStorage,
-  loadFromLocalStorage,
+  getFromLocalStorage,
 } from "./utils/local-storage";
 
 export interface Column {
@@ -25,19 +25,15 @@ export type Cards = Record<string, Card>;
 
 function App() {
   const [columns, setColumns] = useState<Columns>({});
-
   const [cards, setCards] = useState<Cards>({});
-
   const [userName, setUserName] = useState("");
-
   const [isUserModalShow, setIsUserModalShow] = useState(true);
+  const [showCardModal, setshowCardModal] = useState(false);
+  const [idCardModal, setIdCardModal] = useState("");
 
   const onUserModalClose = () => {
     setIsUserModalShow(false);
   };
-
-  const [showCardModal, setshowCardModal] = useState(false);
-  const [idCardModal, setIdCardModal] = useState("");
 
   const onCardModalClose = () => {
     setshowCardModal(false);
@@ -49,26 +45,23 @@ function App() {
   };
 
   useEffect(() => {
-    //load username
-    const usernameFromLS = loadFromLocalStorage(LocalStorageKeys.USER_NAME);
-    if (usernameFromLS) {
+    const userNameFromStorage = getFromLocalStorage(LocalStorageKeys.USER_NAME);
+    if (userNameFromStorage) {
       setIsUserModalShow(false);
-      setUserName(usernameFromLS);
+      setUserName(userNameFromStorage);
     }
 
-    //load columns
-    const columnsFromLS = loadFromLocalStorage(LocalStorageKeys.COLUMNS);
-    if (columnsFromLS) {
-      setColumns(columnsFromLS);
+    const columnsFromStorage = getFromLocalStorage(LocalStorageKeys.COLUMNS);
+    if (columnsFromStorage) {
+      setColumns(columnsFromStorage);
     } else {
       setColumns(defaultColumns);
       setToLocalStorage(defaultColumns, LocalStorageKeys.COLUMNS);
     }
 
-    //load cards
-    const cardsFromLS = loadFromLocalStorage(LocalStorageKeys.CARDS);
-    if (cardsFromLS) {
-      setCards(cardsFromLS);
+    const cardsFromStorage = getFromLocalStorage(LocalStorageKeys.CARDS);
+    if (cardsFromStorage) {
+      setCards(cardsFromStorage);
     } else {
       setCards(defaultCards);
       setToLocalStorage(defaultCards, LocalStorageKeys.CARDS);
@@ -108,6 +101,7 @@ function App() {
   const onChangeCardTitle = (id: string, title: string) => {
     const cloneState = { ...cards };
     cloneState[id].title = title;
+
     setCards(cloneState);
     setToLocalStorage(cloneState, LocalStorageKeys.CARDS);
   };
@@ -115,6 +109,7 @@ function App() {
   const onChangeCardText = (id: string, text: string) => {
     const cloneState = { ...cards };
     cloneState[id].text = text;
+
     setCards(cloneState);
     setToLocalStorage(cloneState, LocalStorageKeys.CARDS);
   };
@@ -123,6 +118,7 @@ function App() {
     const cloneState = { ...cards };
     const cardID = uuid();
     cloneState[cardID] = { id: cardID, columnId, title, text };
+
     setCards(cloneState);
     setToLocalStorage(cloneState, LocalStorageKeys.CARDS);
   };
@@ -130,6 +126,7 @@ function App() {
   const onRemoveCard = (id: string) => {
     const cloneState = { ...cards };
     delete cloneState[id];
+
     setCards(cloneState);
     setToLocalStorage(cloneState, LocalStorageKeys.CARDS);
   };

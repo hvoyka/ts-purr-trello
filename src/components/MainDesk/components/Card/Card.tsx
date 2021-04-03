@@ -21,13 +21,6 @@ const Card: React.FC<CardProps> = ({
   onChangeCardText,
   onCardModalOpen,
 }) => {
-  /*  const enterClickHandler = () => {
-    setIsCardModalOpen(true);
-  };
-  const closeModalHandler = () => {
-    setIsCardModalOpen(false);
-  }; */
-
   return (
     <StyledCardBox>
       <CardTextArea

@@ -12,7 +12,7 @@ export const setToLocalStorage = (
   localStorage.setItem(LocalStorageKeys[key], stringifyData);
 };
 
-export const loadFromLocalStorage = (key: LocalStorageKeys) => {
+export const getFromLocalStorage = (key: LocalStorageKeys) => {
   const stringifyData = localStorage.getItem(LocalStorageKeys[key]);
   return stringifyData ? JSON.parse(stringifyData) : null;
 };
