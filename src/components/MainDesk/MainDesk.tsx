@@ -37,9 +37,8 @@ const MainDesk: React.FC<MainDeskProps> = ({
           {Object.values(columns).map((column) => {
             return (
               <Column
-                title={column.title}
+                column={column}
                 key={column.id}
-                id={column.id}
                 onChangeColumnTitle={onChangeColumnTitle}
                 onRemoveColumn={onRemoveColumn}
                 cards={cards}

@@ -1,11 +1,10 @@
 import styled from "styled-components";
 import { Button } from "react-bootstrap";
-import { ColumnCards, ColumnCard } from "../../../../App";
+import { ColumnCards, ColumnCard, DeskColumn } from "../../../../App";
 import { Card } from "../Card";
 
 export interface ColumnProps {
-  title: string;
-  id: string;
+  column: DeskColumn;
   onChangeColumnTitle: (title: string, id: string) => void;
   onRemoveColumn: (id: string) => void;
   onAddCard: (columnId: string, title?: string, text?: string) => void;
@@ -20,8 +19,7 @@ export interface ColumnProps {
 }
 
 const Column: React.FC<ColumnProps> = ({
-  title,
-  id,
+  column,
   onChangeColumnTitle,
   onRemoveColumn,
   cards,
@@ -31,7 +29,7 @@ const Column: React.FC<ColumnProps> = ({
   onCardModalOpen,
 }) => {
   const filteredCardsArray = Object.values(cards).filter(
-    (card) => card.columnId === id
+    (card) => card.columnId === column.id
   );
 
   return (
@@ -42,16 +40,16 @@ const Column: React.FC<ColumnProps> = ({
           spellCheck={false}
           rows={2}
           placeholder="Column title"
-          defaultValue={title}
+          defaultValue={column.title}
           onChange={(event: React.ChangeEvent<HTMLTextAreaElement>) => {
-            onChangeColumnTitle(event.target.value, id);
+            onChangeColumnTitle(event.target.value, column.id);
           }}
         />
 
         <RemoveColumnButton
           title="Remove column"
           variant="danger"
-          onClick={() => onRemoveColumn(id)}
+          onClick={() => onRemoveColumn(column.id)}
         >
           X
         </RemoveColumnButton>
@@ -59,7 +57,7 @@ const Column: React.FC<ColumnProps> = ({
         <AddCardButton
           title="Add card"
           onClick={() => {
-            onAddCard(id);
+            onAddCard(column.id);
           }}
         >
           +
