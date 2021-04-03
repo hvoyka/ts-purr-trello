@@ -43,8 +43,8 @@ const Column: React.FC<ColumnProps> = ({
           rows={2}
           placeholder={"Column title"}
           defaultValue={title}
-          onChange={(e: any) => {
-            onChangeColumnTitle(e.target.value, id);
+          onChange={(event: React.ChangeEvent<HTMLTextAreaElement>) => {
+            onChangeColumnTitle(event.target.value, id);
           }}
         />
 

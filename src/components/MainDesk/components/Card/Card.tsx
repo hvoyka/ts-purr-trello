@@ -31,8 +31,8 @@ const Card: React.FC<CardProps> = ({
         rows={1}
         placeholder={"Card title"}
         value={title}
-        onChange={(e: any) => {
-          onChangeCardProperty(id, "title", e.target.value);
+        onChange={(event: React.ChangeEvent<HTMLTextAreaElement>) => {
+          onChangeCardProperty(id, "title", event.target.value);
         }}
       />
 

@@ -26,32 +26,30 @@ const CardModal: React.FC<CardModalProps> = ({
 }) => {
   const modalProps = {};
   return (
-    <>
-      <Modal
-        title="Card Modal"
-        isModalShow={isCardModalShow}
-        showCloseButton={true}
-        modalProps={modalProps}
-        onModalClose={onCardModalClose}
-      >
-        <TextArea
-          placeholder={"Card title"}
-          rows={1}
-          defaultValue={title}
-          onChange={(e: any) => {
-            onChangeCardProperty(id, "title", e.target.value);
-          }}
-        />
-        <TextArea
-          placeholder={"Card text"}
-          defaultValue={text}
-          onChange={(e: any) => {
-            onChangeCardProperty(id, "text", e.target.value);
-          }}
-        />
-        <div>Comments</div>
-      </Modal>
-    </>
+    <Modal
+      title="Card Modal"
+      isModalShow={isCardModalShow}
+      showCloseButton
+      modalProps={modalProps}
+      onModalClose={onCardModalClose}
+    >
+      <TextArea
+        placeholder={"Card title"}
+        rows={1}
+        defaultValue={title}
+        onChange={(event: React.ChangeEvent<HTMLTextAreaElement>) => {
+          onChangeCardProperty(id, "title", event.target.value);
+        }}
+      />
+      <TextArea
+        placeholder={"Card text"}
+        defaultValue={text}
+        onChange={(event: React.ChangeEvent<HTMLTextAreaElement>) => {
+          onChangeCardProperty(id, "text", event.target.value);
+        }}
+      />
+      <div>Comments</div>
+    </Modal>
   );
 };
 

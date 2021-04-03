@@ -25,7 +25,7 @@ const Modal: React.FC<UserModalProps> = ({
         show={isModalShow}
         {...modalProps}
         animation={false}
-        centered={true}
+        centered
       >
         <BoostrapModal.Header closeButton={showCloseButton}>
           {title}

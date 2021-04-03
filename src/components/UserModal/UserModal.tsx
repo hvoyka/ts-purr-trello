@@ -19,11 +19,11 @@ const UserModal: React.FC<UserModalProps> = ({
     if (user) onUserModalClose();
   };
 
-  const changeHandler = (e: any) => {
-    setUser(e.target.value);
+  const changeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setUser(event.target.value);
   };
-  const enterHandler = (e: any) => {
-    if (e.key === "Enter") {
+  const enterHandler = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === "Enter") {
       addUserName(user);
       closeHandler();
     }
@@ -34,7 +34,7 @@ const UserModal: React.FC<UserModalProps> = ({
       <Modal
         title="User Modal"
         isModalShow={isUserModalShow}
-        showCloseButton={true}
+        showCloseButton
         modalProps={modalProps}
         onModalClose={closeHandler}
       >
