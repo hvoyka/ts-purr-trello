@@ -34,7 +34,7 @@ const CardModal: React.FC<CardModalProps> = ({
       onModalClose={onCardModalClose}
     >
       <TextArea
-        placeholder={"Card title"}
+        placeholder="Card title"
         rows={1}
         defaultValue={title}
         onChange={(event: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -42,7 +42,7 @@ const CardModal: React.FC<CardModalProps> = ({
         }}
       />
       <TextArea
-        placeholder={"Card text"}
+        placeholder="Card text"
         defaultValue={text}
         onChange={(event: React.ChangeEvent<HTMLTextAreaElement>) => {
           onChangeCardProperty(id, "text", event.target.value);
@@ -52,8 +52,6 @@ const CardModal: React.FC<CardModalProps> = ({
     </Modal>
   );
 };
-
-export default CardModal;
 
 const TextArea = styled.textarea`
   overflow: hidden;
@@ -79,3 +77,5 @@ const TextArea = styled.textarea`
     box-shadow: inset 0 0 0 2px var(--blue2);
   }
 `;
+
+export default CardModal;

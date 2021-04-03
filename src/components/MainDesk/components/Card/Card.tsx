@@ -29,7 +29,7 @@ const Card: React.FC<CardProps> = ({
         maxLength={100}
         spellCheck={false}
         rows={1}
-        placeholder={"Card title"}
+        placeholder="Card title"
         value={title}
         onChange={(event: React.ChangeEvent<HTMLTextAreaElement>) => {
           onChangeCardProperty(id, "title", event.target.value);
@@ -46,8 +46,6 @@ const Card: React.FC<CardProps> = ({
     </StyledCardBox>
   );
 };
-
-export default Card;
 
 const StyledCardBox = styled.div`
   flex: 1 1 auto;
@@ -103,3 +101,5 @@ const EnterCardButton = styled.button`
     transform: scale(1.05);
   }
 `;
+
+export default Card;

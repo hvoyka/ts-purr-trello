@@ -41,7 +41,7 @@ const Column: React.FC<ColumnProps> = ({
           maxLength={100}
           spellCheck={false}
           rows={2}
-          placeholder={"Column title"}
+          placeholder="Column title"
           defaultValue={title}
           onChange={(event: React.ChangeEvent<HTMLTextAreaElement>) => {
             onChangeColumnTitle(event.target.value, id);
@@ -84,8 +84,6 @@ const Column: React.FC<ColumnProps> = ({
     </StyledColumn>
   );
 };
-
-export default Column;
 
 const StyledColumn = styled.div`
   position: relative;
@@ -162,3 +160,5 @@ const CardList = styled.ul`
   padding: 0;
   margin: 0;
 `;
+
+export default Column;

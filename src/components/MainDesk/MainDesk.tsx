@@ -67,8 +67,6 @@ const MainDesk: React.FC<MainDeskProps> = ({
   );
 };
 
-export default MainDesk;
-
 const StyledMain = styled.main`
   flex-grow: 1;
 `;
@@ -98,3 +96,5 @@ const EmptyColumn = styled.div`
   padding-left: 5px;
   margin: 10px 4px;
 `;
+
+export default MainDesk;
