@@ -1,186 +1,135 @@
 import React, { useState, useEffect } from "react";
 import { v1 as uuid } from "uuid";
 import { Header, MainDesk, UserModal } from "./components";
+import { defaultColumns, defaultCards } from "./utils/default-data";
 import {
-  saveUserLS,
-  loadUserLS,
-  saveColumnsLS,
-  loadColumnsLS,
-  saveCardsLS,
-  loadCardsLS,
+  LocalStorageKeys,
+  setToLocalStorage,
+  loadFromLocalStorage,
 } from "./utils/local-storage";
 
 export interface IColumn {
-  title: string;
-  id: string;
+  [index: string]: { id: string; title: string };
 }
 export interface ICard {
-  id: string;
-  columnId: string;
-  title: string;
-  text: string;
-}
-
-export interface IColumns {
-  columns: IColumn[];
-  cards: ICard[];
-  addColumn: (title: string) => void;
-  changeColumnTitle: (title: string, id: string) => void;
-  removeColumn: (id: string) => void;
-  addCard: (title: string, columnId: string, text: string) => void;
-  removeCard: (id: string) => void;
-  changeCardTitle: (title: string, id: string) => void;
-  changeCardText: (text: string, id: string) => void;
-}
-export interface IUser {
-  user: string;
-}
-
-export interface IComments {
-  [index: number]: {
+  [index: string]: {
     id: string;
-    cardId: string;
+    columnId: string;
+    title: string;
     text: string;
-    author: string;
   };
 }
+
 function App() {
-  const [columns, setColumns] = useState([
-    {
-      title: "TODO",
-      id: uuid(),
-    },
-    {
-      title: "In Progres",
-      id: uuid(),
-    },
-    {
-      title: "Testing",
-      id: uuid(),
-    },
-    {
-      title: "Done",
-      id: uuid(),
-    },
-  ]);
+  const [columns, setColumns] = useState({});
 
-  const [cards, setCards] = useState([
-    {
-      id: uuid(),
-      columnId: "11111",
-      title: "First card",
-      text: "First text",
-    },
-  ]);
-
-  const [comments, setComments] = useState([
-    {
-      id: uuid(),
-      cardId: "",
-      text: "First text",
-      author: "Hvo",
-    },
-  ]);
+  const [cards, setCards] = useState({});
 
   const [userName, setUserName] = useState("");
   const [isUserModalShow, setIsUserModalShow] = useState(true);
 
   useEffect(() => {
     //load username
-    const usernameFromLS = loadUserLS();
+    const usernameFromLS = loadFromLocalStorage(LocalStorageKeys.USER_NAME);
     if (usernameFromLS) {
       setIsUserModalShow(false);
       setUserName(usernameFromLS);
     }
 
     //load columns
-    const columnsFromLS = loadColumnsLS();
+    const columnsFromLS = loadFromLocalStorage(LocalStorageKeys.COLUMNS);
     if (columnsFromLS) {
       setColumns(columnsFromLS);
     } else {
-      saveColumnsLS(columns);
+      setColumns(defaultColumns);
+      setToLocalStorage(defaultColumns, LocalStorageKeys.COLUMNS);
     }
 
     //load cards
-    const cardsFromLS = loadCardsLS();
+    const cardsFromLS = loadFromLocalStorage(LocalStorageKeys.CARDS);
     if (cardsFromLS) {
       setCards(cardsFromLS);
+    } else {
+      setCards(defaultCards);
+      setToLocalStorage(defaultCards, LocalStorageKeys.CARDS);
     }
   }, []);
 
   const addUserName = (name: string) => {
     setUserName(name);
-    saveUserLS(name);
+    setToLocalStorage(name, LocalStorageKeys.USER_NAME);
   };
 
-  const changeColumnTitle = (title: string, id: string) => {
-    const newState = columns.map((column) => {
-      if (column.id === id) return { ...column, title };
-      return column;
-    });
+  const onChangeColumnTitle = (title: string, id: string) => {
+    const clone = JSON.parse(JSON.stringify(columns));
+    clone[id] = { title };
 
-    setColumns(newState);
-    saveColumnsLS(newState);
+    setColumns(clone);
+    setToLocalStorage(clone, LocalStorageKeys.COLUMNS);
   };
 
-  const addColumn = (title: string) => {
-    const newState = [...columns, { title, id: uuid() }];
-    setColumns(newState);
-    saveColumnsLS(newState);
+  const onAddColumn = (title: string) => {
+    const clone = JSON.parse(JSON.stringify(columns));
+    const columnID = uuid();
+    clone[columnID] = { id: columnID, title };
+
+    setColumns(clone);
+    setToLocalStorage(clone, LocalStorageKeys.COLUMNS);
   };
 
-  const removeColumn = (id: string) => {
-    const newState = columns.filter((column) => column.id !== id);
-    setColumns(newState);
-    saveColumnsLS(newState);
+  const onRemoveColumn = (id: string) => {
+    const clone = JSON.parse(JSON.stringify(columns));
+    delete clone[id];
+
+    setColumns(clone);
+    setToLocalStorage(clone, LocalStorageKeys.COLUMNS);
   };
 
-  const changeCardTitle = (id: string, title: string) => {
-    const newState = cards.map((card) => {
-      if (card.id === id) return { ...card, title };
-      return card;
-    });
-
+  const onChangeCardTitle = (id: string, title: string) => {
+    const newState: Record<string, any> = { ...cards };
+    newState[id].title = title;
     setCards(newState);
-    saveCardsLS(newState);
+    setToLocalStorage(newState, LocalStorageKeys.CARDS);
   };
 
-  const changeCardText = (id: string, text: string) => {
-    const newState = cards.map((card) => {
-      if (card.id === id) return { ...card, text };
-      return card;
-    });
-
+  const onChangeCardText = (id: string, text: string) => {
+    const newState: Record<string, any> = { ...cards };
+    newState[id].text = text;
     setCards(newState);
-    saveCardsLS(newState);
+    setToLocalStorage(newState, LocalStorageKeys.CARDS);
   };
 
-  const addCard = (title: string, text: string, columnId: string) => {
-    const newState = [...cards, { id: uuid(), columnId, title, text }];
-    setCards(newState);
-    saveCardsLS(newState);
+  const onAddCard = (columnId: string, title = "", text = "") => {
+    const clone = JSON.parse(JSON.stringify(cards));
+    const cardID = uuid();
+    clone[cardID] = { id: cardID, columnId, title, text };
+    setCards(clone);
+    setToLocalStorage(clone, LocalStorageKeys.CARDS);
   };
 
-  const removeCard = (id: string) => {
-    const newState = cards.filter((card) => card.id !== id);
+  const onRemoveCard = (id: string) => {
+    const newState = { ...cards };
+    delete newState[id as keyof typeof cards];
     setCards(newState);
-    saveCardsLS(newState);
+    setToLocalStorage(newState, LocalStorageKeys.CARDS);
   };
 
   return (
     <div className="App">
       <Header name={userName} />
+
       <UserModal addUserName={addUserName} isUserModalShow={isUserModalShow} />
+
       <MainDesk
         columns={columns}
-        addColumn={addColumn}
-        changeColumnTitle={changeColumnTitle}
-        removeColumn={removeColumn}
+        onAddColumn={onAddColumn}
+        onChangeColumnTitle={onChangeColumnTitle}
+        onRemoveColumn={onRemoveColumn}
         cards={cards}
-        addCard={addCard}
-        removeCard={removeCard}
-        changeCardTitle={changeCardTitle}
-        changeCardText={changeCardText}
+        onAddCard={onAddCard}
+        onRemoveCard={onRemoveCard}
+        onChangeCardTitle={onChangeCardTitle}
+        onChangeCardText={onChangeCardText}
       />
     </div>
   );

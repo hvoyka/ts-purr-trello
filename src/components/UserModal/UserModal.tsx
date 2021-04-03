@@ -37,6 +37,7 @@ const UserModal: React.FC<UserModalProps> = ({
         backdrop="static"
         keyboard={false}
         centered={true}
+        animation={false}
       >
         <Modal.Header>
           <Modal.Title>Type username</Modal.Title>
@@ -46,7 +47,7 @@ const UserModal: React.FC<UserModalProps> = ({
             type="text"
             placeholder="User name"
             onChange={changeHandler}
-            value={user}
+            defaultValue={user}
             onKeyDown={enterHandler}
           />
         </Modal.Body>
@@ -58,7 +59,7 @@ const UserModal: React.FC<UserModalProps> = ({
             }}
             variant="primary"
           >
-            Comfirm
+            Confirm
           </Button>
         </Modal.Footer>
       </Modal>

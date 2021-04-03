@@ -1,44 +1,57 @@
 import { Container, Button } from "react-bootstrap";
-import { IColumn, IColumns } from "../../App";
+import { IColumn, ICard } from "../../App";
 import { Column } from "./components";
 import styled from "styled-components";
 
-const MainDesk: React.FC<IColumns> = ({
+export interface MainDeskProps {
+  columns: IColumn;
+  cards: ICard;
+  onAddColumn: (title: string) => void;
+  onChangeColumnTitle: (title: string, id: string) => void;
+  onRemoveColumn: (id: string) => void;
+  onAddCard: (columnId: string, title?: string, text?: string) => void;
+  onRemoveCard: (id: string) => void;
+  onChangeCardTitle: (title: string, id: string) => void;
+  onChangeCardText: (text: string, id: string) => void;
+}
+
+const MainDesk: React.FC<MainDeskProps> = ({
   columns,
-  addColumn,
-  changeColumnTitle,
-  removeColumn,
+  onAddColumn,
+  onChangeColumnTitle,
+  onRemoveColumn,
   cards,
-  addCard,
-  removeCard,
-  changeCardTitle,
-  changeCardText,
+  onAddCard,
+  onRemoveCard,
+  onChangeCardTitle,
+  onChangeCardText,
 }) => {
   return (
     <StyledMain>
       <Container fluid>
         <ColumnList>
-          {columns.map((column: IColumn) => {
+          {Object.values(columns).map((column) => {
             return (
               <Column
                 title={column.title}
                 key={column.id}
                 id={column.id}
-                changeColumnTitle={changeColumnTitle}
-                removeColumn={removeColumn}
+                onChangeColumnTitle={onChangeColumnTitle}
+                onRemoveColumn={onRemoveColumn}
                 cards={cards}
-                addCard={addCard}
-                removeCard={removeCard}
-                changeCardTitle={changeCardTitle}
-                changeCardText={changeCardText}
+                onAddCard={onAddCard}
+                onRemoveCard={onRemoveCard}
+                onChangeCardTitle={onChangeCardTitle}
+                onChangeCardText={onChangeCardText}
               />
             );
           })}
+
           <EmptyColumn>
             <Button
               variant="secondary"
               onClick={() => {
-                addColumn("");
+                onAddColumn("");
               }}
             >
               Add column

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Button, Modal } from "react-bootstrap";
+import { Modal } from "react-bootstrap";
 import styled from "styled-components";
 
 interface CardModalProps {
@@ -8,8 +8,8 @@ interface CardModalProps {
   text: string;
   isCardModalOpen: boolean;
   closeModalHandler: () => void;
-  changeCardTitle: (title: string, id: string) => void;
-  changeCardText: (text: string, id: string) => void;
+  onChangeCardTitle: (title: string, id: string) => void;
+  onChangeCardText: (text: string, id: string) => void;
 }
 
 const CardModal: React.FC<CardModalProps> = ({
@@ -18,8 +18,8 @@ const CardModal: React.FC<CardModalProps> = ({
   id,
   title,
   text,
-  changeCardTitle,
-  changeCardText,
+  onChangeCardTitle,
+  onChangeCardText,
 }) => {
   const [show, setShow] = useState(false);
 
@@ -32,33 +32,30 @@ const CardModal: React.FC<CardModalProps> = ({
     setShow(isCardModalOpen);
   }, [isCardModalOpen]);
 
-  const changeHandler = (e: any) => {};
-  const enterHandler = (e: any) => {};
-
   return (
     <>
-      <Modal show={show} onHide={handleClose} centered={true}>
+      <Modal show={show} onHide={handleClose} centered={true} animation={false}>
         <Modal.Header closeButton>
           <TextArea
             placeholder={"Card title"}
             rows={1}
+            defaultValue={title}
             onChange={(e: any) => {
-              changeCardTitle(id, e.target.value);
+              onChangeCardTitle(id, e.target.value);
             }}
-          >
-            {title}
-          </TextArea>
+          />
         </Modal.Header>
+
         <Modal.Body>
           <TextArea
             placeholder={"Card text"}
+            defaultValue={text}
             onChange={(e: any) => {
-              changeCardText(id, e.target.value);
+              onChangeCardText(id, e.target.value);
             }}
-          >
-            {text}
-          </TextArea>
+          />
         </Modal.Body>
+
         <Modal.Body>
           <div>Comments</div>
         </Modal.Body>

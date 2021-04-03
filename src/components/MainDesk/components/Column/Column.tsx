@@ -1,31 +1,35 @@
 import styled from "styled-components";
 import { Button } from "react-bootstrap";
-import { IColumn, ICard } from "../../../../App";
+import { ICard } from "../../../../App";
 import { Card } from "../Card";
 
 export interface ColumnProps {
   title: string;
   id: string;
-  changeColumnTitle: (title: string, id: string) => void;
-  removeColumn: (id: string) => void;
-  addCard: (title: string, columnId: string, text: string) => void;
-  removeCard: (id: string) => void;
-  changeCardTitle: (title: string, id: string) => void;
-  changeCardText: (text: string, id: string) => void;
-  cards: ICard[];
+  onChangeColumnTitle: (title: string, id: string) => void;
+  onRemoveColumn: (id: string) => void;
+  onAddCard: (columnId: string, title?: string, text?: string) => void;
+  onRemoveCard: (id: string) => void;
+  onChangeCardTitle: (title: string, id: string) => void;
+  onChangeCardText: (text: string, id: string) => void;
+  cards: ICard;
 }
 
 const Column: React.FC<ColumnProps> = ({
   title,
   id,
-  changeColumnTitle,
-  removeColumn,
+  onChangeColumnTitle,
+  onRemoveColumn,
   cards,
-  addCard,
-  removeCard,
-  changeCardTitle,
-  changeCardText,
+  onAddCard,
+  onRemoveCard,
+  onChangeCardTitle,
+  onChangeCardText,
 }) => {
+  const filteredCardsArray = Object.values(cards).filter(
+    (card) => card.columnId === id
+  );
+
   return (
     <StyledColumn>
       <ListHeader>
@@ -34,43 +38,44 @@ const Column: React.FC<ColumnProps> = ({
           spellCheck={false}
           rows={2}
           placeholder={"Column title"}
-          value={title}
+          defaultValue={title}
           onChange={(e: any) => {
-            changeColumnTitle(e.target.value, id);
+            onChangeColumnTitle(e.target.value, id);
           }}
-        ></TextArea>
+        />
+
         <RemoveColumnButton
           title="Remove column"
           variant="danger"
-          onClick={() => removeColumn(id)}
+          onClick={() => onRemoveColumn(id)}
         >
           X
         </RemoveColumnButton>
+
         <AddCardButton
           title="Add card"
           onClick={() => {
-            addCard("", "", id);
+            onAddCard(id);
           }}
         >
           +
         </AddCardButton>
       </ListHeader>
+
       <CardList>
-        {cards
-          .filter((card) => card.columnId === id)
-          .map((fCard) => {
-            return (
-              <Card
-                key={fCard.id}
-                id={fCard.id}
-                title={fCard.title}
-                text={fCard.text}
-                removeCard={removeCard}
-                changeCardTitle={changeCardTitle}
-                changeCardText={changeCardText}
-              />
-            );
-          })}
+        {filteredCardsArray.map((filteredCard) => {
+          return (
+            <Card
+              key={filteredCard.id}
+              id={filteredCard.id}
+              title={filteredCard.title}
+              text={filteredCard.text}
+              onRemoveCard={onRemoveCard}
+              onChangeCardTitle={onChangeCardTitle}
+              onChangeCardText={onChangeCardText}
+            />
+          );
+        })}
       </CardList>
     </StyledColumn>
   );
