@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { Button } from "react-bootstrap";
-import { Cards as CardsType, Card as CardType } from "../../../../App";
+import { ColumnCards, ColumnCard } from "../../../../App";
 import { Card } from "../Card";
 
 export interface ColumnProps {
@@ -12,11 +12,11 @@ export interface ColumnProps {
   onRemoveCard: (id: string) => void;
   onChangeCardProperty: (
     id: string,
-    propertyName: keyof CardType,
+    propertyName: keyof ColumnCard,
     value: string
   ) => void;
   onCardModalOpen: (id: string) => void;
-  cards: CardsType;
+  cards: ColumnCards;
 }
 
 const Column: React.FC<ColumnProps> = ({

@@ -1,11 +1,11 @@
 import { Container, Button } from "react-bootstrap";
-import { Columns as ColumnsType, Cards as CardsType, Card } from "../../App";
+import { DeskColumns, ColumnCards, ColumnCard } from "../../App";
 import { Column } from "./components";
 import styled from "styled-components";
 
 export interface MainDeskProps {
-  columns: ColumnsType;
-  cards: CardsType;
+  columns: DeskColumns;
+  cards: ColumnCards;
   onAddColumn: (title: string) => void;
   onChangeColumnTitle: (title: string, id: string) => void;
   onRemoveColumn: (id: string) => void;
@@ -13,7 +13,7 @@ export interface MainDeskProps {
   onRemoveCard: (id: string) => void;
   onChangeCardProperty: (
     id: string,
-    propertyName: keyof Card,
+    propertyName: keyof ColumnCard,
     value: string
   ) => void;
   onCardModalOpen: (id: string) => void;

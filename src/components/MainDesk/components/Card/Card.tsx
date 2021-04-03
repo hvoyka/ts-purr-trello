@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { Card as CardType } from "../../../../App";
+import { ColumnCard } from "../../../../App";
 import React from "react";
 
 export interface CardProps {
@@ -9,7 +9,7 @@ export interface CardProps {
   onRemoveCard: (id: string) => void;
   onChangeCardProperty: (
     id: string,
-    propertyName: keyof CardType,
+    propertyName: keyof ColumnCard,
     value: string
   ) => void;
   onCardModalOpen: (id: string) => void;

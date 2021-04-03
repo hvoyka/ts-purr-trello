@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { ModalWrapper } from "../UI";
-import { Card } from "../../App";
+import { ColumnCard } from "../../App";
 
 interface CardModalProps {
   id: string;
@@ -11,7 +11,7 @@ interface CardModalProps {
   onCardModalClose: () => void;
   onChangeCardProperty: (
     id: string,
-    propertyName: keyof Card,
+    propertyName: keyof ColumnCard,
     value: string
   ) => void;
 }

@@ -9,23 +9,23 @@ import {
   getFromLocalStorage,
 } from "./utils/local-storage";
 
-export interface Column {
+export interface DeskColumn {
   id: string;
   title: string;
 }
-export interface Card {
+export interface ColumnCard {
   id: string;
   columnId: string;
   title: string;
   text: string;
 }
 
-export type Columns = Record<string, Column>;
-export type Cards = Record<string, Card>;
+export type DeskColumns = Record<string, DeskColumn>;
+export type ColumnCards = Record<string, ColumnCard>;
 
 function App() {
-  const [columns, setColumns] = useState<Columns>({});
-  const [cards, setCards] = useState<Cards>({});
+  const [columns, setColumns] = useState<DeskColumns>({});
+  const [cards, setCards] = useState<ColumnCards>({});
   const [userName, setUserName] = useState("");
   const [isUserModalShow, setIsUserModalShow] = useState(true);
   const [showCardModal, setshowCardModal] = useState(false);
@@ -100,7 +100,7 @@ function App() {
 
   const onChangeCardProperty = (
     id: string,
-    propertyName: keyof Card,
+    propertyName: keyof ColumnCard,
     value: string
   ) => {
     const cloneState = { ...cards };
