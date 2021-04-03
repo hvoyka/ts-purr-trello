@@ -1,6 +1,6 @@
 import styled from "styled-components";
-import { CardModal } from "../CardModal";
-import React, { useState } from "react";
+
+import React from "react";
 
 export interface CardProps {
   id: string;
@@ -9,6 +9,7 @@ export interface CardProps {
   onRemoveCard: (id: string) => void;
   onChangeCardTitle: (title: string, id: string) => void;
   onChangeCardText: (text: string, id: string) => void;
+  onCardModalOpen: (id: string) => void;
 }
 
 const Card: React.FC<CardProps> = ({
@@ -18,15 +19,14 @@ const Card: React.FC<CardProps> = ({
   onRemoveCard,
   onChangeCardTitle,
   onChangeCardText,
+  onCardModalOpen,
 }) => {
-  const [isCardModalOpen, setIsCardModalOpen] = useState(false);
-
-  const enterClickHandler = () => {
+  /*  const enterClickHandler = () => {
     setIsCardModalOpen(true);
   };
   const closeModalHandler = () => {
     setIsCardModalOpen(false);
-  };
+  }; */
 
   return (
     <StyledCardBox>
@@ -41,23 +41,13 @@ const Card: React.FC<CardProps> = ({
         }}
       />
 
-      <EnterCardButton title="To card info" onClick={() => enterClickHandler()}>
+      <EnterCardButton title="To card info" onClick={() => onCardModalOpen(id)}>
         &#8617;
       </EnterCardButton>
 
       <RemoveCardButton title="Remove card" onClick={() => onRemoveCard(id)}>
         X
       </RemoveCardButton>
-
-      <CardModal
-        isCardModalOpen={isCardModalOpen}
-        closeModalHandler={closeModalHandler}
-        id={id}
-        title={title}
-        text={text}
-        onChangeCardTitle={onChangeCardTitle}
-        onChangeCardText={onChangeCardText}
-      />
     </StyledCardBox>
   );
 };

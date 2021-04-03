@@ -1,11 +1,11 @@
 import { Container, Button } from "react-bootstrap";
-import { IColumn, ICard } from "../../App";
+import { Columns as ColumnsType, Cards as CardsType } from "../../App";
 import { Column } from "./components";
 import styled from "styled-components";
 
 export interface MainDeskProps {
-  columns: IColumn;
-  cards: ICard;
+  columns: ColumnsType;
+  cards: CardsType;
   onAddColumn: (title: string) => void;
   onChangeColumnTitle: (title: string, id: string) => void;
   onRemoveColumn: (id: string) => void;
@@ -13,6 +13,7 @@ export interface MainDeskProps {
   onRemoveCard: (id: string) => void;
   onChangeCardTitle: (title: string, id: string) => void;
   onChangeCardText: (text: string, id: string) => void;
+  onCardModalOpen: (id: string) => void;
 }
 
 const MainDesk: React.FC<MainDeskProps> = ({
@@ -25,6 +26,7 @@ const MainDesk: React.FC<MainDeskProps> = ({
   onRemoveCard,
   onChangeCardTitle,
   onChangeCardText,
+  onCardModalOpen,
 }) => {
   return (
     <StyledMain>
@@ -43,6 +45,7 @@ const MainDesk: React.FC<MainDeskProps> = ({
                 onRemoveCard={onRemoveCard}
                 onChangeCardTitle={onChangeCardTitle}
                 onChangeCardText={onChangeCardText}
+                onCardModalOpen={onCardModalOpen}
               />
             );
           })}
@@ -71,7 +74,7 @@ const StyledMain = styled.main`
 const ColumnList = styled.ul`
   display: flex;
   align-items: flex-start;
-  height: calc(100vh - 56px);
+  height: calc(100vh - 70px);
   user-select: none;
   white-space: nowrap;
   margin-bottom: 8px;

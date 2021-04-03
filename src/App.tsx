@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { v1 as uuid } from "uuid";
 import { Header, MainDesk, UserModal } from "./components";
+import { CardModal } from "./components/CardModal";
 import { defaultColumns, defaultCards } from "./utils/default-data";
 import {
   LocalStorageKeys,
@@ -8,25 +9,44 @@ import {
   loadFromLocalStorage,
 } from "./utils/local-storage";
 
-export interface IColumn {
-  [index: string]: { id: string; title: string };
+export interface Column {
+  id: string;
+  title: string;
 }
-export interface ICard {
-  [index: string]: {
-    id: string;
-    columnId: string;
-    title: string;
-    text: string;
-  };
+export interface Card {
+  id: string;
+  columnId: string;
+  title: string;
+  text: string;
 }
+
+export type Columns = Record<string, Column>;
+export type Cards = Record<string, Card>;
 
 function App() {
-  const [columns, setColumns] = useState({});
+  const [columns, setColumns] = useState<Columns>({});
 
-  const [cards, setCards] = useState({});
+  const [cards, setCards] = useState<Cards>({});
 
   const [userName, setUserName] = useState("");
+
   const [isUserModalShow, setIsUserModalShow] = useState(true);
+
+  const onUserModalClose = () => {
+    setIsUserModalShow(false);
+  };
+
+  const [showCardModal, setshowCardModal] = useState(false);
+  const [idCardModal, setIdCardModal] = useState("");
+
+  const onCardModalClose = () => {
+    setshowCardModal(false);
+  };
+
+  const onCardModalOpen = (id: string) => {
+    setIdCardModal(id);
+    setshowCardModal(true);
+  };
 
   useEffect(() => {
     //load username
@@ -61,64 +81,68 @@ function App() {
   };
 
   const onChangeColumnTitle = (title: string, id: string) => {
-    const clone = JSON.parse(JSON.stringify(columns));
-    clone[id] = { title };
+    const cloneState = { ...columns };
+    cloneState[id] = { id, title };
 
-    setColumns(clone);
-    setToLocalStorage(clone, LocalStorageKeys.COLUMNS);
+    setColumns(cloneState);
+    setToLocalStorage(cloneState, LocalStorageKeys.COLUMNS);
   };
 
   const onAddColumn = (title: string) => {
-    const clone = JSON.parse(JSON.stringify(columns));
+    const cloneState = { ...columns };
     const columnID = uuid();
-    clone[columnID] = { id: columnID, title };
+    cloneState[columnID] = { id: columnID, title };
 
-    setColumns(clone);
-    setToLocalStorage(clone, LocalStorageKeys.COLUMNS);
+    setColumns(cloneState);
+    setToLocalStorage(cloneState, LocalStorageKeys.COLUMNS);
   };
 
   const onRemoveColumn = (id: string) => {
-    const clone = JSON.parse(JSON.stringify(columns));
-    delete clone[id];
+    const cloneState = { ...columns };
+    delete cloneState[id];
 
-    setColumns(clone);
-    setToLocalStorage(clone, LocalStorageKeys.COLUMNS);
+    setColumns(cloneState);
+    setToLocalStorage(cloneState, LocalStorageKeys.COLUMNS);
   };
 
   const onChangeCardTitle = (id: string, title: string) => {
-    const newState: Record<string, any> = { ...cards };
-    newState[id].title = title;
-    setCards(newState);
-    setToLocalStorage(newState, LocalStorageKeys.CARDS);
+    const cloneState = { ...cards };
+    cloneState[id].title = title;
+    setCards(cloneState);
+    setToLocalStorage(cloneState, LocalStorageKeys.CARDS);
   };
 
   const onChangeCardText = (id: string, text: string) => {
-    const newState: Record<string, any> = { ...cards };
-    newState[id].text = text;
-    setCards(newState);
-    setToLocalStorage(newState, LocalStorageKeys.CARDS);
+    const cloneState = { ...cards };
+    cloneState[id].text = text;
+    setCards(cloneState);
+    setToLocalStorage(cloneState, LocalStorageKeys.CARDS);
   };
 
   const onAddCard = (columnId: string, title = "", text = "") => {
-    const clone = JSON.parse(JSON.stringify(cards));
+    const cloneState = { ...cards };
     const cardID = uuid();
-    clone[cardID] = { id: cardID, columnId, title, text };
-    setCards(clone);
-    setToLocalStorage(clone, LocalStorageKeys.CARDS);
+    cloneState[cardID] = { id: cardID, columnId, title, text };
+    setCards(cloneState);
+    setToLocalStorage(cloneState, LocalStorageKeys.CARDS);
   };
 
   const onRemoveCard = (id: string) => {
-    const newState = { ...cards };
-    delete newState[id as keyof typeof cards];
-    setCards(newState);
-    setToLocalStorage(newState, LocalStorageKeys.CARDS);
+    const cloneState = { ...cards };
+    delete cloneState[id];
+    setCards(cloneState);
+    setToLocalStorage(cloneState, LocalStorageKeys.CARDS);
   };
 
   return (
     <div className="App">
       <Header name={userName} />
 
-      <UserModal addUserName={addUserName} isUserModalShow={isUserModalShow} />
+      <UserModal
+        addUserName={addUserName}
+        isUserModalShow={isUserModalShow}
+        onUserModalClose={onUserModalClose}
+      />
 
       <MainDesk
         columns={columns}
@@ -130,7 +154,19 @@ function App() {
         onRemoveCard={onRemoveCard}
         onChangeCardTitle={onChangeCardTitle}
         onChangeCardText={onChangeCardText}
+        onCardModalOpen={onCardModalOpen}
       />
+      {showCardModal ? (
+        <CardModal
+          isCardModalShow={showCardModal}
+          onCardModalClose={onCardModalClose}
+          id={idCardModal}
+          title={cards[idCardModal].title}
+          text={cards[idCardModal].text}
+          onChangeCardTitle={onChangeCardTitle}
+          onChangeCardText={onChangeCardText}
+        />
+      ) : null}
     </div>
   );
 }

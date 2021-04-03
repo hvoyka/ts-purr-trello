@@ -1,24 +1,23 @@
-import React, { useState, useEffect } from "react";
-import { Button, Modal } from "react-bootstrap";
+import React, { useState } from "react";
+import { Button } from "react-bootstrap";
+import { ModalWrapper } from "../UI";
 
 interface UserModalProps {
   isUserModalShow: boolean;
   addUserName: (name: string) => void;
+  onUserModalClose: () => void;
 }
 
 const UserModal: React.FC<UserModalProps> = ({
   addUserName,
   isUserModalShow,
+  onUserModalClose,
 }) => {
-  const [show, setShow] = useState(false);
-
-  const handleClose = () => setShow(false);
-
-  useEffect(() => {
-    setShow(isUserModalShow);
-  }, [isUserModalShow]);
-
   const [user, setUser] = useState("");
+
+  const closeHandler = () => {
+    if (user) onUserModalClose();
+  };
 
   const changeHandler = (e: any) => {
     setUser(e.target.value);
@@ -26,43 +25,36 @@ const UserModal: React.FC<UserModalProps> = ({
   const enterHandler = (e: any) => {
     if (e.key === "Enter") {
       addUserName(user);
-      handleClose();
+      closeHandler();
     }
   };
+  const modalProps = {};
   return (
     <>
-      <Modal
-        show={show}
-        onHide={handleClose}
-        backdrop="static"
-        keyboard={false}
-        centered={true}
-        animation={false}
+      <ModalWrapper
+        title="User Modal"
+        isModalShow={isUserModalShow}
+        showCloseButton={true}
+        modalProps={modalProps}
+        onModalClose={closeHandler}
       >
-        <Modal.Header>
-          <Modal.Title>Type username</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <input
-            type="text"
-            placeholder="User name"
-            onChange={changeHandler}
-            defaultValue={user}
-            onKeyDown={enterHandler}
-          />
-        </Modal.Body>
-        <Modal.Footer>
-          <Button
-            onClick={(e) => {
-              addUserName(user);
-              handleClose();
-            }}
-            variant="primary"
-          >
-            Confirm
-          </Button>
-        </Modal.Footer>
-      </Modal>
+        <input
+          type="text"
+          placeholder="User name"
+          onChange={changeHandler}
+          defaultValue={user}
+          onKeyDown={enterHandler}
+        />
+        <Button
+          onClick={(e) => {
+            addUserName(user);
+            closeHandler();
+          }}
+          variant="primary"
+        >
+          Confirm
+        </Button>
+      </ModalWrapper>
     </>
   );
 };
