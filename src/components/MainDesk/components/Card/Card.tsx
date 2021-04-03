@@ -1,32 +1,32 @@
 import styled from "styled-components";
-import { CardModal } from "../CardModal";
-import React, { useState } from "react";
+
+import React from "react";
 
 export interface CardProps {
   id: string;
   title: string;
   text: string;
-  removeCard: (id: string) => void;
-  changeCardTitle: (title: string, id: string) => void;
-  changeCardText: (text: string, id: string) => void;
+  onRemoveCard: (id: string) => void;
+  onChangeCardTitle: (title: string, id: string) => void;
+  onChangeCardText: (text: string, id: string) => void;
+  onCardModalOpen: (id: string) => void;
 }
 
 const Card: React.FC<CardProps> = ({
   id,
   title,
   text,
-  removeCard,
-  changeCardTitle,
-  changeCardText,
+  onRemoveCard,
+  onChangeCardTitle,
+  onChangeCardText,
+  onCardModalOpen,
 }) => {
-  const [isCardModalOpen, setIsCardModalOpen] = useState(false);
-
-  const enterClickHandler = () => {
+  /*  const enterClickHandler = () => {
     setIsCardModalOpen(true);
   };
   const closeModalHandler = () => {
     setIsCardModalOpen(false);
-  };
+  }; */
 
   return (
     <StyledCardBox>
@@ -37,25 +37,17 @@ const Card: React.FC<CardProps> = ({
         placeholder={"Card title"}
         value={title}
         onChange={(e: any) => {
-          changeCardTitle(id, e.target.value);
+          onChangeCardTitle(id, e.target.value);
         }}
-      ></CardTextArea>
+      />
 
-      <EnterCardButton title="To card info" onClick={() => enterClickHandler()}>
+      <EnterCardButton title="To card info" onClick={() => onCardModalOpen(id)}>
         &#8617;
       </EnterCardButton>
-      <RemoveCardButton title="Remove card" onClick={() => removeCard(id)}>
+
+      <RemoveCardButton title="Remove card" onClick={() => onRemoveCard(id)}>
         X
       </RemoveCardButton>
-      <CardModal
-        isCardModalOpen={isCardModalOpen}
-        closeModalHandler={closeModalHandler}
-        id={id}
-        title={title}
-        text={text}
-        changeCardTitle={changeCardTitle}
-        changeCardText={changeCardText}
-      />
     </StyledCardBox>
   );
 };
