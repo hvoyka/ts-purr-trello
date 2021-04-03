@@ -1,5 +1,5 @@
 import { Container, Button } from "react-bootstrap";
-import { Columns as ColumnsType, Cards as CardsType } from "../../App";
+import { Columns as ColumnsType, Cards as CardsType, Card } from "../../App";
 import { Column } from "./components";
 import styled from "styled-components";
 
@@ -11,8 +11,11 @@ export interface MainDeskProps {
   onRemoveColumn: (id: string) => void;
   onAddCard: (columnId: string, title?: string, text?: string) => void;
   onRemoveCard: (id: string) => void;
-  onChangeCardTitle: (title: string, id: string) => void;
-  onChangeCardText: (text: string, id: string) => void;
+  onChangeCardProperty: (
+    id: string,
+    propertyName: keyof Card,
+    value: string
+  ) => void;
   onCardModalOpen: (id: string) => void;
 }
 
@@ -24,8 +27,7 @@ const MainDesk: React.FC<MainDeskProps> = ({
   cards,
   onAddCard,
   onRemoveCard,
-  onChangeCardTitle,
-  onChangeCardText,
+  onChangeCardProperty,
   onCardModalOpen,
 }) => {
   return (
@@ -43,8 +45,7 @@ const MainDesk: React.FC<MainDeskProps> = ({
                 cards={cards}
                 onAddCard={onAddCard}
                 onRemoveCard={onRemoveCard}
-                onChangeCardTitle={onChangeCardTitle}
-                onChangeCardText={onChangeCardText}
+                onChangeCardProperty={onChangeCardProperty}
                 onCardModalOpen={onCardModalOpen}
               />
             );

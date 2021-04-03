@@ -1,5 +1,5 @@
 import styled from "styled-components";
-
+import { Card as CardType } from "../../../../App";
 import React from "react";
 
 export interface CardProps {
@@ -7,8 +7,11 @@ export interface CardProps {
   title: string;
   text: string;
   onRemoveCard: (id: string) => void;
-  onChangeCardTitle: (title: string, id: string) => void;
-  onChangeCardText: (text: string, id: string) => void;
+  onChangeCardProperty: (
+    id: string,
+    propertyName: keyof CardType,
+    value: string
+  ) => void;
   onCardModalOpen: (id: string) => void;
 }
 
@@ -17,8 +20,7 @@ const Card: React.FC<CardProps> = ({
   title,
   text,
   onRemoveCard,
-  onChangeCardTitle,
-  onChangeCardText,
+  onChangeCardProperty,
   onCardModalOpen,
 }) => {
   return (
@@ -30,7 +32,7 @@ const Card: React.FC<CardProps> = ({
         placeholder={"Card title"}
         value={title}
         onChange={(e: any) => {
-          onChangeCardTitle(id, e.target.value);
+          onChangeCardProperty(id, "title", e.target.value);
         }}
       />
 

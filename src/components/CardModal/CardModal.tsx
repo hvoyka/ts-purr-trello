@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { ModalWrapper } from "../UI";
+import { Card } from "../../App";
 
 interface CardModalProps {
   id: string;
@@ -8,8 +9,11 @@ interface CardModalProps {
   text: string;
   isCardModalShow: boolean;
   onCardModalClose: () => void;
-  onChangeCardTitle: (title: string, id: string) => void;
-  onChangeCardText: (text: string, id: string) => void;
+  onChangeCardProperty: (
+    id: string,
+    propertyName: keyof Card,
+    value: string
+  ) => void;
 }
 
 const CardModal: React.FC<CardModalProps> = ({
@@ -18,8 +22,7 @@ const CardModal: React.FC<CardModalProps> = ({
   id,
   title,
   text,
-  onChangeCardTitle,
-  onChangeCardText,
+  onChangeCardProperty,
 }) => {
   const modalProps = {};
   return (
@@ -36,14 +39,14 @@ const CardModal: React.FC<CardModalProps> = ({
           rows={1}
           defaultValue={title}
           onChange={(e: any) => {
-            onChangeCardTitle(id, e.target.value);
+            onChangeCardProperty(id, "title", e.target.value);
           }}
         />
         <TextArea
           placeholder={"Card text"}
           defaultValue={text}
           onChange={(e: any) => {
-            onChangeCardText(id, e.target.value);
+            onChangeCardProperty(id, "text", e.target.value);
           }}
         />
         <div>Comments</div>

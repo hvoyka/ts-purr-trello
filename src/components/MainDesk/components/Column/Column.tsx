@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { Button } from "react-bootstrap";
-import { Cards as CardsType } from "../../../../App";
+import { Cards as CardsType, Card as CardType } from "../../../../App";
 import { Card } from "../Card";
 
 export interface ColumnProps {
@@ -10,8 +10,11 @@ export interface ColumnProps {
   onRemoveColumn: (id: string) => void;
   onAddCard: (columnId: string, title?: string, text?: string) => void;
   onRemoveCard: (id: string) => void;
-  onChangeCardTitle: (title: string, id: string) => void;
-  onChangeCardText: (text: string, id: string) => void;
+  onChangeCardProperty: (
+    id: string,
+    propertyName: keyof CardType,
+    value: string
+  ) => void;
   onCardModalOpen: (id: string) => void;
   cards: CardsType;
 }
@@ -24,8 +27,7 @@ const Column: React.FC<ColumnProps> = ({
   cards,
   onAddCard,
   onRemoveCard,
-  onChangeCardTitle,
-  onChangeCardText,
+  onChangeCardProperty,
   onCardModalOpen,
 }) => {
   const filteredCardsArray = Object.values(cards).filter(
@@ -73,8 +75,7 @@ const Column: React.FC<ColumnProps> = ({
               title={filteredCard.title}
               text={filteredCard.text}
               onRemoveCard={onRemoveCard}
-              onChangeCardTitle={onChangeCardTitle}
-              onChangeCardText={onChangeCardText}
+              onChangeCardProperty={onChangeCardProperty}
               onCardModalOpen={onCardModalOpen}
             />
           );

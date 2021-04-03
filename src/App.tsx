@@ -98,17 +98,13 @@ function App() {
     setToLocalStorage(cloneState, LocalStorageKeys.COLUMNS);
   };
 
-  const onChangeCardTitle = (id: string, title: string) => {
+  const onChangeCardProperty = (
+    id: string,
+    propertyName: keyof Card,
+    value: string
+  ) => {
     const cloneState = { ...cards };
-    cloneState[id].title = title;
-
-    setCards(cloneState);
-    setToLocalStorage(cloneState, LocalStorageKeys.CARDS);
-  };
-
-  const onChangeCardText = (id: string, text: string) => {
-    const cloneState = { ...cards };
-    cloneState[id].text = text;
+    cloneState[id][propertyName] = value;
 
     setCards(cloneState);
     setToLocalStorage(cloneState, LocalStorageKeys.CARDS);
@@ -149,8 +145,7 @@ function App() {
         cards={cards}
         onAddCard={onAddCard}
         onRemoveCard={onRemoveCard}
-        onChangeCardTitle={onChangeCardTitle}
-        onChangeCardText={onChangeCardText}
+        onChangeCardProperty={onChangeCardProperty}
         onCardModalOpen={onCardModalOpen}
       />
       {showCardModal ? (
@@ -160,8 +155,7 @@ function App() {
           id={idCardModal}
           title={cards[idCardModal].title}
           text={cards[idCardModal].text}
-          onChangeCardTitle={onChangeCardTitle}
-          onChangeCardText={onChangeCardText}
+          onChangeCardProperty={onChangeCardProperty}
         />
       ) : null}
     </div>
