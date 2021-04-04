@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import React from "react";
+import React, { useRef } from "react";
 import { CardComments } from "../../../../App";
 import { Comment } from "./../Comment";
 
@@ -16,6 +16,8 @@ const Comments: React.FC<CommentsProps> = ({
   onAddComent,
   onRemoveComment,
 }) => {
+  const textAreaRef = useRef<HTMLTextAreaElement>(null);
+
   const fillteredCommentsArray = Object.values(comments).filter(
     (comment) => comment.cardId === cardId
   );
@@ -23,6 +25,13 @@ const Comments: React.FC<CommentsProps> = ({
   const enterHandler = (event: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (event.key === "Enter") {
       onAddComent(cardId, (event.target as HTMLTextAreaElement).value);
+    }
+  };
+
+  const addCommentHandler = () => {
+    if (textAreaRef.current !== null) {
+      onAddComent(cardId, textAreaRef.current.value);
+      textAreaRef.current.value = "";
     }
   };
 
@@ -37,8 +46,12 @@ const Comments: React.FC<CommentsProps> = ({
           />
         ))}
       </StyledCommentsBox>
-      <textarea placeholder="Add comment" onKeyDown={(e) => enterHandler(e)} />
-      <button>Save</button>
+      <textarea
+        ref={textAreaRef}
+        placeholder="Add comment"
+        onKeyDown={(e) => enterHandler(e)}
+      />
+      <button onClick={addCommentHandler}>Save</button>
     </>
   );
 };
