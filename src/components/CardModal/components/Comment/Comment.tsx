@@ -10,10 +10,10 @@ const Comment: React.FC<CommentProps> = ({ text, author }) => {
   return (
     <>
       <div>{author}</div>
-      <StyledComment>
-        {text}
-        <button>X</button>
-      </StyledComment>
+      <StyledComment>{text}</StyledComment>
+      <div>
+        <button>Изменить</button> - <button>Удалить</button>
+      </div>
     </>
   );
 };

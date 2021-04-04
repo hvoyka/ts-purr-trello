@@ -119,6 +119,20 @@ function App() {
     setToLocalStorage(cloneState, LocalStorageKeys.CARDS);
   };
 
+  const onAddComent = (cardId: string, text = "") => {
+    const cloneState = { ...comments };
+    const commentID = uuid();
+    cloneState[commentID] = {
+      id: commentID,
+      cardId,
+      text,
+      author: userName,
+    };
+
+    setComments(cloneState);
+    setToLocalStorage(cloneState, LocalStorageKeys.CARDS);
+  };
+
   return (
     <div className="App">
       <Header name={userName} />
@@ -148,6 +162,7 @@ function App() {
           text={cards[idCardModal].text}
           comments={comments}
           onChangeCardProperty={onChangeCardProperty}
+          onAddComent={onAddComent}
         />
       ) : null}
     </div>

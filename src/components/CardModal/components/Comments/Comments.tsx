@@ -6,12 +6,23 @@ import { Comment } from "./../Comment";
 export interface CommentsProps {
   cardId: string;
   comments: CardComments;
+  onAddComent: (cardId: string, text: string) => void;
 }
 
-const Comments: React.FC<CommentsProps> = ({ cardId, comments }) => {
+const Comments: React.FC<CommentsProps> = ({
+  cardId,
+  comments,
+  onAddComent,
+}) => {
   const fillteredCommentsArray = Object.values(comments).filter(
     (comment) => comment.cardId === cardId
   );
+
+  const enterHandler = (event: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    if (event.key === "Enter") {
+      onAddComent(cardId, (event.target as HTMLTextAreaElement).value);
+    }
+  };
   return (
     <>
       <StyledCommentsBox>
@@ -22,7 +33,7 @@ const Comments: React.FC<CommentsProps> = ({ cardId, comments }) => {
           />
         ))}
       </StyledCommentsBox>
-      <textarea placeholder="Add comment" />
+      <textarea placeholder="Add comment" onKeyDown={(e) => enterHandler(e)} />
     </>
   );
 };
