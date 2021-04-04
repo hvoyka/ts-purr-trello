@@ -69,9 +69,7 @@ const Column: React.FC<ColumnProps> = ({
           return (
             <Card
               key={filteredCard.id}
-              id={filteredCard.id}
-              title={filteredCard.title}
-              text={filteredCard.text}
+              card={filteredCard}
               onRemoveCard={onRemoveCard}
               onChangeCardProperty={onChangeCardProperty}
               onCardModalOpen={onCardModalOpen}

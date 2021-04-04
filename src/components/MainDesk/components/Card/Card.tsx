@@ -3,9 +3,7 @@ import { ColumnCard } from "../../../../App";
 import React from "react";
 
 export interface CardProps {
-  id: string;
-  title: string;
-  text: string;
+  card: ColumnCard;
   onRemoveCard: (id: string) => void;
   onChangeCardProperty: (
     id: string,
@@ -16,9 +14,7 @@ export interface CardProps {
 }
 
 const Card: React.FC<CardProps> = ({
-  id,
-  title,
-  text,
+  card,
   onRemoveCard,
   onChangeCardProperty,
   onCardModalOpen,
@@ -30,17 +26,23 @@ const Card: React.FC<CardProps> = ({
         spellCheck={false}
         rows={1}
         placeholder="Card title"
-        value={title}
+        value={card.title}
         onChange={(event: React.ChangeEvent<HTMLTextAreaElement>) => {
-          onChangeCardProperty(id, "title", event.target.value);
+          onChangeCardProperty(card.id, "title", event.target.value);
         }}
       />
 
-      <EnterCardButton title="To card info" onClick={() => onCardModalOpen(id)}>
+      <EnterCardButton
+        title="To card info"
+        onClick={() => onCardModalOpen(card.id)}
+      >
         &#8617;
       </EnterCardButton>
 
-      <RemoveCardButton title="Remove card" onClick={() => onRemoveCard(id)}>
+      <RemoveCardButton
+        title="Remove card"
+        onClick={() => onRemoveCard(card.id)}
+      >
         X
       </RemoveCardButton>
     </StyledCardBox>
