@@ -28,14 +28,12 @@ const UserModal: React.FC<UserModalProps> = ({
       closeHandler();
     }
   };
-  const modalProps = {};
   return (
     <>
       <Modal
         title="User Modal"
         isModalShow={isUserModalShow}
         showCloseButton
-        modalProps={modalProps}
         onModalClose={closeHandler}
       >
         <input

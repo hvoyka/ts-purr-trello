@@ -24,13 +24,11 @@ const CardModal: React.FC<CardModalProps> = ({
   text,
   onChangeCardProperty,
 }) => {
-  const modalProps = {};
   return (
     <Modal
       title="Card Modal"
       isModalShow={isCardModalShow}
       showCloseButton
-      modalProps={modalProps}
       onModalClose={onCardModalClose}
     >
       <TextArea

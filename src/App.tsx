@@ -30,7 +30,7 @@ function App() {
   const [cards, setCards] = useState<ColumnCards>(setCardsData());
   const [userName, setUserName] = useState(setUserNameData());
   const [isUserModalShow, setIsUserModalShow] = useState(true);
-  const [showCardModal, setshowCardModal] = useState(false);
+  const [isShowCardModal, setIsShowCardModal] = useState(false);
   const [idCardModal, setIdCardModal] = useState("");
 
   useEffect(() => {
@@ -42,12 +42,12 @@ function App() {
   };
 
   const onCardModalClose = () => {
-    setshowCardModal(false);
+    setIsShowCardModal(false);
   };
 
   const onCardModalOpen = (id: string) => {
     setIdCardModal(id);
-    setshowCardModal(true);
+    setIsShowCardModal(true);
   };
 
   const addUserName = (name: string) => {
@@ -112,13 +112,6 @@ function App() {
   return (
     <div className="App">
       <Header name={userName} />
-
-      <UserModal
-        addUserName={addUserName}
-        isUserModalShow={isUserModalShow}
-        onUserModalClose={onUserModalClose}
-      />
-
       <MainDesk
         columns={columns}
         onAddColumn={onAddColumn}
@@ -130,9 +123,15 @@ function App() {
         onChangeCardProperty={onChangeCardProperty}
         onCardModalOpen={onCardModalOpen}
       />
-      {showCardModal ? (
+
+      <UserModal
+        addUserName={addUserName}
+        isUserModalShow={isUserModalShow}
+        onUserModalClose={onUserModalClose}
+      />
+      {isShowCardModal ? (
         <CardModal
-          isCardModalShow={showCardModal}
+          isCardModalShow={isShowCardModal}
           onCardModalClose={onCardModalClose}
           id={idCardModal}
           title={cards[idCardModal].title}
