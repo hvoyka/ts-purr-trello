@@ -2,12 +2,14 @@ import React, { useState, useEffect } from "react";
 import { v1 as uuid } from "uuid";
 import { Header, MainDesk, UserModal } from "./components";
 import { CardModal } from "./components/CardModal";
-import { defaultColumns, defaultCards } from "./utils/default-data";
+
+import { LocalStorageKeys, setToLocalStorage } from "./utils/local-storage";
+
 import {
-  LocalStorageKeys,
-  setToLocalStorage,
-  getFromLocalStorage,
-} from "./utils/local-storage";
+  setUserNameData,
+  setColumnsData,
+  setCardsData,
+} from "./utils/init-default-data";
 
 export interface DeskColumn {
   id: string;
@@ -24,12 +26,16 @@ export type DeskColumns = Record<string, DeskColumn>;
 export type ColumnCards = Record<string, ColumnCard>;
 
 function App() {
-  const [columns, setColumns] = useState<DeskColumns>({});
-  const [cards, setCards] = useState<ColumnCards>({});
-  const [userName, setUserName] = useState("");
+  const [columns, setColumns] = useState<DeskColumns>(setColumnsData());
+  const [cards, setCards] = useState<ColumnCards>(setCardsData());
+  const [userName, setUserName] = useState(setUserNameData());
   const [isUserModalShow, setIsUserModalShow] = useState(true);
   const [showCardModal, setshowCardModal] = useState(false);
   const [idCardModal, setIdCardModal] = useState("");
+
+  useEffect(() => {
+    if (userName) setIsUserModalShow(false);
+  }, [userName]);
 
   const onUserModalClose = () => {
     setIsUserModalShow(false);
@@ -43,30 +49,6 @@ function App() {
     setIdCardModal(id);
     setshowCardModal(true);
   };
-
-  useEffect(() => {
-    const userNameFromStorage = getFromLocalStorage(LocalStorageKeys.USER_NAME);
-    if (userNameFromStorage) {
-      setIsUserModalShow(false);
-      setUserName(userNameFromStorage);
-    }
-
-    const columnsFromStorage = getFromLocalStorage(LocalStorageKeys.COLUMNS);
-    if (columnsFromStorage) {
-      setColumns(columnsFromStorage);
-    } else {
-      setColumns(defaultColumns);
-      setToLocalStorage(defaultColumns, LocalStorageKeys.COLUMNS);
-    }
-
-    const cardsFromStorage = getFromLocalStorage(LocalStorageKeys.CARDS);
-    if (cardsFromStorage) {
-      setCards(cardsFromStorage);
-    } else {
-      setCards(defaultCards);
-      setToLocalStorage(defaultCards, LocalStorageKeys.CARDS);
-    }
-  }, []);
 
   const addUserName = (name: string) => {
     setUserName(name);
