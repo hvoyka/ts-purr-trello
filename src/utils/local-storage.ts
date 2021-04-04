@@ -2,6 +2,7 @@ export enum LocalStorageKeys {
   USER_NAME = "USER_NAME",
   COLUMNS = "COLUMNS",
   CARDS = "CARDS",
+  COMMENTS = "COMMENTS",
 }
 
 export const setToLocalStorage = (

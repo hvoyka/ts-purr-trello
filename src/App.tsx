@@ -9,6 +9,7 @@ import {
   setUserNameData,
   setColumnsData,
   setCardsData,
+  setCommentsData,
 } from "./utils/init-default-data";
 
 export interface DeskColumn {
@@ -22,12 +23,21 @@ export interface ColumnCard {
   text: string;
 }
 
+export interface CardComment {
+  id: string;
+  cardId: string;
+  text: string;
+  author: string;
+}
+
 export type DeskColumns = Record<string, DeskColumn>;
 export type ColumnCards = Record<string, ColumnCard>;
+export type CardComments = Record<string, CardComment>;
 
 function App() {
   const [columns, setColumns] = useState<DeskColumns>(setColumnsData());
   const [cards, setCards] = useState<ColumnCards>(setCardsData());
+  const [comments, setComments] = useState<CardComments>(setCommentsData());
   const [userName, setUserName] = useState(setUserNameData());
   const [isUserModalShow, setIsUserModalShow] = useState(true);
   const [isShowCardModal, setIsShowCardModal] = useState(false);
@@ -136,6 +146,7 @@ function App() {
           id={idCardModal}
           title={cards[idCardModal].title}
           text={cards[idCardModal].text}
+          comments={comments}
           onChangeCardProperty={onChangeCardProperty}
         />
       ) : null}

@@ -3,8 +3,8 @@ import {
   setToLocalStorage,
   getFromLocalStorage,
 } from "./local-storage";
-import { DeskColumns, ColumnCards } from ".././App";
-import { defaultColumns, defaultCards } from "./default-data";
+import { DeskColumns, ColumnCards, CardComments } from ".././App";
+import { defaultColumns, defaultCards, defaultComments } from "./default-data";
 
 export const setUserNameData = (): string => {
   const userNameFromStorage = getFromLocalStorage(LocalStorageKeys.USER_NAME);
@@ -32,5 +32,16 @@ export const setCardsData = (): ColumnCards => {
   } else {
     setToLocalStorage(defaultCards, LocalStorageKeys.CARDS);
     return defaultCards;
+  }
+};
+
+export const setCommentsData = (): CardComments => {
+  const commentsFromStorage = getFromLocalStorage(LocalStorageKeys.COMMENTS);
+
+  if (commentsFromStorage) {
+    return commentsFromStorage;
+  } else {
+    setToLocalStorage(defaultComments, LocalStorageKeys.COMMENTS);
+    return defaultComments;
   }
 };

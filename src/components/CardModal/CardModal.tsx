@@ -1,13 +1,15 @@
 import React from "react";
 import styled from "styled-components";
 import { Modal } from "../UI";
-import { ColumnCard } from "../../App";
+import { ColumnCard, CardComments } from "../../App";
+import { Comments } from "./components";
 
 interface CardModalProps {
   id: string;
   title: string;
   text: string;
   isCardModalShow: boolean;
+  comments: CardComments;
   onCardModalClose: () => void;
   onChangeCardProperty: (
     id: string,
@@ -23,6 +25,7 @@ const CardModal: React.FC<CardModalProps> = ({
   title,
   text,
   onChangeCardProperty,
+  comments,
 }) => {
   return (
     <Modal
@@ -46,7 +49,7 @@ const CardModal: React.FC<CardModalProps> = ({
           onChangeCardProperty(id, "text", event.target.value);
         }}
       />
-      <div>Comments</div>
+      <Comments cardId={id} comments={comments} />
     </Modal>
   );
 };

@@ -30,3 +30,23 @@ export const defaultCards = {
     text: "string",
   },
 };
+export const defaultComments = {
+  "1": {
+    id: "1",
+    cardId: "1",
+    text: "First comment",
+    author: "Hvo",
+  },
+  "2": {
+    id: "2",
+    cardId: "2",
+    text: "Second comment",
+    author: "User1",
+  },
+  "3": {
+    id: "2",
+    cardId: "2",
+    text: "Third comment",
+    author: "User2",
+  },
+};
