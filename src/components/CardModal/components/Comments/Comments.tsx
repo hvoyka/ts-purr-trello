@@ -7,12 +7,14 @@ export interface CommentsProps {
   cardId: string;
   comments: CardComments;
   onAddComent: (cardId: string, text: string) => void;
+  onRemoveComment: (id: string) => void;
 }
 
 const Comments: React.FC<CommentsProps> = ({
   cardId,
   comments,
   onAddComent,
+  onRemoveComment,
 }) => {
   const fillteredCommentsArray = Object.values(comments).filter(
     (comment) => comment.cardId === cardId
@@ -23,17 +25,20 @@ const Comments: React.FC<CommentsProps> = ({
       onAddComent(cardId, (event.target as HTMLTextAreaElement).value);
     }
   };
+
   return (
     <>
       <StyledCommentsBox>
         {fillteredCommentsArray.map((filteredComment) => (
           <Comment
-            text={filteredComment.text}
-            author={filteredComment.author}
+            key={filteredComment.id}
+            comment={filteredComment}
+            onRemoveComment={onRemoveComment}
           />
         ))}
       </StyledCommentsBox>
       <textarea placeholder="Add comment" onKeyDown={(e) => enterHandler(e)} />
+      <button>Save</button>
     </>
   );
 };

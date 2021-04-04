@@ -130,7 +130,15 @@ function App() {
     };
 
     setComments(cloneState);
-    setToLocalStorage(cloneState, LocalStorageKeys.CARDS);
+    setToLocalStorage(cloneState, LocalStorageKeys.COMMENTS);
+  };
+
+  const onRemoveComment = (id: string) => {
+    const cloneState = { ...comments };
+    delete cloneState[id];
+
+    setComments(cloneState);
+    setToLocalStorage(cloneState, LocalStorageKeys.COMMENTS);
   };
 
   return (
@@ -163,6 +171,7 @@ function App() {
           comments={comments}
           onChangeCardProperty={onChangeCardProperty}
           onAddComent={onAddComent}
+          onRemoveComment={onRemoveComment}
         />
       ) : null}
     </div>

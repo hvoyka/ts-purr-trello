@@ -1,18 +1,20 @@
 import styled from "styled-components";
 import React from "react";
+import { CardComment } from "../../../../App";
 
 export interface CommentProps {
-  text: string;
-  author: string;
+  comment: CardComment;
+  onRemoveComment: (id: string) => void;
 }
 
-const Comment: React.FC<CommentProps> = ({ text, author }) => {
+const Comment: React.FC<CommentProps> = ({ comment, onRemoveComment }) => {
   return (
     <>
-      <div>{author}</div>
-      <StyledComment>{text}</StyledComment>
+      <div>{comment.author}</div>
+      <StyledComment>{comment.text}</StyledComment>
       <div>
-        <button>Изменить</button> - <button>Удалить</button>
+        <button>Изменить</button> -{" "}
+        <button onClick={() => onRemoveComment(comment.id)}>Удалить</button>
       </div>
     </>
   );
