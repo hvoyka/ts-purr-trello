@@ -4,20 +4,20 @@ import React, { FC } from "react";
 
 export interface Props {
   card: ColumnCard;
-  onRemoveCard: (id: string) => void;
+  onRemoveClick: () => void;
+  onCardClick: () => void;
   onChangeCardProperty: (
     id: string,
     propertyName: keyof ColumnCard,
     value: string
   ) => void;
-  onCardModalOpen: (id: string) => void;
 }
 
 const Card: FC<Props> = ({
   card,
-  onRemoveCard,
   onChangeCardProperty,
-  onCardModalOpen,
+  onRemoveClick,
+  onCardClick,
 }) => {
   return (
     <StyledCardBox>
@@ -32,17 +32,11 @@ const Card: FC<Props> = ({
         }}
       />
 
-      <EnterCardButton
-        title="To card info"
-        onClick={() => onCardModalOpen(card.id)}
-      >
+      <EnterCardButton title="To card info" onClick={onCardClick}>
         &#8617;
       </EnterCardButton>
 
-      <RemoveCardButton
-        title="Remove card"
-        onClick={() => onRemoveCard(card.id)}
-      >
+      <RemoveCardButton title="Remove card" onClick={onRemoveClick}>
         X
       </RemoveCardButton>
     </StyledCardBox>

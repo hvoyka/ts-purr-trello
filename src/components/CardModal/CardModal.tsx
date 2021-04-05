@@ -46,7 +46,7 @@ const CardModal: FC<Props> = ({
         }}
       />
       <TextArea
-        placeholder="Card text"
+        placeholder="Description"
         defaultValue={card.text}
         onChange={(event: React.ChangeEvent<HTMLTextAreaElement>) => {
           onChangeCardProperty(card.id, "text", event.target.value);

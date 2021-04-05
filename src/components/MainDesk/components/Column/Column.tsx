@@ -72,9 +72,9 @@ const Column: FC<Props> = ({
             <Card
               key={filteredCard.id}
               card={filteredCard}
-              onRemoveCard={onRemoveCard}
               onChangeCardProperty={onChangeCardProperty}
-              onCardModalOpen={onCardModalOpen}
+              onCardClick={() => onCardModalOpen(filteredCard.id)}
+              onRemoveClick={() => onRemoveCard(filteredCard.id)}
             />
           );
         })}
