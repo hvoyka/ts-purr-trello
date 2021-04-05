@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { Button } from "react-bootstrap";
 import { ColumnCards, ColumnCard, DeskColumn } from "../../../../App";
 import { Card } from "../Card";
-import React, { FC } from "react";
+import React, { FC, useMemo } from "react";
 
 export interface ColumnProps {
   column: DeskColumn;
@@ -29,8 +29,9 @@ const Column: FC<ColumnProps> = ({
   onChangeCardProperty,
   onCardModalOpen,
 }) => {
-  const filteredCardsArray = Object.values(cards).filter(
-    (card) => card.columnId === column.id
+  const filteredCardsArray = useMemo(
+    () => Object.values(cards).filter((card) => card.columnId === column.id),
+    [cards, column.id]
   );
 
   return (
