@@ -1,4 +1,4 @@
-import React from "react";
+import React, { FC } from "react";
 import { Modal as BoostrapModal } from "react-bootstrap";
 
 interface UserModalProps {
@@ -9,7 +9,7 @@ interface UserModalProps {
   onModalClose: () => void;
 }
 
-const Modal: React.FC<UserModalProps> = ({
+const Modal: FC<UserModalProps> = ({
   isModalShow,
   onModalClose,
   showCloseButton,

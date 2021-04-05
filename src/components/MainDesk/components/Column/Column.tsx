@@ -2,6 +2,7 @@ import styled from "styled-components";
 import { Button } from "react-bootstrap";
 import { ColumnCards, ColumnCard, DeskColumn } from "../../../../App";
 import { Card } from "../Card";
+import React, { FC } from "react";
 
 export interface ColumnProps {
   column: DeskColumn;
@@ -18,7 +19,7 @@ export interface ColumnProps {
   cards: ColumnCards;
 }
 
-const Column: React.FC<ColumnProps> = ({
+const Column: FC<ColumnProps> = ({
   column,
   onChangeColumnTitle,
   onRemoveColumn,

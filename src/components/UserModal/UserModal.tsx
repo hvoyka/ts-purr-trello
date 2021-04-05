@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, FC } from "react";
 import { Button } from "react-bootstrap";
 import { Modal } from "../UI";
 
@@ -8,7 +8,7 @@ interface UserModalProps {
   onUserModalClose: () => void;
 }
 
-const UserModal: React.FC<UserModalProps> = ({
+const UserModal: FC<UserModalProps> = ({
   addUserName,
   isUserModalShow,
   onUserModalClose,

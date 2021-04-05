@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { ColumnCard } from "../../../../App";
-import React from "react";
+import React, { FC } from "react";
 
 export interface CardProps {
   card: ColumnCard;
@@ -13,7 +13,7 @@ export interface CardProps {
   onCardModalOpen: (id: string) => void;
 }
 
-const Card: React.FC<CardProps> = ({
+const Card: FC<CardProps> = ({
   card,
   onRemoveCard,
   onChangeCardProperty,

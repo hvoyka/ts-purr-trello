@@ -2,6 +2,7 @@ import { Container, Button } from "react-bootstrap";
 import { DeskColumns, ColumnCards, ColumnCard } from "../../App";
 import { Column } from "./components";
 import styled from "styled-components";
+import React, { FC } from "react";
 
 export interface MainDeskProps {
   columns: DeskColumns;
@@ -19,7 +20,7 @@ export interface MainDeskProps {
   onCardModalOpen: (id: string) => void;
 }
 
-const MainDesk: React.FC<MainDeskProps> = ({
+const MainDesk: FC<MainDeskProps> = ({
   columns,
   onAddColumn,
   onChangeColumnTitle,

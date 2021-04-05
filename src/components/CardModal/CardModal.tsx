@@ -1,4 +1,4 @@
-import React from "react";
+import React, { FC } from "react";
 import styled from "styled-components";
 import { Modal } from "../UI";
 import { ColumnCard, CardComments } from "../../App";
@@ -21,7 +21,7 @@ interface CardModalProps {
   ) => void;
 }
 
-const CardModal: React.FC<CardModalProps> = ({
+const CardModal: FC<CardModalProps> = ({
   isCardModalShow,
   onCardModalClose,
   id,

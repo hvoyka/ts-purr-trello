@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import React, { useRef } from "react";
+import React, { useRef, FC } from "react";
 import { CardComments } from "../../../../App";
 import { Comment } from "./../Comment";
 
@@ -11,7 +11,7 @@ export interface CommentsProps {
   onChangeComment: (id: string, text: string) => void;
 }
 
-const Comments: React.FC<CommentsProps> = ({
+const Comments: FC<CommentsProps> = ({
   cardId,
   comments,
   onAddComent,
