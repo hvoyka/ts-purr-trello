@@ -40,7 +40,6 @@ function App() {
   const [comments, setComments] = useState<CardComments>(setCommentsData());
   const [userName, setUserName] = useState(setUserNameData());
   const [isUserModalShow, setIsUserModalShow] = useState(true);
-  const [isShowCardModal, setIsShowCardModal] = useState(false);
   const [idCardModal, setIdCardModal] = useState("");
 
   useEffect(() => {
@@ -52,12 +51,11 @@ function App() {
   };
 
   const onCardModalClose = () => {
-    setIsShowCardModal(false);
+    setIdCardModal("");
   };
 
   const onCardModalOpen = (id: string) => {
     setIdCardModal(id);
-    setIsShowCardModal(true);
   };
 
   const addUserName = (name: string) => {
@@ -169,20 +167,17 @@ function App() {
         isUserModalShow={isUserModalShow}
         onUserModalClose={onUserModalClose}
       />
-      {isShowCardModal ? (
-        <CardModal
-          isCardModalShow={isShowCardModal}
-          onCardModalClose={onCardModalClose}
-          id={idCardModal}
-          title={cards[idCardModal].title}
-          text={cards[idCardModal].text}
-          comments={comments}
-          onChangeCardProperty={onChangeCardProperty}
-          onAddComent={onAddComent}
-          onRemoveComment={onRemoveComment}
-          onChangeComment={onChangeComment}
-        />
-      ) : null}
+
+      <CardModal
+        isCardModalShow={Boolean(idCardModal)}
+        onCardModalClose={onCardModalClose}
+        card={cards[idCardModal]}
+        comments={comments}
+        onChangeCardProperty={onChangeCardProperty}
+        onAddComent={onAddComent}
+        onRemoveComment={onRemoveComment}
+        onChangeComment={onChangeComment}
+      />
     </div>
   );
 }

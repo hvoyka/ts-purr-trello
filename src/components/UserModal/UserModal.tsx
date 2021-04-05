@@ -33,7 +33,7 @@ const UserModal: FC<UserModalProps> = ({
       <Modal
         title="User Modal"
         isModalShow={isUserModalShow}
-        showCloseButton
+        showCloseButton={false}
         onModalClose={closeHandler}
       >
         <input

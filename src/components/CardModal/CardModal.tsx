@@ -5,9 +5,7 @@ import { ColumnCard, CardComments } from "../../App";
 import { Comments } from "./components";
 
 interface CardModalProps {
-  id: string;
-  title: string;
-  text: string;
+  card: ColumnCard;
   isCardModalShow: boolean;
   comments: CardComments;
   onCardModalClose: () => void;
@@ -22,17 +20,16 @@ interface CardModalProps {
 }
 
 const CardModal: FC<CardModalProps> = ({
+  card,
   isCardModalShow,
   onCardModalClose,
-  id,
-  title,
-  text,
   onChangeCardProperty,
   comments,
   onAddComent,
   onRemoveComment,
   onChangeComment,
 }) => {
+  if (!isCardModalShow) return null;
   return (
     <Modal
       title="Card Modal"
@@ -43,20 +40,20 @@ const CardModal: FC<CardModalProps> = ({
       <TextArea
         placeholder="Card title"
         rows={1}
-        defaultValue={title}
+        defaultValue={card.title}
         onChange={(event: React.ChangeEvent<HTMLTextAreaElement>) => {
-          onChangeCardProperty(id, "title", event.target.value);
+          onChangeCardProperty(card.id, "title", event.target.value);
         }}
       />
       <TextArea
         placeholder="Card text"
-        defaultValue={text}
+        defaultValue={card.text}
         onChange={(event: React.ChangeEvent<HTMLTextAreaElement>) => {
-          onChangeCardProperty(id, "text", event.target.value);
+          onChangeCardProperty(card.id, "text", event.target.value);
         }}
       />
       <Comments
-        cardId={id}
+        cardId={card.id}
         comments={comments}
         onAddComent={onAddComent}
         onRemoveComment={onRemoveComment}
