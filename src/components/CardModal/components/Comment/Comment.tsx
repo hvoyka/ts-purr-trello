@@ -2,17 +2,13 @@ import styled from "styled-components";
 import React, { useState, FC } from "react";
 import { CardComment } from "../../../../App";
 
-export interface CommentProps {
+export interface Props {
   comment: CardComment;
   onRemoveComment: (id: string) => void;
   onChangeComment: (id: string, text: string) => void;
 }
 
-const Comment: FC<CommentProps> = ({
-  comment,
-  onRemoveComment,
-  onChangeComment,
-}) => {
+const Comment: FC<Props> = ({ comment, onRemoveComment, onChangeComment }) => {
   const [isEdit, setisEdit] = useState(false);
 
   const changeTextHandler = () => {

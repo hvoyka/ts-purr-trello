@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { ColumnCard } from "../../../../App";
 import React, { FC } from "react";
 
-export interface CardProps {
+export interface Props {
   card: ColumnCard;
   onRemoveCard: (id: string) => void;
   onChangeCardProperty: (
@@ -13,7 +13,7 @@ export interface CardProps {
   onCardModalOpen: (id: string) => void;
 }
 
-const Card: FC<CardProps> = ({
+const Card: FC<Props> = ({
   card,
   onRemoveCard,
   onChangeCardProperty,

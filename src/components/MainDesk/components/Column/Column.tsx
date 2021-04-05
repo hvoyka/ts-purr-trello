@@ -4,7 +4,7 @@ import { ColumnCards, ColumnCard, DeskColumn } from "../../../../App";
 import { Card } from "../Card";
 import React, { FC, useMemo } from "react";
 
-export interface ColumnProps {
+export interface Props {
   column: DeskColumn;
   onChangeColumnTitle: (title: string, id: string) => void;
   onRemoveColumn: (id: string) => void;
@@ -19,7 +19,7 @@ export interface ColumnProps {
   cards: ColumnCards;
 }
 
-const Column: FC<ColumnProps> = ({
+const Column: FC<Props> = ({
   column,
   onChangeColumnTitle,
   onRemoveColumn,

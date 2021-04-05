@@ -2,13 +2,13 @@ import React, { useState, FC } from "react";
 import { Button } from "react-bootstrap";
 import { Modal } from "../UI";
 
-interface UserModalProps {
+interface Props {
   isUserModalShow: boolean;
   addUserName: (name: string) => void;
   onUserModalClose: () => void;
 }
 
-const UserModal: FC<UserModalProps> = ({
+const UserModal: FC<Props> = ({
   addUserName,
   isUserModalShow,
   onUserModalClose,

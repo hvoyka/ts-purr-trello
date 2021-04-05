@@ -4,7 +4,7 @@ import { Column } from "./components";
 import styled from "styled-components";
 import React, { FC } from "react";
 
-export interface MainDeskProps {
+export interface Props {
   columns: DeskColumns;
   cards: ColumnCards;
   onAddColumn: (title: string) => void;
@@ -20,7 +20,7 @@ export interface MainDeskProps {
   onCardModalOpen: (id: string) => void;
 }
 
-const MainDesk: FC<MainDeskProps> = ({
+const MainDesk: FC<Props> = ({
   columns,
   onAddColumn,
   onChangeColumnTitle,

@@ -3,7 +3,7 @@ import React, { useRef, FC } from "react";
 import { CardComments } from "../../../../App";
 import { Comment } from "./../Comment";
 
-export interface CommentsProps {
+export interface Props {
   cardId: string;
   comments: CardComments;
   onAddComent: (cardId: string, text: string) => void;
@@ -11,7 +11,7 @@ export interface CommentsProps {
   onChangeComment: (id: string, text: string) => void;
 }
 
-const Comments: FC<CommentsProps> = ({
+const Comments: FC<Props> = ({
   cardId,
   comments,
   onAddComent,
