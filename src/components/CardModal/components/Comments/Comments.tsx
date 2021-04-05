@@ -8,6 +8,7 @@ export interface CommentsProps {
   comments: CardComments;
   onAddComent: (cardId: string, text: string) => void;
   onRemoveComment: (id: string) => void;
+  onChangeComment: (id: string, text: string) => void;
 }
 
 const Comments: React.FC<CommentsProps> = ({
@@ -15,6 +16,7 @@ const Comments: React.FC<CommentsProps> = ({
   comments,
   onAddComent,
   onRemoveComment,
+  onChangeComment,
 }) => {
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
 
@@ -43,6 +45,7 @@ const Comments: React.FC<CommentsProps> = ({
             key={filteredComment.id}
             comment={filteredComment}
             onRemoveComment={onRemoveComment}
+            onChangeComment={onChangeComment}
           />
         ))}
       </StyledCommentsBox>

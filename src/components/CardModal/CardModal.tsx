@@ -13,6 +13,7 @@ interface CardModalProps {
   onCardModalClose: () => void;
   onAddComent: (cardId: string, text: string) => void;
   onRemoveComment: (id: string) => void;
+  onChangeComment: (id: string, text: string) => void;
   onChangeCardProperty: (
     id: string,
     propertyName: keyof ColumnCard,
@@ -30,6 +31,7 @@ const CardModal: React.FC<CardModalProps> = ({
   comments,
   onAddComent,
   onRemoveComment,
+  onChangeComment,
 }) => {
   return (
     <Modal
@@ -58,6 +60,7 @@ const CardModal: React.FC<CardModalProps> = ({
         comments={comments}
         onAddComent={onAddComent}
         onRemoveComment={onRemoveComment}
+        onChangeComment={onChangeComment}
       />
     </Modal>
   );

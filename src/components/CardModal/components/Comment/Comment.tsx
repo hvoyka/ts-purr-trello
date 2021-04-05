@@ -1,21 +1,41 @@
 import styled from "styled-components";
-import React from "react";
+import React, { useState } from "react";
 import { CardComment } from "../../../../App";
 
 export interface CommentProps {
   comment: CardComment;
   onRemoveComment: (id: string) => void;
+  onChangeComment: (id: string, text: string) => void;
 }
 
-const Comment: React.FC<CommentProps> = ({ comment, onRemoveComment }) => {
+const Comment: React.FC<CommentProps> = ({
+  comment,
+  onRemoveComment,
+  onChangeComment,
+}) => {
+  const [isEdit, setisEdit] = useState(false);
+
+  const changeTextHandler = () => {
+    setisEdit(!isEdit);
+  };
   return (
     <>
       <div>{comment.author}</div>
-      <StyledComment>{comment.text}</StyledComment>
-      <div>
-        <button>Изменить</button> -{" "}
-        <button onClick={() => onRemoveComment(comment.id)}>Удалить</button>
-      </div>
+      {isEdit ? (
+        <div>
+          <textarea
+            value={comment.text}
+            onChange={(e) => onChangeComment(comment.id, e.target.value)}
+          />
+          <button onClick={changeTextHandler}>Save</button>
+        </div>
+      ) : (
+        <div>
+          <StyledComment>{comment.text}</StyledComment>
+          <button onClick={changeTextHandler}>Изменить</button> -{" "}
+          <button onClick={() => onRemoveComment(comment.id)}>Удалить</button>
+        </div>
+      )}
     </>
   );
 };
