@@ -41,6 +41,14 @@ const MainDesk: FC<Props> = ({
 }) => {
   const [isNewColumnEdit, setIsNewColumnEdit] = useState(false);
   const [newColumnText, setnewColumnText] = useState("");
+
+  const addColumnHandler = () => {
+    if (newColumnText.trim()) {
+      onAddColumn(newColumnText);
+      setIsNewColumnEdit(false);
+      setnewColumnText("");
+    }
+  };
   return (
     <StyledMain>
       <Container fluid>
@@ -81,9 +89,7 @@ const MainDesk: FC<Props> = ({
                   value={newColumnText}
                   onChange={(e) => setnewColumnText(e.target.value)}
                 />
-                <button onClick={() => onAddColumn(newColumnText)}>
-                  Add column
-                </button>
+                <button onClick={addColumnHandler}>Add column</button>
                 <button
                   onClick={() => {
                     setIsNewColumnEdit(false);
