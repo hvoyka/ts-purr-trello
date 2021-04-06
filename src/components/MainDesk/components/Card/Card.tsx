@@ -42,7 +42,6 @@ const Card: FC<Props> = ({
         <TextAreaClickBlock
           onClick={() => {
             onCardClick();
-            console.log("click");
           }}
         />
       </TextAreaBox>
@@ -50,7 +49,6 @@ const Card: FC<Props> = ({
       <EnterCardButton
         title="Edit title"
         onClick={() => {
-          console.log("edit click");
           if (textareaEl && textareaEl.current) {
             textareaEl.current.disabled = false;
             textareaEl.current.focus();

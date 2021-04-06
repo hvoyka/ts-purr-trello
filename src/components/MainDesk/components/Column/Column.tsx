@@ -7,7 +7,7 @@ import {
   CommentsCounts,
 } from "../../../../App";
 import { Card } from "../Card";
-import React, { FC, useMemo } from "react";
+import React, { FC, useMemo, useState } from "react";
 
 export interface Props {
   column: DeskColumn;
@@ -40,7 +40,8 @@ const Column: FC<Props> = ({
     () => Object.values(cards).filter((card) => card.columnId === column.id),
     [cards, column.id]
   );
-
+  const [isNewCardEdit, setIsNewCardEdit] = useState(false);
+  const [newCardTitle, setnewCardTitle] = useState("");
   return (
     <StyledColumn>
       <ListHeader>
@@ -62,15 +63,6 @@ const Column: FC<Props> = ({
         >
           X
         </RemoveColumnButton>
-
-        <AddCardButton
-          title="Add card"
-          onClick={() => {
-            onAddCard(column.id);
-          }}
-        >
-          +
-        </AddCardButton>
       </ListHeader>
 
       <CardList>
@@ -86,6 +78,43 @@ const Column: FC<Props> = ({
             />
           );
         })}
+        {!isNewCardEdit ? (
+          <AddCardButton
+            title="Add card"
+            onClick={() => {
+              setIsNewCardEdit(true);
+            }}
+          >
+            +
+          </AddCardButton>
+        ) : (
+          <div>
+            <textarea
+              autoFocus
+              rows={1}
+              placeholder="Column title"
+              value={newCardTitle}
+              onChange={(e) => setnewCardTitle(e.target.value)}
+            />
+            <button
+              onClick={() => {
+                onAddCard(column.id, newCardTitle);
+                setIsNewCardEdit(false);
+                setnewCardTitle("");
+              }}
+            >
+              Add card
+            </button>
+            <button
+              onClick={() => {
+                setIsNewCardEdit(false);
+                setnewCardTitle("");
+              }}
+            >
+              x
+            </button>
+          </div>
+        )}
       </CardList>
     </StyledColumn>
   );
@@ -121,9 +150,7 @@ const RemoveColumnButton = styled(Button)`
   line-height: 15px;
 `;
 const AddCardButton = styled(Button)`
-  position: absolute;
-  right: 4px;
-  top: 40px;
+  width: 100%;
   z-index: 1;
   padding: 5px;
   font-size: 15px;
