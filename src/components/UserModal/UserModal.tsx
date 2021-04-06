@@ -16,7 +16,11 @@ const UserModal: FC<Props> = ({
   const [user, setUser] = useState("");
 
   const closeHandler = () => {
-    if (user) onUserModalClose();
+    const trimmedUser = user.trim();
+    if (trimmedUser) {
+      addUserName(trimmedUser);
+      onUserModalClose();
+    }
   };
 
   const changeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -24,7 +28,6 @@ const UserModal: FC<Props> = ({
   };
   const enterHandler = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === "Enter") {
-      addUserName(user);
       closeHandler();
     }
   };
@@ -45,7 +48,6 @@ const UserModal: FC<Props> = ({
         />
         <Button
           onClick={(e) => {
-            addUserName(user);
             closeHandler();
           }}
           variant="primary"
