@@ -7,7 +7,7 @@ import {
 } from "../../App";
 import { Column } from "./components";
 import styled from "styled-components";
-import React, { FC } from "react";
+import React, { FC, useState } from "react";
 
 export interface Props {
   columns: DeskColumns;
@@ -39,6 +39,8 @@ const MainDesk: FC<Props> = ({
   onCardModalOpen,
   commentsCounts,
 }) => {
+  const [isNewColumnEdit, setIsNewColumnEdit] = useState(false);
+  const [newColumnText, setnewColumnText] = useState("");
   return (
     <StyledMain>
       <Container fluid>
@@ -61,14 +63,37 @@ const MainDesk: FC<Props> = ({
           })}
 
           <EmptyColumn>
-            <Button
-              variant="secondary"
-              onClick={() => {
-                onAddColumn("");
-              }}
-            >
-              Add column
-            </Button>
+            {!isNewColumnEdit ? (
+              <Button
+                variant="secondary"
+                onClick={() => {
+                  setIsNewColumnEdit(true);
+                }}
+              >
+                Add column
+              </Button>
+            ) : (
+              <div>
+                <textarea
+                  autoFocus
+                  rows={1}
+                  placeholder="Column title"
+                  value={newColumnText}
+                  onChange={(e) => setnewColumnText(e.target.value)}
+                />
+                <button onClick={() => onAddColumn(newColumnText)}>
+                  Add column
+                </button>
+                <button
+                  onClick={() => {
+                    setIsNewColumnEdit(false);
+                    setnewColumnText("");
+                  }}
+                >
+                  x
+                </button>
+              </div>
+            )}
           </EmptyColumn>
         </ColumnList>
       </Container>
