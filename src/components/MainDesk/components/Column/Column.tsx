@@ -1,11 +1,17 @@
 import styled from "styled-components";
 import { Button } from "react-bootstrap";
-import { ColumnCards, ColumnCard, DeskColumn } from "../../../../App";
+import {
+  ColumnCards,
+  ColumnCard,
+  DeskColumn,
+  CommentsCounts,
+} from "../../../../App";
 import { Card } from "../Card";
 import React, { FC, useMemo } from "react";
 
 export interface Props {
   column: DeskColumn;
+  commentsCounts: CommentsCounts;
   onChangeColumnTitle: (title: string, id: string) => void;
   onRemoveColumn: (id: string) => void;
   onAddCard: (columnId: string, title?: string, text?: string) => void;
@@ -28,6 +34,7 @@ const Column: FC<Props> = ({
   onRemoveCard,
   onChangeCardProperty,
   onCardModalOpen,
+  commentsCounts,
 }) => {
   const filteredCardsArray = useMemo(
     () => Object.values(cards).filter((card) => card.columnId === column.id),
@@ -72,6 +79,7 @@ const Column: FC<Props> = ({
             <Card
               key={filteredCard.id}
               card={filteredCard}
+              commentCount={commentsCounts[filteredCard.id]?.count}
               onChangeCardProperty={onChangeCardProperty}
               onCardClick={() => onCardModalOpen(filteredCard.id)}
               onRemoveClick={() => onRemoveCard(filteredCard.id)}

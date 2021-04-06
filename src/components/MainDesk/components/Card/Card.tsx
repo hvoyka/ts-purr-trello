@@ -4,6 +4,7 @@ import React, { FC } from "react";
 
 export interface Props {
   card: ColumnCard;
+  commentCount: number;
   onRemoveClick: () => void;
   onCardClick: () => void;
   onChangeCardProperty: (
@@ -18,9 +19,11 @@ const Card: FC<Props> = ({
   onChangeCardProperty,
   onRemoveClick,
   onCardClick,
+  commentCount,
 }) => {
   return (
     <StyledCardBox>
+      <p>{commentCount}</p>
       <CardTextArea
         maxLength={100}
         spellCheck={false}

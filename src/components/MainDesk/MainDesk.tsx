@@ -1,5 +1,10 @@
 import { Container, Button } from "react-bootstrap";
-import { DeskColumns, ColumnCards, ColumnCard } from "../../App";
+import {
+  DeskColumns,
+  ColumnCards,
+  ColumnCard,
+  CommentsCounts,
+} from "../../App";
 import { Column } from "./components";
 import styled from "styled-components";
 import React, { FC } from "react";
@@ -7,11 +12,13 @@ import React, { FC } from "react";
 export interface Props {
   columns: DeskColumns;
   cards: ColumnCards;
+  commentsCounts: CommentsCounts;
   onAddColumn: (title: string) => void;
   onChangeColumnTitle: (title: string, id: string) => void;
   onRemoveColumn: (id: string) => void;
   onAddCard: (columnId: string, title?: string, text?: string) => void;
   onRemoveCard: (id: string) => void;
+
   onChangeCardProperty: (
     id: string,
     propertyName: keyof ColumnCard,
@@ -30,6 +37,7 @@ const MainDesk: FC<Props> = ({
   onRemoveCard,
   onChangeCardProperty,
   onCardModalOpen,
+  commentsCounts,
 }) => {
   return (
     <StyledMain>
@@ -47,6 +55,7 @@ const MainDesk: FC<Props> = ({
                 onRemoveCard={onRemoveCard}
                 onChangeCardProperty={onChangeCardProperty}
                 onCardModalOpen={onCardModalOpen}
+                commentsCounts={commentsCounts}
               />
             );
           })}

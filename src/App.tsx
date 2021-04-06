@@ -30,9 +30,15 @@ export interface CardComment {
   author: string;
 }
 
+export interface CommentCount {
+  id: string;
+  count: number;
+}
+
 export type DeskColumns = Record<string, DeskColumn>;
 export type ColumnCards = Record<string, ColumnCard>;
 export type CardComments = Record<string, CardComment>;
+export type CommentsCounts = Record<string, CommentCount>;
 
 function App() {
   const [columns, setColumns] = useState<DeskColumns>(setColumnsData());
@@ -41,6 +47,22 @@ function App() {
   const [userName, setUserName] = useState(setUserNameData());
   const [isUserModalShow, setIsUserModalShow] = useState(true);
   const [idCardModal, setIdCardModal] = useState("");
+  const [commentsCounts, setCommentsCounts] = useState<CommentsCounts>({
+    "1": { id: "1", count: 0 },
+  });
+
+  useEffect(() => {
+    const result: CommentsCounts = {};
+    Object.values(comments).forEach((comment) => {
+      result[comment.cardId] = result[comment.cardId]
+        ? {
+            ...result[comment.cardId],
+            count: result[comment.cardId].count + 1,
+          }
+        : { id: comment.cardId, count: 1 };
+    });
+    setCommentsCounts(result);
+  }, [comments]);
 
   useEffect(() => {
     if (userName) setIsUserModalShow(false);
@@ -160,6 +182,7 @@ function App() {
         onRemoveCard={onRemoveCard}
         onChangeCardProperty={onChangeCardProperty}
         onCardModalOpen={onCardModalOpen}
+        commentsCounts={commentsCounts}
       />
 
       <UserModal
