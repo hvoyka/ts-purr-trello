@@ -42,6 +42,14 @@ const Column: FC<Props> = ({
   );
   const [isNewCardEdit, setIsNewCardEdit] = useState(false);
   const [newCardTitle, setnewCardTitle] = useState("");
+
+  const addCardHandler = () => {
+    if (newCardTitle.trim()) {
+      onAddCard(column.id, newCardTitle);
+      setIsNewCardEdit(false);
+      setnewCardTitle("");
+    }
+  };
   return (
     <StyledColumn>
       <ListHeader>
@@ -78,6 +86,7 @@ const Column: FC<Props> = ({
             />
           );
         })}
+
         {!isNewCardEdit ? (
           <AddCardButton
             title="Add card"
@@ -96,15 +105,9 @@ const Column: FC<Props> = ({
               value={newCardTitle}
               onChange={(e) => setnewCardTitle(e.target.value)}
             />
-            <button
-              onClick={() => {
-                onAddCard(column.id, newCardTitle);
-                setIsNewCardEdit(false);
-                setnewCardTitle("");
-              }}
-            >
-              Add card
-            </button>
+
+            <button onClick={addCardHandler}>Add card</button>
+
             <button
               onClick={() => {
                 setIsNewCardEdit(false);

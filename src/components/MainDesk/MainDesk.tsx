@@ -89,7 +89,9 @@ const MainDesk: FC<Props> = ({
                   value={newColumnText}
                   onChange={(e) => setnewColumnText(e.target.value)}
                 />
+
                 <button onClick={addColumnHandler}>Add column</button>
+
                 <button
                   onClick={() => {
                     setIsNewColumnEdit(false);
@@ -125,12 +127,9 @@ const EmptyColumn = styled.div`
   flex: 0 0 272px;
   width: 272px;
   border-radius: 10px;
-
   display: flex;
   flex-direction: column;
-
   max-height: 100%;
-
   white-space: normal;
   padding-right: 5px;
   padding-left: 5px;
