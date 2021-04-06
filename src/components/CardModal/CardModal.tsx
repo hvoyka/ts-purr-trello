@@ -17,6 +17,7 @@ interface Props {
     propertyName: keyof ColumnCard,
     value: string
   ) => void;
+  columnTitle: string;
 }
 
 const CardModal: FC<Props> = ({
@@ -28,6 +29,7 @@ const CardModal: FC<Props> = ({
   onAddComent,
   onRemoveComment,
   onChangeComment,
+  columnTitle,
 }) => {
   if (!isCardModalShow) return null;
   return (
@@ -37,7 +39,9 @@ const CardModal: FC<Props> = ({
       showCloseButton
       onModalClose={onCardModalClose}
     >
-      <p>{card.author}</p>
+      <p>
+        Card author: {card.author} - column: {columnTitle}
+      </p>
       <TextArea
         placeholder="Card title"
         rows={1}

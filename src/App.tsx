@@ -202,6 +202,7 @@ function App() {
         isCardModalShow={Boolean(idCardModal)}
         onCardModalClose={onCardModalClose}
         card={cards[idCardModal]}
+        columnTitle={columns[cards[idCardModal]?.columnId]?.title}
         comments={comments}
         onChangeCardProperty={onChangeCardProperty}
         onAddComent={onAddComent}
