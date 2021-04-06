@@ -21,6 +21,7 @@ export interface ColumnCard {
   columnId: string;
   title: string;
   text: string;
+  author: string;
 }
 
 export interface CardComment {
@@ -125,7 +126,13 @@ function App() {
   const onAddCard = (columnId: string, title = "", text = "") => {
     const cloneState = { ...cards };
     const cardID = uuid();
-    cloneState[cardID] = { id: cardID, columnId, title, text };
+    cloneState[cardID] = {
+      id: cardID,
+      columnId,
+      title,
+      text,
+      author: userName,
+    };
 
     setCards(cloneState);
     setToLocalStorage(cloneState, LocalStorageKeys.CARDS);

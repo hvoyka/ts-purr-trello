@@ -22,12 +22,14 @@ export const defaultCards = {
     columnId: "1",
     title: "First card",
     text: "string",
+    author: "Hvo",
   },
   "2": {
     id: "2",
     columnId: "3",
     title: "Second card",
     text: "string",
+    author: "User",
   },
 };
 export const defaultComments = {

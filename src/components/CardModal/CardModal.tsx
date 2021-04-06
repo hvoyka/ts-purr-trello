@@ -37,6 +37,7 @@ const CardModal: FC<Props> = ({
       showCloseButton
       onModalClose={onCardModalClose}
     >
+      <p>{card.author}</p>
       <TextArea
         placeholder="Card title"
         rows={1}
