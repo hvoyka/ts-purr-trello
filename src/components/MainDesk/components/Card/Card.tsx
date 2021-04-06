@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { ColumnCard } from "../../../../App";
-import React, { FC } from "react";
+import React, { FC, useRef } from "react";
 
 export interface Props {
   card: ColumnCard;
@@ -21,22 +21,43 @@ const Card: FC<Props> = ({
   onCardClick,
   commentCount,
 }) => {
+  const textareaEl = useRef<HTMLTextAreaElement>(null);
+
   return (
     <StyledCardBox>
       <p>{commentCount}</p>
-      <CardTextArea
-        maxLength={100}
-        spellCheck={false}
-        rows={1}
-        placeholder="Card title"
-        value={card.title}
-        onChange={(event: React.ChangeEvent<HTMLTextAreaElement>) => {
-          onChangeCardProperty(card.id, "title", event.target.value);
-        }}
-      />
+      <TextAreaBox>
+        <CardTextArea
+          maxLength={100}
+          spellCheck={false}
+          rows={1}
+          placeholder="Card title"
+          value={card.title}
+          disabled
+          ref={textareaEl}
+          onChange={(event: React.ChangeEvent<HTMLTextAreaElement>) => {
+            onChangeCardProperty(card.id, "title", event.target.value);
+          }}
+        />
+        <TextAreaClickBlock
+          onClick={() => {
+            onCardClick();
+            console.log("click");
+          }}
+        />
+      </TextAreaBox>
 
-      <EnterCardButton title="To card info" onClick={onCardClick}>
-        &#8617;
+      <EnterCardButton
+        title="Edit title"
+        onClick={() => {
+          console.log("edit click");
+          if (textareaEl && textareaEl.current) {
+            textareaEl.current.disabled = false;
+            textareaEl.current.focus();
+          }
+        }}
+      >
+        &#9998;
       </EnterCardButton>
 
       <RemoveCardButton title="Remove card" onClick={onRemoveClick}>
@@ -99,6 +120,17 @@ const EnterCardButton = styled.button`
   &:hover {
     transform: scale(1.05);
   }
+`;
+const TextAreaBox = styled.div`
+  display: inline-block;
+  position: relative;
+`;
+const TextAreaClickBlock = styled.div`
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
 `;
 
 export default Card;
