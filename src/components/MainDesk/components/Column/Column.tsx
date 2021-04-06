@@ -21,7 +21,7 @@ export interface Props {
     propertyName: keyof ColumnCard,
     value: string
   ) => void;
-  onCardModalOpen: (id: string) => void;
+  onCardClick: (id: string) => void;
   cards: ColumnCards;
 }
 
@@ -33,7 +33,7 @@ const Column: FC<Props> = ({
   onAddCard,
   onRemoveCard,
   onChangeCardProperty,
-  onCardModalOpen,
+  onCardClick,
   commentsCounts,
 }) => {
   const filteredCardsArray = useMemo(
@@ -73,7 +73,7 @@ const Column: FC<Props> = ({
               card={filteredCard}
               commentCount={commentsCounts[filteredCard.id]?.count}
               onChangeCardProperty={onChangeCardProperty}
-              onCardClick={() => onCardModalOpen(filteredCard.id)}
+              onCardClick={() => onCardClick(filteredCard.id)}
               onRemoveClick={() => onRemoveCard(filteredCard.id)}
             />
           );

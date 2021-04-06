@@ -24,7 +24,7 @@ export interface Props {
     propertyName: keyof ColumnCard,
     value: string
   ) => void;
-  onCardModalOpen: (id: string) => void;
+  onCardClick: (id: string) => void;
 }
 
 const MainDesk: FC<Props> = ({
@@ -36,7 +36,7 @@ const MainDesk: FC<Props> = ({
   onAddCard,
   onRemoveCard,
   onChangeCardProperty,
-  onCardModalOpen,
+  onCardClick,
   commentsCounts,
 }) => {
   const [isNewColumnEdit, setIsNewColumnEdit] = useState(false);
@@ -56,7 +56,7 @@ const MainDesk: FC<Props> = ({
                 onAddCard={onAddCard}
                 onRemoveCard={onRemoveCard}
                 onChangeCardProperty={onChangeCardProperty}
-                onCardModalOpen={onCardModalOpen}
+                onCardClick={onCardClick}
                 commentsCounts={commentsCounts}
               />
             );

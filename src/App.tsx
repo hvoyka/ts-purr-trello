@@ -77,7 +77,7 @@ function App() {
     setIdCardModal("");
   };
 
-  const onCardModalOpen = (id: string) => {
+  const onCardClick = (id: string) => {
     setIdCardModal(id);
   };
 
@@ -188,7 +188,7 @@ function App() {
         onAddCard={onAddCard}
         onRemoveCard={onRemoveCard}
         onChangeCardProperty={onChangeCardProperty}
-        onCardModalOpen={onCardModalOpen}
+        onCardClick={onCardClick}
         commentsCounts={commentsCounts}
       />
 
