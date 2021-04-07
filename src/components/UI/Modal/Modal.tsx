@@ -26,7 +26,7 @@ const Modal: FC<Props> = ({
       <BoostrapModal.Header closeButton={showCloseButton}>
         {title}
       </BoostrapModal.Header>
-      {children}
+      <BoostrapModal.Body>{children}</BoostrapModal.Body>
     </BoostrapModal>
   );
 };

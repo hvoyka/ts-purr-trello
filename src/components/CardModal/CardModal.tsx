@@ -39,9 +39,6 @@ const CardModal: FC<Props> = ({
       showCloseButton
       onModalClose={onCardModalClose}
     >
-      <p>
-        Card author: {card.author} - column: {columnTitle}
-      </p>
       <TextArea
         placeholder="Card title"
         rows={1}
@@ -64,6 +61,9 @@ const CardModal: FC<Props> = ({
         onRemoveComment={onRemoveComment}
         onChangeComment={onChangeComment}
       />
+      <p>
+        Card author: <b>{card.author}</b> - column: <b>{columnTitle}</b>
+      </p>
     </Modal>
   );
 };
@@ -71,8 +71,6 @@ const CardModal: FC<Props> = ({
 const TextArea = styled.textarea`
   overflow: hidden;
   overflow-wrap: break-word;
-  resize: none;
-  background: transparent;
   border-radius: 3px;
   box-shadow: none;
   font-weight: 600;
@@ -82,14 +80,15 @@ const TextArea = styled.textarea`
   max-height: 256px;
   width: 100%;
   outline: none;
-  border: none;
+  border: 1px solid var(--gray2);
+
   -webkit-appearance: none;
-  border-radius: 3px;
   display: block;
   color: var(--blue2);
+  margin-bottom: 15px;
   &:focus {
     background-color: var(--white);
-    box-shadow: inset 0 0 0 2px var(--blue2);
+    background-color: var(--blue3);
   }
 `;
 

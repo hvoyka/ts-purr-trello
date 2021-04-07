@@ -15,16 +15,17 @@ const Comment: FC<Props> = ({ comment, onRemoveComment, onChangeComment }) => {
     setisEdit(!isEdit);
   };
   return (
-    <>
+    <li>
       <div>{comment.author}</div>
       {isEdit ? (
-        <div>
+        <SaveBox>
           <textarea
+            rows={1}
             value={comment.text}
             onChange={(e) => onChangeComment(comment.id, e.target.value)}
           />
           <button onClick={changeTextHandler}>Save</button>
-        </div>
+        </SaveBox>
       ) : (
         <div>
           <StyledComment>{comment.text}</StyledComment>
@@ -32,11 +33,11 @@ const Comment: FC<Props> = ({ comment, onRemoveComment, onChangeComment }) => {
           <button onClick={() => onRemoveComment(comment.id)}>Удалить</button>
         </div>
       )}
-    </>
+    </li>
   );
 };
 
-const StyledComment = styled.li`
+const StyledComment = styled.div`
   display: flex;
   justify-content: space-between;
   padding: 0.5rem 1rem;
@@ -44,6 +45,10 @@ const StyledComment = styled.li`
   border: 1px solid var(--gray2);
   background-color: var(--blue3);
   margin-bottom: 10px;
+`;
+const SaveBox = styled.div`
+  border-radius: 5px;
+  display: flex;
 `;
 
 export default Comment;
