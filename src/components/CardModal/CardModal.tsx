@@ -46,7 +46,7 @@ const CardModal: FC<Props> = ({
         placeholder="Card title"
         rows={1}
         defaultValue={card.title}
-        onChange={(event: React.ChangeEvent<HTMLTextAreaElement>) => {
+        onBlur={(event: React.ChangeEvent<HTMLTextAreaElement>) => {
           onChangeCardProperty(card.id, "title", event.target.value);
         }}
       />
