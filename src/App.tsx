@@ -47,7 +47,7 @@ function App() {
   const [comments, setComments] = useState<CardComments>(initCommentsData);
   const [userName, setUserName] = useState(initUserNameData);
   const [isUserModalShow, setIsUserModalShow] = useState(true);
-  const [idCardModal, setIdCardModal] = useState("");
+  const [cardIdForModalView, setcardIdForModalView] = useState("");
   const [commentsCounts, setCommentsCounts] = useState<CommentsCounts>({
     "1": { id: "1", count: 0 },
   });
@@ -74,11 +74,11 @@ function App() {
   };
 
   const onCardModalClose = () => {
-    setIdCardModal("");
+    setcardIdForModalView("");
   };
 
   const onCardClick = (id: string) => {
-    setIdCardModal(id);
+    setcardIdForModalView(id);
   };
 
   const addUserName = (name: string) => {
@@ -199,10 +199,10 @@ function App() {
       />
 
       <CardModal
-        isCardModalShow={Boolean(idCardModal)}
+        isCardModalShow={Boolean(cardIdForModalView)}
         onCardModalClose={onCardModalClose}
-        card={cards[idCardModal]}
-        columnTitle={columns[cards[idCardModal]?.columnId]?.title}
+        card={cards[cardIdForModalView]}
+        columnTitle={columns[cards[cardIdForModalView]?.columnId]?.title}
         comments={comments}
         onChangeCardProperty={onChangeCardProperty}
         onAddComent={onAddComent}
