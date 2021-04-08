@@ -42,10 +42,10 @@ export type CardComments = Record<string, CardComment>;
 export type CommentsCounts = Record<string, CommentCount>;
 
 function App() {
-  const [columns, setColumns] = useState<DeskColumns>(initColumnsData());
-  const [cards, setCards] = useState<ColumnCards>(initCardsData());
-  const [comments, setComments] = useState<CardComments>(initCommentsData());
-  const [userName, setUserName] = useState(initUserNameData());
+  const [columns, setColumns] = useState<DeskColumns>(initColumnsData);
+  const [cards, setCards] = useState<ColumnCards>(initCardsData);
+  const [comments, setComments] = useState<CardComments>(initCommentsData);
+  const [userName, setUserName] = useState(initUserNameData);
   const [isUserModalShow, setIsUserModalShow] = useState(true);
   const [idCardModal, setIdCardModal] = useState("");
   const [commentsCounts, setCommentsCounts] = useState<CommentsCounts>({
