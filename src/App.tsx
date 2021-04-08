@@ -6,10 +6,10 @@ import { CardModal } from "./components/CardModal";
 import { LocalStorageKeys, setToLocalStorage } from "./utils/local-storage";
 
 import {
-  setUserNameData,
-  setColumnsData,
-  setCardsData,
-  setCommentsData,
+  initUserNameData,
+  initColumnsData,
+  initCardsData,
+  initCommentsData,
 } from "./utils/init-default-data";
 
 export interface DeskColumn {
@@ -42,10 +42,10 @@ export type CardComments = Record<string, CardComment>;
 export type CommentsCounts = Record<string, CommentCount>;
 
 function App() {
-  const [columns, setColumns] = useState<DeskColumns>(setColumnsData());
-  const [cards, setCards] = useState<ColumnCards>(setCardsData());
-  const [comments, setComments] = useState<CardComments>(setCommentsData());
-  const [userName, setUserName] = useState(setUserNameData());
+  const [columns, setColumns] = useState<DeskColumns>(initColumnsData());
+  const [cards, setCards] = useState<ColumnCards>(initCardsData());
+  const [comments, setComments] = useState<CardComments>(initCommentsData());
+  const [userName, setUserName] = useState(initUserNameData());
   const [isUserModalShow, setIsUserModalShow] = useState(true);
   const [idCardModal, setIdCardModal] = useState("");
   const [commentsCounts, setCommentsCounts] = useState<CommentsCounts>({
