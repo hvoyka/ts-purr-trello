@@ -2,78 +2,84 @@ import React, { useState, useEffect } from "react";
 import { v1 as uuid } from "uuid";
 import { Header, MainDesk, UserModal } from "./components";
 import { CardModal } from "./components/CardModal";
-import { defaultColumns, defaultCards } from "./utils/default-data";
-import {
-  LocalStorageKeys,
-  setToLocalStorage,
-  loadFromLocalStorage,
-} from "./utils/local-storage";
 
-export interface Column {
+import { LocalStorageKeys, setToLocalStorage } from "./utils/local-storage";
+
+import {
+  setUserNameData,
+  setColumnsData,
+  setCardsData,
+  setCommentsData,
+} from "./utils/init-default-data";
+
+export interface DeskColumn {
   id: string;
   title: string;
 }
-export interface Card {
+export interface ColumnCard {
   id: string;
   columnId: string;
   title: string;
   text: string;
+  author: string;
 }
 
-export type Columns = Record<string, Column>;
-export type Cards = Record<string, Card>;
+export interface CardComment {
+  id: string;
+  cardId: string;
+  text: string;
+  author: string;
+}
+
+export interface CommentCount {
+  id: string;
+  count: number;
+}
+
+export type DeskColumns = Record<string, DeskColumn>;
+export type ColumnCards = Record<string, ColumnCard>;
+export type CardComments = Record<string, CardComment>;
+export type CommentsCounts = Record<string, CommentCount>;
 
 function App() {
-  const [columns, setColumns] = useState<Columns>({});
-
-  const [cards, setCards] = useState<Cards>({});
-
-  const [userName, setUserName] = useState("");
-
+  const [columns, setColumns] = useState<DeskColumns>(setColumnsData());
+  const [cards, setCards] = useState<ColumnCards>(setCardsData());
+  const [comments, setComments] = useState<CardComments>(setCommentsData());
+  const [userName, setUserName] = useState(setUserNameData());
   const [isUserModalShow, setIsUserModalShow] = useState(true);
+  const [idCardModal, setIdCardModal] = useState("");
+  const [commentsCounts, setCommentsCounts] = useState<CommentsCounts>({
+    "1": { id: "1", count: 0 },
+  });
+
+  useEffect(() => {
+    const result: CommentsCounts = {};
+    Object.values(comments).forEach((comment) => {
+      result[comment.cardId] = result[comment.cardId]
+        ? {
+            ...result[comment.cardId],
+            count: result[comment.cardId].count + 1,
+          }
+        : { id: comment.cardId, count: 1 };
+    });
+    setCommentsCounts(result);
+  }, [comments]);
+
+  useEffect(() => {
+    if (userName) setIsUserModalShow(false);
+  }, [userName]);
 
   const onUserModalClose = () => {
     setIsUserModalShow(false);
   };
 
-  const [showCardModal, setshowCardModal] = useState(false);
-  const [idCardModal, setIdCardModal] = useState("");
-
   const onCardModalClose = () => {
-    setshowCardModal(false);
+    setIdCardModal("");
   };
 
-  const onCardModalOpen = (id: string) => {
+  const onCardClick = (id: string) => {
     setIdCardModal(id);
-    setshowCardModal(true);
   };
-
-  useEffect(() => {
-    //load username
-    const usernameFromLS = loadFromLocalStorage(LocalStorageKeys.USER_NAME);
-    if (usernameFromLS) {
-      setIsUserModalShow(false);
-      setUserName(usernameFromLS);
-    }
-
-    //load columns
-    const columnsFromLS = loadFromLocalStorage(LocalStorageKeys.COLUMNS);
-    if (columnsFromLS) {
-      setColumns(columnsFromLS);
-    } else {
-      setColumns(defaultColumns);
-      setToLocalStorage(defaultColumns, LocalStorageKeys.COLUMNS);
-    }
-
-    //load cards
-    const cardsFromLS = loadFromLocalStorage(LocalStorageKeys.CARDS);
-    if (cardsFromLS) {
-      setCards(cardsFromLS);
-    } else {
-      setCards(defaultCards);
-      setToLocalStorage(defaultCards, LocalStorageKeys.CARDS);
-    }
-  }, []);
 
   const addUserName = (name: string) => {
     setUserName(name);
@@ -105,16 +111,14 @@ function App() {
     setToLocalStorage(cloneState, LocalStorageKeys.COLUMNS);
   };
 
-  const onChangeCardTitle = (id: string, title: string) => {
+  const onChangeCardProperty = (
+    id: string,
+    propertyName: keyof ColumnCard,
+    value: string
+  ) => {
     const cloneState = { ...cards };
-    cloneState[id].title = title;
-    setCards(cloneState);
-    setToLocalStorage(cloneState, LocalStorageKeys.CARDS);
-  };
+    cloneState[id][propertyName] = value;
 
-  const onChangeCardText = (id: string, text: string) => {
-    const cloneState = { ...cards };
-    cloneState[id].text = text;
     setCards(cloneState);
     setToLocalStorage(cloneState, LocalStorageKeys.CARDS);
   };
@@ -122,7 +126,14 @@ function App() {
   const onAddCard = (columnId: string, title = "", text = "") => {
     const cloneState = { ...cards };
     const cardID = uuid();
-    cloneState[cardID] = { id: cardID, columnId, title, text };
+    cloneState[cardID] = {
+      id: cardID,
+      columnId,
+      title,
+      text,
+      author: userName,
+    };
+
     setCards(cloneState);
     setToLocalStorage(cloneState, LocalStorageKeys.CARDS);
   };
@@ -130,20 +141,44 @@ function App() {
   const onRemoveCard = (id: string) => {
     const cloneState = { ...cards };
     delete cloneState[id];
+
     setCards(cloneState);
     setToLocalStorage(cloneState, LocalStorageKeys.CARDS);
+  };
+
+  const onAddComent = (cardId: string, text = "") => {
+    const cloneState = { ...comments };
+    const commentID = uuid();
+    cloneState[commentID] = {
+      id: commentID,
+      cardId,
+      text,
+      author: userName,
+    };
+
+    setComments(cloneState);
+    setToLocalStorage(cloneState, LocalStorageKeys.COMMENTS);
+  };
+
+  const onRemoveComment = (id: string) => {
+    const cloneState = { ...comments };
+    delete cloneState[id];
+
+    setComments(cloneState);
+    setToLocalStorage(cloneState, LocalStorageKeys.COMMENTS);
+  };
+
+  const onChangeComment = (id: string, text: string) => {
+    const cloneState = { ...comments };
+    cloneState[id] = { ...cloneState[id], text };
+
+    setComments(cloneState);
+    setToLocalStorage(cloneState, LocalStorageKeys.COMMENTS);
   };
 
   return (
     <div className="App">
       <Header name={userName} />
-
-      <UserModal
-        addUserName={addUserName}
-        isUserModalShow={isUserModalShow}
-        onUserModalClose={onUserModalClose}
-      />
-
       <MainDesk
         columns={columns}
         onAddColumn={onAddColumn}
@@ -152,21 +187,28 @@ function App() {
         cards={cards}
         onAddCard={onAddCard}
         onRemoveCard={onRemoveCard}
-        onChangeCardTitle={onChangeCardTitle}
-        onChangeCardText={onChangeCardText}
-        onCardModalOpen={onCardModalOpen}
+        onChangeCardProperty={onChangeCardProperty}
+        onCardClick={onCardClick}
+        commentsCounts={commentsCounts}
       />
-      {showCardModal ? (
-        <CardModal
-          isCardModalShow={showCardModal}
-          onCardModalClose={onCardModalClose}
-          id={idCardModal}
-          title={cards[idCardModal].title}
-          text={cards[idCardModal].text}
-          onChangeCardTitle={onChangeCardTitle}
-          onChangeCardText={onChangeCardText}
-        />
-      ) : null}
+
+      <UserModal
+        addUserName={addUserName}
+        isUserModalShow={isUserModalShow}
+        onUserModalClose={onUserModalClose}
+      />
+
+      <CardModal
+        isCardModalShow={Boolean(idCardModal)}
+        onCardModalClose={onCardModalClose}
+        card={cards[idCardModal]}
+        columnTitle={columns[cards[idCardModal]?.columnId]?.title}
+        comments={comments}
+        onChangeCardProperty={onChangeCardProperty}
+        onAddComent={onAddComent}
+        onRemoveComment={onRemoveComment}
+        onChangeComment={onChangeComment}
+      />
     </div>
   );
 }

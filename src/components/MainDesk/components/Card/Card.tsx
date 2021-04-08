@@ -1,58 +1,69 @@
 import styled from "styled-components";
+import { ColumnCard } from "../../../../App";
+import React, { FC, useRef } from "react";
 
-import React from "react";
-
-export interface CardProps {
-  id: string;
-  title: string;
-  text: string;
-  onRemoveCard: (id: string) => void;
-  onChangeCardTitle: (title: string, id: string) => void;
-  onChangeCardText: (text: string, id: string) => void;
-  onCardModalOpen: (id: string) => void;
+export interface Props {
+  card: ColumnCard;
+  commentCount: number;
+  onRemoveClick: () => void;
+  onCardClick: () => void;
+  onChangeCardProperty: (
+    id: string,
+    propertyName: keyof ColumnCard,
+    value: string
+  ) => void;
 }
 
-const Card: React.FC<CardProps> = ({
-  id,
-  title,
-  text,
-  onRemoveCard,
-  onChangeCardTitle,
-  onChangeCardText,
-  onCardModalOpen,
+const Card: FC<Props> = ({
+  card,
+  onChangeCardProperty,
+  onRemoveClick,
+  onCardClick,
+  commentCount,
 }) => {
-  /*  const enterClickHandler = () => {
-    setIsCardModalOpen(true);
-  };
-  const closeModalHandler = () => {
-    setIsCardModalOpen(false);
-  }; */
+  const textareaEl = useRef<HTMLTextAreaElement>(null);
 
   return (
     <StyledCardBox>
-      <CardTextArea
-        maxLength={100}
-        spellCheck={false}
-        rows={1}
-        placeholder={"Card title"}
-        value={title}
-        onChange={(e: any) => {
-          onChangeCardTitle(id, e.target.value);
-        }}
-      />
+      <p>{commentCount}</p>
+      <TextAreaBox>
+        <CardTextArea
+          maxLength={100}
+          spellCheck={false}
+          rows={1}
+          placeholder="Card title"
+          value={card.title}
+          disabled
+          ref={textareaEl}
+          onChange={(event: React.ChangeEvent<HTMLTextAreaElement>) => {
+            onChangeCardProperty(card.id, "title", event.target.value);
+          }}
+        />
+        <TextAreaClickBlock
+          onClick={() => {
+            onCardClick();
+          }}
+        />
+      </TextAreaBox>
 
-      <EnterCardButton title="To card info" onClick={() => onCardModalOpen(id)}>
-        &#8617;
+      <EnterCardButton
+        title="Edit title"
+        onClick={() => {
+          if (textareaEl && textareaEl.current) {
+            textareaEl.current.disabled = false;
+            textareaEl.current.focus();
+          }
+        }}
+      >
+        &#9998;
       </EnterCardButton>
 
-      <RemoveCardButton title="Remove card" onClick={() => onRemoveCard(id)}>
+      <RemoveCardButton title="Remove card" onClick={onRemoveClick}>
         X
       </RemoveCardButton>
     </StyledCardBox>
   );
 };
-
-export default Card;
 
 const StyledCardBox = styled.div`
   flex: 1 1 auto;
@@ -108,3 +119,16 @@ const EnterCardButton = styled.button`
     transform: scale(1.05);
   }
 `;
+const TextAreaBox = styled.div`
+  display: inline-block;
+  position: relative;
+`;
+const TextAreaClickBlock = styled.div`
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+`;
+
+export default Card;
