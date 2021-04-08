@@ -1,22 +1,33 @@
 import { Container, Button } from "react-bootstrap";
-import { Columns as ColumnsType, Cards as CardsType } from "../../App";
+import {
+  DeskColumns,
+  ColumnCards,
+  ColumnCard,
+  CommentsCounts,
+} from "../../App";
 import { Column } from "./components";
 import styled from "styled-components";
+import React, { FC, useState } from "react";
 
-export interface MainDeskProps {
-  columns: ColumnsType;
-  cards: CardsType;
+export interface Props {
+  columns: DeskColumns;
+  cards: ColumnCards;
+  commentsCounts: CommentsCounts;
   onAddColumn: (title: string) => void;
   onChangeColumnTitle: (title: string, id: string) => void;
   onRemoveColumn: (id: string) => void;
   onAddCard: (columnId: string, title?: string, text?: string) => void;
   onRemoveCard: (id: string) => void;
-  onChangeCardTitle: (title: string, id: string) => void;
-  onChangeCardText: (text: string, id: string) => void;
-  onCardModalOpen: (id: string) => void;
+
+  onChangeCardProperty: (
+    id: string,
+    propertyName: keyof ColumnCard,
+    value: string
+  ) => void;
+  onCardClick: (id: string) => void;
 }
 
-const MainDesk: React.FC<MainDeskProps> = ({
+const MainDesk: FC<Props> = ({
   columns,
   onAddColumn,
   onChangeColumnTitle,
@@ -24,10 +35,20 @@ const MainDesk: React.FC<MainDeskProps> = ({
   cards,
   onAddCard,
   onRemoveCard,
-  onChangeCardTitle,
-  onChangeCardText,
-  onCardModalOpen,
+  onChangeCardProperty,
+  onCardClick,
+  commentsCounts,
 }) => {
+  const [isNewColumnEdit, setIsNewColumnEdit] = useState(false);
+  const [newColumnText, setnewColumnText] = useState("");
+
+  const addColumnHandler = () => {
+    if (newColumnText.trim()) {
+      onAddColumn(newColumnText);
+      setIsNewColumnEdit(false);
+      setnewColumnText("");
+    }
+  };
   return (
     <StyledMain>
       <Container fluid>
@@ -35,30 +56,52 @@ const MainDesk: React.FC<MainDeskProps> = ({
           {Object.values(columns).map((column) => {
             return (
               <Column
-                title={column.title}
+                column={column}
                 key={column.id}
-                id={column.id}
                 onChangeColumnTitle={onChangeColumnTitle}
                 onRemoveColumn={onRemoveColumn}
                 cards={cards}
                 onAddCard={onAddCard}
                 onRemoveCard={onRemoveCard}
-                onChangeCardTitle={onChangeCardTitle}
-                onChangeCardText={onChangeCardText}
-                onCardModalOpen={onCardModalOpen}
+                onChangeCardProperty={onChangeCardProperty}
+                onCardClick={onCardClick}
+                commentsCounts={commentsCounts}
               />
             );
           })}
 
           <EmptyColumn>
-            <Button
-              variant="secondary"
-              onClick={() => {
-                onAddColumn("");
-              }}
-            >
-              Add column
-            </Button>
+            {!isNewColumnEdit ? (
+              <Button
+                variant="secondary"
+                onClick={() => {
+                  setIsNewColumnEdit(true);
+                }}
+              >
+                Add column
+              </Button>
+            ) : (
+              <div>
+                <textarea
+                  autoFocus
+                  rows={1}
+                  placeholder="Column title"
+                  value={newColumnText}
+                  onChange={(e) => setnewColumnText(e.target.value)}
+                />
+
+                <button onClick={addColumnHandler}>Add column</button>
+
+                <button
+                  onClick={() => {
+                    setIsNewColumnEdit(false);
+                    setnewColumnText("");
+                  }}
+                >
+                  x
+                </button>
+              </div>
+            )}
           </EmptyColumn>
         </ColumnList>
       </Container>
@@ -66,12 +109,10 @@ const MainDesk: React.FC<MainDeskProps> = ({
   );
 };
 
-export default MainDesk;
-
 const StyledMain = styled.main`
   flex-grow: 1;
 `;
-const ColumnList = styled.ul`
+const ColumnList = styled.div`
   display: flex;
   align-items: flex-start;
   height: calc(100vh - 70px);
@@ -81,19 +122,18 @@ const ColumnList = styled.ul`
   overflow-x: auto;
   overflow-y: hidden;
 `;
-const EmptyColumn = styled.li`
+const EmptyColumn = styled.div`
   position: relative;
   flex: 0 0 272px;
   width: 272px;
   border-radius: 10px;
-
   display: flex;
   flex-direction: column;
-
   max-height: 100%;
-
   white-space: normal;
   padding-right: 5px;
   padding-left: 5px;
   margin: 10px 4px;
 `;
+
+export default MainDesk;

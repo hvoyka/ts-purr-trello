@@ -1,37 +1,55 @@
 import styled from "styled-components";
 import { Button } from "react-bootstrap";
-import { Cards as CardsType } from "../../../../App";
+import {
+  ColumnCards,
+  ColumnCard,
+  DeskColumn,
+  CommentsCounts,
+} from "../../../../App";
 import { Card } from "../Card";
+import React, { FC, useMemo, useState } from "react";
 
-export interface ColumnProps {
-  title: string;
-  id: string;
+export interface Props {
+  column: DeskColumn;
+  commentsCounts: CommentsCounts;
   onChangeColumnTitle: (title: string, id: string) => void;
   onRemoveColumn: (id: string) => void;
   onAddCard: (columnId: string, title?: string, text?: string) => void;
   onRemoveCard: (id: string) => void;
-  onChangeCardTitle: (title: string, id: string) => void;
-  onChangeCardText: (text: string, id: string) => void;
-  onCardModalOpen: (id: string) => void;
-  cards: CardsType;
+  onChangeCardProperty: (
+    id: string,
+    propertyName: keyof ColumnCard,
+    value: string
+  ) => void;
+  onCardClick: (id: string) => void;
+  cards: ColumnCards;
 }
 
-const Column: React.FC<ColumnProps> = ({
-  title,
-  id,
+const Column: FC<Props> = ({
+  column,
   onChangeColumnTitle,
   onRemoveColumn,
   cards,
   onAddCard,
   onRemoveCard,
-  onChangeCardTitle,
-  onChangeCardText,
-  onCardModalOpen,
+  onChangeCardProperty,
+  onCardClick,
+  commentsCounts,
 }) => {
-  const filteredCardsArray = Object.values(cards).filter(
-    (card) => card.columnId === id
+  const filteredCardsArray = useMemo(
+    () => Object.values(cards).filter((card) => card.columnId === column.id),
+    [cards, column.id]
   );
+  const [isNewCardEdit, setIsNewCardEdit] = useState(false);
+  const [newCardTitle, setnewCardTitle] = useState("");
 
+  const addCardHandler = () => {
+    if (newCardTitle.trim()) {
+      onAddCard(column.id, newCardTitle);
+      setIsNewCardEdit(false);
+      setnewCardTitle("");
+    }
+  };
   return (
     <StyledColumn>
       <ListHeader>
@@ -39,29 +57,20 @@ const Column: React.FC<ColumnProps> = ({
           maxLength={100}
           spellCheck={false}
           rows={2}
-          placeholder={"Column title"}
-          defaultValue={title}
-          onChange={(e: any) => {
-            onChangeColumnTitle(e.target.value, id);
+          placeholder="Column title"
+          defaultValue={column.title}
+          onChange={(event: React.ChangeEvent<HTMLTextAreaElement>) => {
+            onChangeColumnTitle(event.target.value, column.id);
           }}
         />
 
         <RemoveColumnButton
           title="Remove column"
           variant="danger"
-          onClick={() => onRemoveColumn(id)}
+          onClick={() => onRemoveColumn(column.id)}
         >
           X
         </RemoveColumnButton>
-
-        <AddCardButton
-          title="Add card"
-          onClick={() => {
-            onAddCard(id);
-          }}
-        >
-          +
-        </AddCardButton>
       </ListHeader>
 
       <CardList>
@@ -69,24 +78,52 @@ const Column: React.FC<ColumnProps> = ({
           return (
             <Card
               key={filteredCard.id}
-              id={filteredCard.id}
-              title={filteredCard.title}
-              text={filteredCard.text}
-              onRemoveCard={onRemoveCard}
-              onChangeCardTitle={onChangeCardTitle}
-              onChangeCardText={onChangeCardText}
-              onCardModalOpen={onCardModalOpen}
+              card={filteredCard}
+              commentCount={commentsCounts[filteredCard.id]?.count}
+              onChangeCardProperty={onChangeCardProperty}
+              onCardClick={() => onCardClick(filteredCard.id)}
+              onRemoveClick={() => onRemoveCard(filteredCard.id)}
             />
           );
         })}
+
+        {!isNewCardEdit ? (
+          <AddCardButton
+            title="Add card"
+            onClick={() => {
+              setIsNewCardEdit(true);
+            }}
+          >
+            +
+          </AddCardButton>
+        ) : (
+          <div>
+            <textarea
+              autoFocus
+              rows={1}
+              placeholder="Column title"
+              value={newCardTitle}
+              onChange={(e) => setnewCardTitle(e.target.value)}
+            />
+
+            <button onClick={addCardHandler}>Add card</button>
+
+            <button
+              onClick={() => {
+                setIsNewCardEdit(false);
+                setnewCardTitle("");
+              }}
+            >
+              x
+            </button>
+          </div>
+        )}
       </CardList>
     </StyledColumn>
   );
 };
 
-export default Column;
-
-const StyledColumn = styled.li`
+const StyledColumn = styled.div`
   position: relative;
   flex: 0 0 272px;
   width: 272px;
@@ -116,9 +153,7 @@ const RemoveColumnButton = styled(Button)`
   line-height: 15px;
 `;
 const AddCardButton = styled(Button)`
-  position: absolute;
-  right: 4px;
-  top: 40px;
+  width: 100%;
   z-index: 1;
   padding: 5px;
   font-size: 15px;
@@ -161,3 +196,5 @@ const CardList = styled.ul`
   padding: 0;
   margin: 0;
 `;
+
+export default Column;
