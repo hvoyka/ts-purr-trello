@@ -2,6 +2,7 @@ export enum LocalStorageKeys {
   USER_NAME = "USER_NAME",
   COLUMNS = "COLUMNS",
   CARDS = "CARDS",
+  COMMENTS = "COMMENTS",
 }
 
 export const setToLocalStorage = (
@@ -12,7 +13,7 @@ export const setToLocalStorage = (
   localStorage.setItem(LocalStorageKeys[key], stringifyData);
 };
 
-export const loadFromLocalStorage = (key: LocalStorageKeys) => {
+export const getFromLocalStorage = (key: LocalStorageKeys) => {
   const stringifyData = localStorage.getItem(LocalStorageKeys[key]);
   return stringifyData ? JSON.parse(stringifyData) : null;
 };

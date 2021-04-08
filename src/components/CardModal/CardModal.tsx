@@ -1,64 +1,76 @@
-import React from "react";
+import React, { FC } from "react";
 import styled from "styled-components";
-import { ModalWrapper } from "../UI";
+import { Modal } from "../UI";
+import { ColumnCard, CardComments } from "../../App";
+import { Comments } from "./components";
 
-interface CardModalProps {
-  id: string;
-  title: string;
-  text: string;
+interface Props {
+  card: ColumnCard;
   isCardModalShow: boolean;
+  comments: CardComments;
   onCardModalClose: () => void;
-  onChangeCardTitle: (title: string, id: string) => void;
-  onChangeCardText: (text: string, id: string) => void;
+  onAddComent: (cardId: string, text: string) => void;
+  onRemoveComment: (id: string) => void;
+  onChangeComment: (id: string, text: string) => void;
+  onChangeCardProperty: (
+    id: string,
+    propertyName: keyof ColumnCard,
+    value: string
+  ) => void;
+  columnTitle: string;
 }
 
-const CardModal: React.FC<CardModalProps> = ({
+const CardModal: FC<Props> = ({
+  card,
   isCardModalShow,
   onCardModalClose,
-  id,
-  title,
-  text,
-  onChangeCardTitle,
-  onChangeCardText,
+  onChangeCardProperty,
+  comments,
+  onAddComent,
+  onRemoveComment,
+  onChangeComment,
+  columnTitle,
 }) => {
-  const modalProps = {};
+  if (!isCardModalShow) return null;
   return (
-    <>
-      <ModalWrapper
-        title="Card Modal"
-        isModalShow={isCardModalShow}
-        showCloseButton={true}
-        modalProps={modalProps}
-        onModalClose={onCardModalClose}
-      >
-        <TextArea
-          placeholder={"Card title"}
-          rows={1}
-          defaultValue={title}
-          onChange={(e: any) => {
-            onChangeCardTitle(id, e.target.value);
-          }}
-        />
-        <TextArea
-          placeholder={"Card text"}
-          defaultValue={text}
-          onChange={(e: any) => {
-            onChangeCardText(id, e.target.value);
-          }}
-        />
-        <div>Comments</div>
-      </ModalWrapper>
-    </>
+    <Modal
+      title="Card Modal"
+      isModalShow={isCardModalShow}
+      showCloseButton
+      onModalClose={onCardModalClose}
+    >
+      <TextArea
+        placeholder="Card title"
+        rows={1}
+        defaultValue={card.title}
+        onBlur={(event: React.ChangeEvent<HTMLTextAreaElement>) => {
+          onChangeCardProperty(card.id, "title", event.target.value);
+        }}
+      />
+      <TextArea
+        placeholder="Description"
+        defaultValue={card.text}
+        onChange={(event: React.ChangeEvent<HTMLTextAreaElement>) => {
+          onChangeCardProperty(card.id, "text", event.target.value);
+        }}
+      />
+      <Comments
+        cardId={card.id}
+        comments={comments}
+        onAddComent={onAddComent}
+        onRemoveComment={onRemoveComment}
+        onChangeComment={onChangeComment}
+      />
+      <p>
+        Card author: <b>{card.author}</b> - column: <b>{columnTitle}</b>
+      </p>
+    </Modal>
   );
 };
-
-export default CardModal;
 
 const TextArea = styled.textarea`
   overflow: hidden;
   overflow-wrap: break-word;
-  resize: none;
-  background: transparent;
   border-radius: 3px;
   box-shadow: none;
   font-weight: 600;
@@ -68,13 +80,16 @@ const TextArea = styled.textarea`
   max-height: 256px;
   width: 100%;
   outline: none;
-  border: none;
+  border: 1px solid var(--gray2);
+
   -webkit-appearance: none;
-  border-radius: 3px;
   display: block;
   color: var(--blue2);
+  margin-bottom: 15px;
   &:focus {
     background-color: var(--white);
-    box-shadow: inset 0 0 0 2px var(--blue2);
+    background-color: var(--blue3);
   }
 `;
+
+export default CardModal;
