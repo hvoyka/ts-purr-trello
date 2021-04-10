@@ -172,7 +172,7 @@ function App() {
 
   const onCommentChange = (id: string, text: string) => {
     const cloneComments = { ...comments };
-    cloneComments[id] = { ...cloneComments[id], text };
+    cloneComments[id].text = text;
 
     setComments(cloneComments);
     setToLocalStorage(cloneComments, LocalStorageKeys.COMMENTS);

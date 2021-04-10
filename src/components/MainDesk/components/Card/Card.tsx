@@ -24,7 +24,7 @@ const Card: FC<CardProps> = ({
   const textareaEl = useRef<HTMLTextAreaElement>(null);
 
   return (
-    <StyledCardBox>
+    <CardWrapper>
       <p>{commentCount}</p>
       <TextAreaBox>
         <CardTextArea
@@ -61,11 +61,11 @@ const Card: FC<CardProps> = ({
       <RemoveCardButton title="Remove card" onClick={onRemoveClick}>
         X
       </RemoveCardButton>
-    </StyledCardBox>
+    </CardWrapper>
   );
 };
 
-const StyledCardBox = styled.div`
+const CardWrapper = styled.div`
   flex: 1 1 auto;
   margin-bottom: 0;
   margin: 0 4px 10px;

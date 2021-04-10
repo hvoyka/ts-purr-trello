@@ -41,7 +41,7 @@ const Comments: FC<CommentsProps> = ({
 
   return (
     <>
-      <StyledCommentsBox>
+      <CommentsWrapper>
         {fillteredCommentsArray.map((filteredComment) => (
           <Comment
             key={filteredComment.id}
@@ -50,8 +50,8 @@ const Comments: FC<CommentsProps> = ({
             onCommentChange={onCommentChange}
           />
         ))}
-      </StyledCommentsBox>
-      <AddCommentBox>
+      </CommentsWrapper>
+      <AddCommentWrapper>
         <textarea
           ref={textAreaRef}
           rows={1}
@@ -59,18 +59,18 @@ const Comments: FC<CommentsProps> = ({
           onKeyDown={(e) => handleEnterPress(e)}
         />
         <button onClick={handleCommentAdd}>Add comment</button>
-      </AddCommentBox>
+      </AddCommentWrapper>
     </>
   );
 };
 
-const StyledCommentsBox = styled.ul`
+const CommentsWrapper = styled.ul`
   padding: 1rem 1rem;
   list-style: none;
   background-color: var(--gray4);
   border-radius: 5px;
 `;
-const AddCommentBox = styled.div`
+const AddCommentWrapper = styled.div`
   padding: 1rem 1rem;
   border-radius: 5px;
   display: flex;

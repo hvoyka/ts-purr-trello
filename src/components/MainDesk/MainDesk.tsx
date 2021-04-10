@@ -50,7 +50,7 @@ const MainDesk: FC<MainDeskProps> = ({
     }
   };
   return (
-    <StyledMain>
+    <Main>
       <Container fluid>
         <ColumnList>
           {Object.values(columns).map((column) => {
@@ -105,11 +105,11 @@ const MainDesk: FC<MainDeskProps> = ({
           </EmptyColumn>
         </ColumnList>
       </Container>
-    </StyledMain>
+    </Main>
   );
 };
 
-const StyledMain = styled.main`
+const Main = styled.main`
   flex-grow: 1;
 `;
 const ColumnList = styled.div`

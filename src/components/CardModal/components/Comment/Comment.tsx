@@ -19,7 +19,7 @@ const Comment: FC<CommentProps> = ({
     setIsTextIsEdit(!isTextIsEdit);
   };
   return (
-    <li>
+    <>
       <div>{comment.author}</div>
       {isTextIsEdit ? (
         <SaveBox>
@@ -31,17 +31,17 @@ const Comment: FC<CommentProps> = ({
           <button onClick={handleTextEdit}>Save</button>
         </SaveBox>
       ) : (
-        <div>
-          <StyledComment>{comment.text}</StyledComment>
+        <>
+          <CommentWrapper>{comment.text}</CommentWrapper>
           <button onClick={handleTextEdit}>Изменить</button> -{" "}
           <button onClick={() => onCommentRemove(comment.id)}>Удалить</button>
-        </div>
+        </>
       )}
-    </li>
+    </>
   );
 };
 
-const StyledComment = styled.div`
+const CommentWrapper = styled.div`
   display: flex;
   justify-content: space-between;
   padding: 0.5rem 1rem;

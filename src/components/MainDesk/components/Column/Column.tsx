@@ -51,7 +51,7 @@ const Column: FC<ColumnProps> = ({
     }
   };
   return (
-    <StyledColumn>
+    <Root>
       <ListHeader>
         <TextArea
           maxLength={100}
@@ -119,11 +119,11 @@ const Column: FC<ColumnProps> = ({
           </div>
         )}
       </CardList>
-    </StyledColumn>
+    </Root>
   );
 };
 
-const StyledColumn = styled.div`
+const Root = styled.div`
   position: relative;
   flex: 0 0 272px;
   width: 272px;
@@ -192,7 +192,7 @@ const ListHeader = styled.div`
   min-height: 20px;
   padding-right: 36px;
 `;
-const CardList = styled.ul`
+const CardList = styled.div`
   padding: 0;
   margin: 0;
 `;
