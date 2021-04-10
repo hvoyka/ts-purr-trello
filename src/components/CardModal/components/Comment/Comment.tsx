@@ -9,27 +9,27 @@ export interface Props {
 }
 
 const Comment: FC<Props> = ({ comment, onRemoveComment, onChangeComment }) => {
-  const [isEdit, setisEdit] = useState(false);
+  const [isTextIsEdit, setIsTextIsEdit] = useState(false);
 
-  const changeTextHandler = () => {
-    setisEdit(!isEdit);
+  const handleTextEdit = () => {
+    setIsTextIsEdit(!isTextIsEdit);
   };
   return (
     <li>
       <div>{comment.author}</div>
-      {isEdit ? (
+      {isTextIsEdit ? (
         <SaveBox>
           <textarea
             rows={1}
             value={comment.text}
             onChange={(e) => onChangeComment(comment.id, e.target.value)}
           />
-          <button onClick={changeTextHandler}>Save</button>
+          <button onClick={handleTextEdit}>Save</button>
         </SaveBox>
       ) : (
         <div>
           <StyledComment>{comment.text}</StyledComment>
-          <button onClick={changeTextHandler}>Изменить</button> -{" "}
+          <button onClick={handleTextEdit}>Изменить</button> -{" "}
           <button onClick={() => onRemoveComment(comment.id)}>Удалить</button>
         </div>
       )}

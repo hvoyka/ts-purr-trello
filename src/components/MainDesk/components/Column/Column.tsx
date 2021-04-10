@@ -43,7 +43,7 @@ const Column: FC<Props> = ({
   const [isNewCardEdit, setIsNewCardEdit] = useState(false);
   const [newCardTitle, setnewCardTitle] = useState("");
 
-  const addCardHandler = () => {
+  const handleCardAdd = () => {
     if (newCardTitle.trim()) {
       onAddCard(column.id, newCardTitle);
       setIsNewCardEdit(false);
@@ -106,7 +106,7 @@ const Column: FC<Props> = ({
               onChange={(e) => setnewCardTitle(e.target.value)}
             />
 
-            <button onClick={addCardHandler}>Add card</button>
+            <button onClick={handleCardAdd}>Add card</button>
 
             <button
               onClick={() => {

@@ -24,13 +24,15 @@ const Comments: FC<Props> = ({
     (comment) => comment.cardId === cardId
   );
 
-  const enterHandler = (event: React.KeyboardEvent<HTMLTextAreaElement>) => {
+  const handleEnterPress = (
+    event: React.KeyboardEvent<HTMLTextAreaElement>
+  ) => {
     if (event.key === "Enter") {
       onAddComent(cardId, (event.target as HTMLTextAreaElement).value);
     }
   };
 
-  const addCommentHandler = () => {
+  const handleCommentAdd = () => {
     if (textAreaRef.current !== null) {
       onAddComent(cardId, textAreaRef.current.value);
       textAreaRef.current.value = "";
@@ -54,9 +56,9 @@ const Comments: FC<Props> = ({
           ref={textAreaRef}
           rows={1}
           placeholder="New comment text"
-          onKeyDown={(e) => enterHandler(e)}
+          onKeyDown={(e) => handleEnterPress(e)}
         />
-        <button onClick={addCommentHandler}>Add comment</button>
+        <button onClick={handleCommentAdd}>Add comment</button>
       </AddCommentBox>
     </>
   );

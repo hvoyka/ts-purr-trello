@@ -42,7 +42,7 @@ const MainDesk: FC<Props> = ({
   const [isNewColumnEdit, setIsNewColumnEdit] = useState(false);
   const [newColumnText, setnewColumnText] = useState("");
 
-  const addColumnHandler = () => {
+  const handleColumnAdd = () => {
     if (newColumnText.trim()) {
       onAddColumn(newColumnText);
       setIsNewColumnEdit(false);
@@ -90,7 +90,7 @@ const MainDesk: FC<Props> = ({
                   onChange={(e) => setnewColumnText(e.target.value)}
                 />
 
-                <button onClick={addColumnHandler}>Add column</button>
+                <button onClick={handleColumnAdd}>Add column</button>
 
                 <button
                   onClick={() => {

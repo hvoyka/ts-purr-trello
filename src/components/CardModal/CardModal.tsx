@@ -32,6 +32,7 @@ const CardModal: FC<Props> = ({
   columnTitle,
 }) => {
   if (!isCardModalShow) return null;
+
   return (
     <Modal
       title="Card Modal"

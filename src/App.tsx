@@ -126,6 +126,7 @@ function App() {
   const onAddCard = (columnId: string, title = "", text = "") => {
     const cloneState = { ...cards };
     const cardID = uuid();
+
     cloneState[cardID] = {
       id: cardID,
       columnId,
@@ -149,6 +150,7 @@ function App() {
   const onAddComent = (cardId: string, text = "") => {
     const cloneState = { ...comments };
     const commentID = uuid();
+
     cloneState[commentID] = {
       id: commentID,
       cardId,

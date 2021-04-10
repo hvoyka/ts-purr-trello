@@ -16,7 +16,7 @@ const UserModal: FC<Props> = ({
 }) => {
   const [user, setUser] = useState("");
 
-  const closeHandler = () => {
+  const handleModalClose = () => {
     const trimmedUser = user.trim();
     if (trimmedUser) {
       addUserName(trimmedUser);
@@ -24,32 +24,34 @@ const UserModal: FC<Props> = ({
     }
   };
 
-  const changeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleUserNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setUser(event.target.value);
   };
-  const enterHandler = (event: React.KeyboardEvent<HTMLInputElement>) => {
+
+  const handleEnterPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === "Enter") {
-      closeHandler();
+      handleModalClose();
     }
   };
+
   return (
     <>
       <Modal
         title="User Modal"
         isModalShow={isUserModalShow}
         showCloseButton={false}
-        onModalClose={closeHandler}
+        onModalClose={handleModalClose}
       >
         <Input
           type="text"
           placeholder="User name"
-          onChange={changeHandler}
+          onChange={handleUserNameChange}
           defaultValue={user}
-          onKeyDown={enterHandler}
+          onKeyDown={handleEnterPress}
         />
         <Button
           onClick={(e) => {
-            closeHandler();
+            handleModalClose();
           }}
           variant="primary"
         >
