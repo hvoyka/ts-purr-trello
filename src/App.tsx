@@ -178,6 +178,14 @@ function App() {
     setToLocalStorage(cloneComments, LocalStorageKeys.COMMENTS);
   };
 
+  const getColumnTitle = (cardIdForModalView: string): string => {
+    const cardForModalView = cards[cardIdForModalView];
+    const columnIdFromCard = cardForModalView?.columnId;
+    const columnWithThisCard = columns[columnIdFromCard];
+
+    return columnWithThisCard?.title;
+  };
+
   return (
     <div className="App">
       <Header name={userName} />
@@ -204,7 +212,7 @@ function App() {
         isCardModalShow={Boolean(cardIdForModalView)}
         onCardModalClose={onCardModalClose}
         card={cards[cardIdForModalView]}
-        columnTitle={columns[cards[cardIdForModalView]?.columnId]?.title}
+        columnTitle={getColumnTitle(cardIdForModalView)}
         comments={comments}
         onCardPropertyChange={onCardPropertyChange}
         onCommentAdd={onCommentAdd}
