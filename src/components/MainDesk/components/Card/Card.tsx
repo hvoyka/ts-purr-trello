@@ -4,7 +4,7 @@ import React, { FC, useRef } from "react";
 
 export interface CardProps {
   card: ColumnCard;
-  commentCount: number;
+  commentsCount: number;
   onRemoveClick: () => void;
   onCardClick: () => void;
   onCardPropertyChange: (
@@ -16,51 +16,53 @@ export interface CardProps {
 
 const Card: FC<CardProps> = ({
   card,
+  commentsCount,
   onCardPropertyChange,
   onRemoveClick,
   onCardClick,
-  commentCount,
 }) => {
   const textareaEl = useRef<HTMLTextAreaElement>(null);
 
   return (
     <CardWrapper>
-      <p>{commentCount}</p>
-      <TextAreaBox>
-        <CardTextArea
-          maxLength={100}
-          spellCheck={false}
-          rows={1}
-          placeholder="Card title"
-          value={card.title}
-          disabled
-          ref={textareaEl}
-          onChange={(event: React.ChangeEvent<HTMLTextAreaElement>) => {
-            onCardPropertyChange(card.id, "title", event.target.value);
-          }}
-        />
-        <TextAreaClickBlock
+      <CardTop>
+        <TextAreaBox>
+          <CardTextArea
+            maxLength={100}
+            spellCheck={false}
+            rows={1}
+            placeholder="Card title"
+            value={card.title}
+            disabled
+            ref={textareaEl}
+            onChange={(event: React.ChangeEvent<HTMLTextAreaElement>) => {
+              onCardPropertyChange(card.id, "title", event.target.value);
+            }}
+          />
+          <TextAreaClickBlock
+            onClick={() => {
+              onCardClick();
+            }}
+          />
+          <CommentsCount>{commentsCount ? commentsCount : null}</CommentsCount>
+        </TextAreaBox>
+
+        <EnterCardButton
+          title="Edit title"
           onClick={() => {
-            onCardClick();
+            if (textareaEl && textareaEl.current) {
+              textareaEl.current.disabled = false;
+              textareaEl.current.focus();
+            }
           }}
-        />
-      </TextAreaBox>
+        >
+          &#9998;
+        </EnterCardButton>
 
-      <EnterCardButton
-        title="Edit title"
-        onClick={() => {
-          if (textareaEl && textareaEl.current) {
-            textareaEl.current.disabled = false;
-            textareaEl.current.focus();
-          }
-        }}
-      >
-        &#9998;
-      </EnterCardButton>
-
-      <RemoveCardButton title="Remove card" onClick={onRemoveClick}>
-        X
-      </RemoveCardButton>
+        <RemoveCardButton title="Remove card" onClick={onRemoveClick}>
+          X
+        </RemoveCardButton>
+      </CardTop>
     </CardWrapper>
   );
 };
@@ -71,8 +73,7 @@ const CardWrapper = styled.div`
   margin: 0 4px 10px;
   padding-bottom: 10px;
   z-index: 1;
-  display: flex;
-  justify-content: space-between;
+  padding: 4px 8px;
   border-radius: 5px;
   border: 1px solid var(--gray3);
 `;
@@ -86,7 +87,7 @@ const CardTextArea = styled.textarea`
   box-shadow: none;
   font-weight: 600;
   min-height: 20px;
-  padding: 4px 8px;
+
   resize: none;
   max-height: 256px;
   width: 100%;
@@ -131,4 +132,11 @@ const TextAreaClickBlock = styled.div`
   bottom: 0;
 `;
 
+const CardTop = styled.div`
+  display: flex;
+  justify-content: space-between;
+`;
+const CommentsCount = styled.div`
+  font-size: 12px;
+`;
 export default Card;

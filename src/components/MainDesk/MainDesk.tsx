@@ -1,10 +1,5 @@
 import { Container, Button } from "react-bootstrap";
-import {
-  DeskColumns,
-  ColumnCards,
-  ColumnCard,
-  CommentsCounts,
-} from "../../App";
+import { DeskColumns, ColumnCards, ColumnCard, CardComments } from "../../App";
 import { Column } from "./components";
 import styled from "styled-components";
 import React, { FC, useState } from "react";
@@ -12,7 +7,7 @@ import React, { FC, useState } from "react";
 export interface MainDeskProps {
   columns: DeskColumns;
   cards: ColumnCards;
-  commentsCounts: CommentsCounts;
+  comments: CardComments;
   onColumnAdd: (title: string) => void;
   onColumnTitleChange: (title: string, id: string) => void;
   onColumnRemove: (id: string) => void;
@@ -37,7 +32,7 @@ const MainDesk: FC<MainDeskProps> = ({
   onCardRemove,
   onCardPropertyChange,
   onCardClick,
-  commentsCounts,
+  comments,
 }) => {
   const [isNewColumnEdit, setIsNewColumnEdit] = useState(false);
   const [newColumnText, setnewColumnText] = useState("");
@@ -65,7 +60,7 @@ const MainDesk: FC<MainDeskProps> = ({
                 onCardRemove={onCardRemove}
                 onCardPropertyChange={onCardPropertyChange}
                 onCardClick={onCardClick}
-                commentsCounts={commentsCounts}
+                comments={comments}
               />
             );
           })}

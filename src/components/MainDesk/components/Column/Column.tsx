@@ -4,14 +4,15 @@ import {
   ColumnCards,
   ColumnCard,
   DeskColumn,
-  CommentsCounts,
+  CardComments,
 } from "../../../../App";
 import { Card } from "../Card";
 import React, { FC, useMemo, useState } from "react";
 
 export interface ColumnProps {
   column: DeskColumn;
-  commentsCounts: CommentsCounts;
+  cards: ColumnCards;
+  comments: CardComments;
   onColumnTitleChange: (title: string, id: string) => void;
   onColumnRemove: (id: string) => void;
   onCardAdd: (columnId: string, title: string, text: string) => void;
@@ -22,7 +23,6 @@ export interface ColumnProps {
     value: string
   ) => void;
   onCardClick: (id: string) => void;
-  cards: ColumnCards;
 }
 
 const Column: FC<ColumnProps> = ({
@@ -34,7 +34,7 @@ const Column: FC<ColumnProps> = ({
   onCardRemove,
   onCardPropertyChange,
   onCardClick,
-  commentsCounts,
+  comments,
 }) => {
   const filteredCardsArray = useMemo(
     () => Object.values(cards).filter((card) => card.columnId === column.id),
@@ -49,6 +49,12 @@ const Column: FC<ColumnProps> = ({
       setIsNewCardEdit(false);
       setnewCardTitle("");
     }
+  };
+  const getCommentsCount = (comments: CardComments, cardId: string): number => {
+    const filteredComments = Object.values(comments).filter(
+      (comment) => comment.cardId === cardId
+    );
+    return filteredComments.length;
   };
   return (
     <Root>
@@ -79,10 +85,10 @@ const Column: FC<ColumnProps> = ({
             <Card
               key={filteredCard.id}
               card={filteredCard}
-              commentCount={commentsCounts[filteredCard.id]?.count}
               onCardPropertyChange={onCardPropertyChange}
               onCardClick={() => onCardClick(filteredCard.id)}
               onRemoveClick={() => onCardRemove(filteredCard.id)}
+              commentsCount={getCommentsCount(comments, filteredCard.id)}
             />
           );
         })}
