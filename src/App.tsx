@@ -87,28 +87,28 @@ function App() {
   };
 
   const onColumnTitleChange = (title: string, id: string) => {
-    const cloneState = { ...columns };
-    cloneState[id] = { id, title };
+    const cloneColumns = { ...columns };
+    cloneColumns[id] = { id, title };
 
-    setColumns(cloneState);
-    setToLocalStorage(cloneState, LocalStorageKeys.COLUMNS);
+    setColumns(cloneColumns);
+    setToLocalStorage(cloneColumns, LocalStorageKeys.COLUMNS);
   };
 
   const onColumnAdd = (title: string) => {
-    const cloneState = { ...columns };
+    const cloneColumns = { ...columns };
     const columnID = uuid();
-    cloneState[columnID] = { id: columnID, title };
+    cloneColumns[columnID] = { id: columnID, title };
 
-    setColumns(cloneState);
-    setToLocalStorage(cloneState, LocalStorageKeys.COLUMNS);
+    setColumns(cloneColumns);
+    setToLocalStorage(cloneColumns, LocalStorageKeys.COLUMNS);
   };
 
   const onColumnRemove = (id: string) => {
-    const cloneState = { ...columns };
-    delete cloneState[id];
+    const cloneColumns = { ...columns };
+    delete cloneColumns[id];
 
-    setColumns(cloneState);
-    setToLocalStorage(cloneState, LocalStorageKeys.COLUMNS);
+    setColumns(cloneColumns);
+    setToLocalStorage(cloneColumns, LocalStorageKeys.COLUMNS);
   };
 
   const onCardPropertyChange = (
@@ -116,18 +116,18 @@ function App() {
     propertyName: keyof ColumnCard,
     value: string
   ) => {
-    const cloneState = { ...cards };
-    cloneState[id][propertyName] = value;
+    const cloneCards = { ...cards };
+    cloneCards[id][propertyName] = value;
 
-    setCards(cloneState);
-    setToLocalStorage(cloneState, LocalStorageKeys.CARDS);
+    setCards(cloneCards);
+    setToLocalStorage(cloneCards, LocalStorageKeys.CARDS);
   };
 
   const onCardAdd = (columnId: string, title = "", text = "") => {
-    const cloneState = { ...cards };
+    const cloneCards = { ...cards };
     const cardID = uuid();
 
-    cloneState[cardID] = {
+    cloneCards[cardID] = {
       id: cardID,
       columnId,
       title,
@@ -135,47 +135,47 @@ function App() {
       author: userName,
     };
 
-    setCards(cloneState);
-    setToLocalStorage(cloneState, LocalStorageKeys.CARDS);
+    setCards(cloneCards);
+    setToLocalStorage(cloneCards, LocalStorageKeys.CARDS);
   };
 
   const onCardRemove = (id: string) => {
-    const cloneState = { ...cards };
-    delete cloneState[id];
+    const cloneCards = { ...cards };
+    delete cloneCards[id];
 
-    setCards(cloneState);
-    setToLocalStorage(cloneState, LocalStorageKeys.CARDS);
+    setCards(cloneCards);
+    setToLocalStorage(cloneCards, LocalStorageKeys.CARDS);
   };
 
   const onCommentAdd = (cardId: string, text = "") => {
-    const cloneState = { ...comments };
+    const cloneComments = { ...comments };
     const commentID = uuid();
 
-    cloneState[commentID] = {
+    cloneComments[commentID] = {
       id: commentID,
       cardId,
       text,
       author: userName,
     };
 
-    setComments(cloneState);
-    setToLocalStorage(cloneState, LocalStorageKeys.COMMENTS);
+    setComments(cloneComments);
+    setToLocalStorage(cloneComments, LocalStorageKeys.COMMENTS);
   };
 
   const onCommentRemove = (id: string) => {
-    const cloneState = { ...comments };
-    delete cloneState[id];
+    const cloneComments = { ...comments };
+    delete cloneComments[id];
 
-    setComments(cloneState);
-    setToLocalStorage(cloneState, LocalStorageKeys.COMMENTS);
+    setComments(cloneComments);
+    setToLocalStorage(cloneComments, LocalStorageKeys.COMMENTS);
   };
 
   const onCommentChange = (id: string, text: string) => {
-    const cloneState = { ...comments };
-    cloneState[id] = { ...cloneState[id], text };
+    const cloneComments = { ...comments };
+    cloneComments[id] = { ...cloneComments[id], text };
 
-    setComments(cloneState);
-    setToLocalStorage(cloneState, LocalStorageKeys.COMMENTS);
+    setComments(cloneComments);
+    setToLocalStorage(cloneComments, LocalStorageKeys.COMMENTS);
   };
 
   return (
