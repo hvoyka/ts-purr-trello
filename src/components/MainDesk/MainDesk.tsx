@@ -13,13 +13,13 @@ export interface Props {
   columns: DeskColumns;
   cards: ColumnCards;
   commentsCounts: CommentsCounts;
-  onAddColumn: (title: string) => void;
-  onChangeColumnTitle: (title: string, id: string) => void;
-  onRemoveColumn: (id: string) => void;
-  onAddCard: (columnId: string, title?: string, text?: string) => void;
-  onRemoveCard: (id: string) => void;
+  onColumnAdd: (title: string) => void;
+  onColumnTitleChange: (title: string, id: string) => void;
+  onColumnRemove: (id: string) => void;
+  onCardAdd: (columnId: string, title?: string, text?: string) => void;
+  onCardRemove: (id: string) => void;
 
-  onChangeCardProperty: (
+  onCardPropertyChange: (
     id: string,
     propertyName: keyof ColumnCard,
     value: string
@@ -29,13 +29,13 @@ export interface Props {
 
 const MainDesk: FC<Props> = ({
   columns,
-  onAddColumn,
-  onChangeColumnTitle,
-  onRemoveColumn,
+  onColumnAdd,
+  onColumnTitleChange,
+  onColumnRemove,
   cards,
-  onAddCard,
-  onRemoveCard,
-  onChangeCardProperty,
+  onCardAdd,
+  onCardRemove,
+  onCardPropertyChange,
   onCardClick,
   commentsCounts,
 }) => {
@@ -44,7 +44,7 @@ const MainDesk: FC<Props> = ({
 
   const handleColumnAdd = () => {
     if (newColumnText.trim()) {
-      onAddColumn(newColumnText);
+      onColumnAdd(newColumnText);
       setIsNewColumnEdit(false);
       setnewColumnText("");
     }
@@ -58,12 +58,12 @@ const MainDesk: FC<Props> = ({
               <Column
                 column={column}
                 key={column.id}
-                onChangeColumnTitle={onChangeColumnTitle}
-                onRemoveColumn={onRemoveColumn}
+                onColumnTitleChange={onColumnTitleChange}
+                onColumnRemove={onColumnRemove}
                 cards={cards}
-                onAddCard={onAddCard}
-                onRemoveCard={onRemoveCard}
-                onChangeCardProperty={onChangeCardProperty}
+                onCardAdd={onCardAdd}
+                onCardRemove={onCardRemove}
+                onCardPropertyChange={onCardPropertyChange}
                 onCardClick={onCardClick}
                 commentsCounts={commentsCounts}
               />

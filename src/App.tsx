@@ -81,12 +81,12 @@ function App() {
     setcardIdForModalView(id);
   };
 
-  const addUserName = (name: string) => {
+  const onUserNameAdd = (name: string) => {
     setUserName(name);
     setToLocalStorage(name, LocalStorageKeys.USER_NAME);
   };
 
-  const onChangeColumnTitle = (title: string, id: string) => {
+  const onColumnTitleChange = (title: string, id: string) => {
     const cloneState = { ...columns };
     cloneState[id] = { id, title };
 
@@ -94,7 +94,7 @@ function App() {
     setToLocalStorage(cloneState, LocalStorageKeys.COLUMNS);
   };
 
-  const onAddColumn = (title: string) => {
+  const onColumnAdd = (title: string) => {
     const cloneState = { ...columns };
     const columnID = uuid();
     cloneState[columnID] = { id: columnID, title };
@@ -103,7 +103,7 @@ function App() {
     setToLocalStorage(cloneState, LocalStorageKeys.COLUMNS);
   };
 
-  const onRemoveColumn = (id: string) => {
+  const onColumnRemove = (id: string) => {
     const cloneState = { ...columns };
     delete cloneState[id];
 
@@ -111,7 +111,7 @@ function App() {
     setToLocalStorage(cloneState, LocalStorageKeys.COLUMNS);
   };
 
-  const onChangeCardProperty = (
+  const onCardPropertyChange = (
     id: string,
     propertyName: keyof ColumnCard,
     value: string
@@ -123,7 +123,7 @@ function App() {
     setToLocalStorage(cloneState, LocalStorageKeys.CARDS);
   };
 
-  const onAddCard = (columnId: string, title = "", text = "") => {
+  const onCardAdd = (columnId: string, title = "", text = "") => {
     const cloneState = { ...cards };
     const cardID = uuid();
 
@@ -139,7 +139,7 @@ function App() {
     setToLocalStorage(cloneState, LocalStorageKeys.CARDS);
   };
 
-  const onRemoveCard = (id: string) => {
+  const onCardRemove = (id: string) => {
     const cloneState = { ...cards };
     delete cloneState[id];
 
@@ -147,7 +147,7 @@ function App() {
     setToLocalStorage(cloneState, LocalStorageKeys.CARDS);
   };
 
-  const onAddComent = (cardId: string, text = "") => {
+  const onCommentAdd = (cardId: string, text = "") => {
     const cloneState = { ...comments };
     const commentID = uuid();
 
@@ -162,7 +162,7 @@ function App() {
     setToLocalStorage(cloneState, LocalStorageKeys.COMMENTS);
   };
 
-  const onRemoveComment = (id: string) => {
+  const onCommentRemove = (id: string) => {
     const cloneState = { ...comments };
     delete cloneState[id];
 
@@ -170,7 +170,7 @@ function App() {
     setToLocalStorage(cloneState, LocalStorageKeys.COMMENTS);
   };
 
-  const onChangeComment = (id: string, text: string) => {
+  const onCommentChange = (id: string, text: string) => {
     const cloneState = { ...comments };
     cloneState[id] = { ...cloneState[id], text };
 
@@ -183,19 +183,19 @@ function App() {
       <Header name={userName} />
       <MainDesk
         columns={columns}
-        onAddColumn={onAddColumn}
-        onChangeColumnTitle={onChangeColumnTitle}
-        onRemoveColumn={onRemoveColumn}
+        onColumnAdd={onColumnAdd}
+        onColumnTitleChange={onColumnTitleChange}
+        onColumnRemove={onColumnRemove}
         cards={cards}
-        onAddCard={onAddCard}
-        onRemoveCard={onRemoveCard}
-        onChangeCardProperty={onChangeCardProperty}
+        onCardAdd={onCardAdd}
+        onCardRemove={onCardRemove}
+        onCardPropertyChange={onCardPropertyChange}
         onCardClick={onCardClick}
         commentsCounts={commentsCounts}
       />
 
       <UserModal
-        addUserName={addUserName}
+        onUserNameAdd={onUserNameAdd}
         isUserModalShow={isUserModalShow}
         onUserModalClose={onUserModalClose}
       />
@@ -206,10 +206,10 @@ function App() {
         card={cards[cardIdForModalView]}
         columnTitle={columns[cards[cardIdForModalView]?.columnId]?.title}
         comments={comments}
-        onChangeCardProperty={onChangeCardProperty}
-        onAddComent={onAddComent}
-        onRemoveComment={onRemoveComment}
-        onChangeComment={onChangeComment}
+        onCardPropertyChange={onCardPropertyChange}
+        onCommentAdd={onCommentAdd}
+        onCommentRemove={onCommentRemove}
+        onCommentChange={onCommentChange}
       />
     </div>
   );

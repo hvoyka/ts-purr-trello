@@ -12,11 +12,11 @@ import React, { FC, useMemo, useState } from "react";
 export interface Props {
   column: DeskColumn;
   commentsCounts: CommentsCounts;
-  onChangeColumnTitle: (title: string, id: string) => void;
-  onRemoveColumn: (id: string) => void;
-  onAddCard: (columnId: string, title?: string, text?: string) => void;
-  onRemoveCard: (id: string) => void;
-  onChangeCardProperty: (
+  onColumnTitleChange: (title: string, id: string) => void;
+  onColumnRemove: (id: string) => void;
+  onCardAdd: (columnId: string, title?: string, text?: string) => void;
+  onCardRemove: (id: string) => void;
+  onCardPropertyChange: (
     id: string,
     propertyName: keyof ColumnCard,
     value: string
@@ -27,12 +27,12 @@ export interface Props {
 
 const Column: FC<Props> = ({
   column,
-  onChangeColumnTitle,
-  onRemoveColumn,
+  onColumnTitleChange,
+  onColumnRemove,
   cards,
-  onAddCard,
-  onRemoveCard,
-  onChangeCardProperty,
+  onCardAdd,
+  onCardRemove,
+  onCardPropertyChange,
   onCardClick,
   commentsCounts,
 }) => {
@@ -45,7 +45,7 @@ const Column: FC<Props> = ({
 
   const handleCardAdd = () => {
     if (newCardTitle.trim()) {
-      onAddCard(column.id, newCardTitle);
+      onCardAdd(column.id, newCardTitle);
       setIsNewCardEdit(false);
       setnewCardTitle("");
     }
@@ -60,14 +60,14 @@ const Column: FC<Props> = ({
           placeholder="Column title"
           defaultValue={column.title}
           onChange={(event: React.ChangeEvent<HTMLTextAreaElement>) => {
-            onChangeColumnTitle(event.target.value, column.id);
+            onColumnTitleChange(event.target.value, column.id);
           }}
         />
 
         <RemoveColumnButton
           title="Remove column"
           variant="danger"
-          onClick={() => onRemoveColumn(column.id)}
+          onClick={() => onColumnRemove(column.id)}
         >
           X
         </RemoveColumnButton>
@@ -80,9 +80,9 @@ const Column: FC<Props> = ({
               key={filteredCard.id}
               card={filteredCard}
               commentCount={commentsCounts[filteredCard.id]?.count}
-              onChangeCardProperty={onChangeCardProperty}
+              onCardPropertyChange={onCardPropertyChange}
               onCardClick={() => onCardClick(filteredCard.id)}
-              onRemoveClick={() => onRemoveCard(filteredCard.id)}
+              onRemoveClick={() => onCardRemove(filteredCard.id)}
             />
           );
         })}

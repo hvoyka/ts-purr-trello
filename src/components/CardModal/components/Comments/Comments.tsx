@@ -6,17 +6,17 @@ import { Comment } from "./../Comment";
 export interface Props {
   cardId: string;
   comments: CardComments;
-  onAddComent: (cardId: string, text: string) => void;
-  onRemoveComment: (id: string) => void;
-  onChangeComment: (id: string, text: string) => void;
+  onCommentAdd: (cardId: string, text: string) => void;
+  onCommentRemove: (id: string) => void;
+  onCommentChange: (id: string, text: string) => void;
 }
 
 const Comments: FC<Props> = ({
   cardId,
   comments,
-  onAddComent,
-  onRemoveComment,
-  onChangeComment,
+  onCommentAdd,
+  onCommentRemove,
+  onCommentChange,
 }) => {
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
 
@@ -28,13 +28,13 @@ const Comments: FC<Props> = ({
     event: React.KeyboardEvent<HTMLTextAreaElement>
   ) => {
     if (event.key === "Enter") {
-      onAddComent(cardId, (event.target as HTMLTextAreaElement).value);
+      onCommentAdd(cardId, (event.target as HTMLTextAreaElement).value);
     }
   };
 
   const handleCommentAdd = () => {
     if (textAreaRef.current !== null) {
-      onAddComent(cardId, textAreaRef.current.value);
+      onCommentAdd(cardId, textAreaRef.current.value);
       textAreaRef.current.value = "";
     }
   };
@@ -46,8 +46,8 @@ const Comments: FC<Props> = ({
           <Comment
             key={filteredComment.id}
             comment={filteredComment}
-            onRemoveComment={onRemoveComment}
-            onChangeComment={onChangeComment}
+            onCommentRemove={onCommentRemove}
+            onCommentChange={onCommentChange}
           />
         ))}
       </StyledCommentsBox>

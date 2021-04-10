@@ -4,11 +4,11 @@ import { CardComment } from "../../../../App";
 
 export interface Props {
   comment: CardComment;
-  onRemoveComment: (id: string) => void;
-  onChangeComment: (id: string, text: string) => void;
+  onCommentRemove: (id: string) => void;
+  onCommentChange: (id: string, text: string) => void;
 }
 
-const Comment: FC<Props> = ({ comment, onRemoveComment, onChangeComment }) => {
+const Comment: FC<Props> = ({ comment, onCommentRemove, onCommentChange }) => {
   const [isTextIsEdit, setIsTextIsEdit] = useState(false);
 
   const handleTextEdit = () => {
@@ -22,7 +22,7 @@ const Comment: FC<Props> = ({ comment, onRemoveComment, onChangeComment }) => {
           <textarea
             rows={1}
             value={comment.text}
-            onChange={(e) => onChangeComment(comment.id, e.target.value)}
+            onChange={(e) => onCommentChange(comment.id, e.target.value)}
           />
           <button onClick={handleTextEdit}>Save</button>
         </SaveBox>
@@ -30,7 +30,7 @@ const Comment: FC<Props> = ({ comment, onRemoveComment, onChangeComment }) => {
         <div>
           <StyledComment>{comment.text}</StyledComment>
           <button onClick={handleTextEdit}>Изменить</button> -{" "}
-          <button onClick={() => onRemoveComment(comment.id)}>Удалить</button>
+          <button onClick={() => onCommentRemove(comment.id)}>Удалить</button>
         </div>
       )}
     </li>

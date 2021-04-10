@@ -9,10 +9,10 @@ interface Props {
   isCardModalShow: boolean;
   comments: CardComments;
   onCardModalClose: () => void;
-  onAddComent: (cardId: string, text: string) => void;
-  onRemoveComment: (id: string) => void;
-  onChangeComment: (id: string, text: string) => void;
-  onChangeCardProperty: (
+  onCommentAdd: (cardId: string, text: string) => void;
+  onCommentRemove: (id: string) => void;
+  onCommentChange: (id: string, text: string) => void;
+  onCardPropertyChange: (
     id: string,
     propertyName: keyof ColumnCard,
     value: string
@@ -24,11 +24,11 @@ const CardModal: FC<Props> = ({
   card,
   isCardModalShow,
   onCardModalClose,
-  onChangeCardProperty,
+  onCardPropertyChange,
   comments,
-  onAddComent,
-  onRemoveComment,
-  onChangeComment,
+  onCommentAdd,
+  onCommentRemove,
+  onCommentChange,
   columnTitle,
 }) => {
   if (!isCardModalShow) return null;
@@ -45,22 +45,22 @@ const CardModal: FC<Props> = ({
         rows={1}
         defaultValue={card.title}
         onBlur={(event: React.ChangeEvent<HTMLTextAreaElement>) => {
-          onChangeCardProperty(card.id, "title", event.target.value);
+          onCardPropertyChange(card.id, "title", event.target.value);
         }}
       />
       <TextArea
         placeholder="Description"
         defaultValue={card.text}
         onChange={(event: React.ChangeEvent<HTMLTextAreaElement>) => {
-          onChangeCardProperty(card.id, "text", event.target.value);
+          onCardPropertyChange(card.id, "text", event.target.value);
         }}
       />
       <Comments
         cardId={card.id}
         comments={comments}
-        onAddComent={onAddComent}
-        onRemoveComment={onRemoveComment}
-        onChangeComment={onChangeComment}
+        onCommentAdd={onCommentAdd}
+        onCommentRemove={onCommentRemove}
+        onCommentChange={onCommentChange}
       />
       <p>
         Card author: <b>{card.author}</b> - column: <b>{columnTitle}</b>

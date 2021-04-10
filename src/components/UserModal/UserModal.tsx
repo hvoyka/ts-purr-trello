@@ -5,12 +5,12 @@ import { Modal } from "../UI";
 
 interface Props {
   isUserModalShow: boolean;
-  addUserName: (name: string) => void;
+  onUserNameAdd: (name: string) => void;
   onUserModalClose: () => void;
 }
 
 const UserModal: FC<Props> = ({
-  addUserName,
+  onUserNameAdd,
   isUserModalShow,
   onUserModalClose,
 }) => {
@@ -19,7 +19,7 @@ const UserModal: FC<Props> = ({
   const handleModalClose = () => {
     const trimmedUser = user.trim();
     if (trimmedUser) {
-      addUserName(trimmedUser);
+      onUserNameAdd(trimmedUser);
       onUserModalClose();
     }
   };
