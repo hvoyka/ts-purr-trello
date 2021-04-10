@@ -14,7 +14,7 @@ export interface ColumnProps {
   commentsCounts: CommentsCounts;
   onColumnTitleChange: (title: string, id: string) => void;
   onColumnRemove: (id: string) => void;
-  onCardAdd: (columnId: string, title?: string, text?: string) => void;
+  onCardAdd: (columnId: string, title: string, text: string) => void;
   onCardRemove: (id: string) => void;
   onCardPropertyChange: (
     id: string,
@@ -45,7 +45,7 @@ const Column: FC<ColumnProps> = ({
 
   const handleCardAdd = () => {
     if (newCardTitle.trim()) {
-      onCardAdd(column.id, newCardTitle);
+      onCardAdd(column.id, newCardTitle, "");
       setIsNewCardEdit(false);
       setnewCardTitle("");
     }

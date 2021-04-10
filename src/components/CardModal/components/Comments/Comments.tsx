@@ -33,7 +33,7 @@ const Comments: FC<CommentsProps> = ({
   };
 
   const handleCommentAdd = () => {
-    if (textAreaRef.current !== null) {
+    if (textAreaRef.current !== null && textAreaRef.current.value.trim()) {
       onCommentAdd(cardId, textAreaRef.current.value);
       textAreaRef.current.value = "";
     }

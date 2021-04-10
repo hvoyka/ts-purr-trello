@@ -16,7 +16,7 @@ const UserModal: FC<UserModalProps> = ({
 }) => {
   const [user, setUser] = useState("");
 
-  const handleModalClose = () => {
+  const handleConfirmClick = () => {
     const trimmedUser = user.trim();
     if (trimmedUser) {
       onUserNameAdd(trimmedUser);
@@ -30,7 +30,7 @@ const UserModal: FC<UserModalProps> = ({
 
   const handleEnterPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === "Enter") {
-      handleModalClose();
+      handleConfirmClick();
     }
   };
 
@@ -40,7 +40,7 @@ const UserModal: FC<UserModalProps> = ({
         title="User Modal"
         isModalShow={isUserModalShow}
         showCloseButton={false}
-        onModalClose={handleModalClose}
+        onModalClose={handleConfirmClick}
       >
         <Input
           type="text"
@@ -51,7 +51,7 @@ const UserModal: FC<UserModalProps> = ({
         />
         <Button
           onClick={(e) => {
-            handleModalClose();
+            handleConfirmClick();
           }}
           variant="primary"
         >

@@ -16,7 +16,7 @@ export interface MainDeskProps {
   onColumnAdd: (title: string) => void;
   onColumnTitleChange: (title: string, id: string) => void;
   onColumnRemove: (id: string) => void;
-  onCardAdd: (columnId: string, title?: string, text?: string) => void;
+  onCardAdd: (columnId: string, title: string, text: string) => void;
   onCardRemove: (id: string) => void;
 
   onCardPropertyChange: (

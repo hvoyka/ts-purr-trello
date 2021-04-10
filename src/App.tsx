@@ -123,7 +123,7 @@ function App() {
     setToLocalStorage(cloneCards, LocalStorageKeys.CARDS);
   };
 
-  const onCardAdd = (columnId: string, title = "", text = "") => {
+  const onCardAdd = (columnId: string, title: string, text: string) => {
     const cloneCards = { ...cards };
     const cardID = uuid();
 
@@ -147,7 +147,7 @@ function App() {
     setToLocalStorage(cloneCards, LocalStorageKeys.CARDS);
   };
 
-  const onCommentAdd = (cardId: string, text = "") => {
+  const onCommentAdd = (cardId: string, text: string) => {
     const cloneComments = { ...comments };
     const commentID = uuid();
 
