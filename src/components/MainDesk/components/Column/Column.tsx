@@ -9,7 +9,7 @@ import {
 import { Card } from "../Card";
 import React, { FC, useMemo, useState } from "react";
 
-export interface Props {
+export interface ColumnProps {
   column: DeskColumn;
   commentsCounts: CommentsCounts;
   onColumnTitleChange: (title: string, id: string) => void;
@@ -25,7 +25,7 @@ export interface Props {
   cards: ColumnCards;
 }
 
-const Column: FC<Props> = ({
+const Column: FC<ColumnProps> = ({
   column,
   onColumnTitleChange,
   onColumnRemove,

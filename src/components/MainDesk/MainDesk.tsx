@@ -9,7 +9,7 @@ import { Column } from "./components";
 import styled from "styled-components";
 import React, { FC, useState } from "react";
 
-export interface Props {
+export interface MainDeskProps {
   columns: DeskColumns;
   cards: ColumnCards;
   commentsCounts: CommentsCounts;
@@ -27,7 +27,7 @@ export interface Props {
   onCardClick: (id: string) => void;
 }
 
-const MainDesk: FC<Props> = ({
+const MainDesk: FC<MainDeskProps> = ({
   columns,
   onColumnAdd,
   onColumnTitleChange,

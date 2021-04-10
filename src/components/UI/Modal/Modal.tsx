@@ -1,7 +1,7 @@
 import React, { FC } from "react";
 import { Modal as BoostrapModal } from "react-bootstrap";
 
-interface Props {
+interface ModalProps {
   title?: string;
   isModalShow: boolean;
   showCloseButton?: boolean;
@@ -9,7 +9,7 @@ interface Props {
   onModalClose: () => void;
 }
 
-const Modal: FC<Props> = ({
+const Modal: FC<ModalProps> = ({
   isModalShow,
   onModalClose,
   showCloseButton,

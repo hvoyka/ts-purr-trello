@@ -4,7 +4,7 @@ import { Modal } from "../UI";
 import { ColumnCard, CardComments } from "../../App";
 import { Comments } from "./components";
 
-interface Props {
+interface CardModalProps {
   card: ColumnCard;
   isCardModalShow: boolean;
   comments: CardComments;
@@ -20,7 +20,7 @@ interface Props {
   columnTitle: string;
 }
 
-const CardModal: FC<Props> = ({
+const CardModal: FC<CardModalProps> = ({
   card,
   isCardModalShow,
   onCardModalClose,

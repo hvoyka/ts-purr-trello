@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { ColumnCard } from "../../../../App";
 import React, { FC, useRef } from "react";
 
-export interface Props {
+export interface CardProps {
   card: ColumnCard;
   commentCount: number;
   onRemoveClick: () => void;
@@ -14,7 +14,7 @@ export interface Props {
   ) => void;
 }
 
-const Card: FC<Props> = ({
+const Card: FC<CardProps> = ({
   card,
   onCardPropertyChange,
   onRemoveClick,
