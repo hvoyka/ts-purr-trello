@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { ColumnCard } from "../../../../App";
+import { ColumnCard, CardPropertyKeys } from "../../../../App";
 import React, { FC, useRef } from "react";
 
 export interface CardProps {
@@ -32,7 +32,7 @@ const Card: FC<CardProps> = ({
             disabled
             ref={textareaEl}
             onChange={(event: React.ChangeEvent<HTMLTextAreaElement>) => {
-              onTextAreaChange("title", event.target.value);
+              onTextAreaChange(CardPropertyKeys.TITLE, event.target.value);
             }}
           />
           <TextAreaClickBlock

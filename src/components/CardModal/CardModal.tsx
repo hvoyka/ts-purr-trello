@@ -1,7 +1,7 @@
 import React, { FC } from "react";
 import styled from "styled-components";
 import { Modal } from "../UI";
-import { ColumnCard, CardComments } from "../../App";
+import { ColumnCard, CardComments, CardPropertyKeys } from "../../App";
 import { Comments } from "./components";
 
 interface CardModalProps {
@@ -41,14 +41,14 @@ const CardModal: FC<CardModalProps> = ({
         rows={1}
         defaultValue={card.title}
         onBlur={(event: React.ChangeEvent<HTMLTextAreaElement>) => {
-          onTextAreaChange("title", event.target.value);
+          onTextAreaChange(CardPropertyKeys.TITLE, event.target.value);
         }}
       />
       <TextArea
         placeholder="Description"
         defaultValue={card.text}
         onChange={(event: React.ChangeEvent<HTMLTextAreaElement>) => {
-          onTextAreaChange("text", event.target.value);
+          onTextAreaChange(CardPropertyKeys.TEXT, event.target.value);
         }}
       />
       <Comments
