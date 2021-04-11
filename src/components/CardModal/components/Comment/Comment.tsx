@@ -4,8 +4,8 @@ import { CardComment } from "../../../../App";
 
 export interface CommentProps {
   comment: CardComment;
-  onRemove: (id: string) => void;
-  onChange: (id: string, text: string) => void;
+  onRemove: () => void;
+  onChange: (text: string) => void;
 }
 
 const Comment: FC<CommentProps> = ({ comment, onRemove, onChange }) => {
@@ -19,7 +19,7 @@ const Comment: FC<CommentProps> = ({ comment, onRemove, onChange }) => {
           <textarea
             rows={1}
             value={comment.text}
-            onChange={(e) => onChange(comment.id, e.target.value)}
+            onChange={(e) => onChange(e.target.value)}
           />
           <button onClick={() => setIsTextIsEdit(false)}>Save</button>
         </SaveBox>
@@ -27,7 +27,7 @@ const Comment: FC<CommentProps> = ({ comment, onRemove, onChange }) => {
         <>
           <CommentWrapper>{comment.text}</CommentWrapper>
           <button onClick={() => setIsTextIsEdit(true)}>Изменить</button> -{" "}
-          <button onClick={() => onRemove(comment.id)}>Удалить</button>
+          <button onClick={onRemove}>Удалить</button>
         </>
       )}
     </>

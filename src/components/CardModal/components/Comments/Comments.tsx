@@ -46,8 +46,8 @@ const Comments: FC<CommentsProps> = ({
           <Comment
             key={filteredComment.id}
             comment={filteredComment}
-            onRemove={onCommentRemove}
-            onChange={onCommentChange}
+            onRemove={() => onCommentRemove(filteredComment.id)}
+            onChange={(value) => onCommentChange(filteredComment.id, value)}
           />
         ))}
       </CommentsWrapper>
