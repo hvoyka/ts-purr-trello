@@ -1,3 +1,1 @@
-import CardModal from "./CardModal";
-
-export { CardModal };
+export { default as CardModal } from "./CardModal";

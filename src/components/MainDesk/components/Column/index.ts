@@ -1,3 +1,1 @@
-import Column from "./Column";
-
-export { Column };
+export { default as Column } from "./Column";
