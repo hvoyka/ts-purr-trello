@@ -52,10 +52,6 @@ function App() {
     if (userName) setIsUserModalShow(false);
   }, [userName]);
 
-  const onUserModalClose = () => {
-    setIsUserModalShow(false);
-  };
-
   const onCardModalClose = () => {
     setcardIdForModalView("");
   };
@@ -185,11 +181,7 @@ function App() {
         comments={comments}
       />
 
-      <UserModal
-        onConfirmClick={onUserNameAdd}
-        isVisible={isUserModalShow}
-        onClose={onUserModalClose}
-      />
+      <UserModal onConfirmClick={onUserNameAdd} isVisible={isUserModalShow} />
 
       <CardModal
         isVisible={Boolean(cardIdForModalView)}

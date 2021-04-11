@@ -6,26 +6,20 @@ import { Modal } from "../UI";
 interface UserModalProps {
   isVisible: boolean;
   onConfirmClick: (name: string) => void;
-  onClose: () => void;
 }
 
-const UserModal: FC<UserModalProps> = ({
-  onConfirmClick,
-  isVisible,
-  onClose,
-}) => {
+const UserModal: FC<UserModalProps> = ({ onConfirmClick, isVisible }) => {
   const [user, setUser] = useState("");
+
+  const handleUserNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setUser(event.target.value);
+  };
 
   const handleConfirmClick = () => {
     const trimmedUser = user.trim();
     if (trimmedUser) {
       onConfirmClick(trimmedUser);
-      onClose();
     }
-  };
-
-  const handleUserNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setUser(event.target.value);
   };
 
   const handleEnterPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
@@ -40,7 +34,6 @@ const UserModal: FC<UserModalProps> = ({
         title="User Modal"
         isVisible={isVisible}
         isCloseButtonVisible={false}
-        onClose={handleConfirmClick}
       >
         <Input
           type="text"
@@ -61,8 +54,6 @@ const UserModal: FC<UserModalProps> = ({
     </>
   );
 };
-
-export default UserModal;
 
 const Input = styled.input`
   background: transparent;
@@ -85,3 +76,5 @@ const Input = styled.input`
     box-shadow: inset 0 0 0 2px var(--blue2);
   }
 `;
+
+export default UserModal;

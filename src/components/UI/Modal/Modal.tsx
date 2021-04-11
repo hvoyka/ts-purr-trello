@@ -6,7 +6,7 @@ interface ModalProps {
   isVisible: boolean;
   isCloseButtonVisible?: boolean;
   closeButton?: boolean;
-  onClose: () => void;
+  onClose?: () => void;
 }
 
 const Modal: FC<ModalProps> = ({
