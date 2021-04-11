@@ -47,7 +47,7 @@ const Comments: FC<CommentsProps> = ({
             key={filteredComment.id}
             comment={filteredComment}
             onRemove={() => onCommentRemove(filteredComment.id)}
-            onChange={(value) => onCommentChange(filteredComment.id, value)}
+            onSave={(value) => onCommentChange(filteredComment.id, value)}
           />
         ))}
       </CommentsWrapper>
