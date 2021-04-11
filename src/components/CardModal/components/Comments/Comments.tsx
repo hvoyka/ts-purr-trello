@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import React, { useRef, FC } from "react";
+import React, { useState, useMemo, FC } from "react";
 import { CardComments } from "../../../../App";
 import { Comment } from "./../Comment";
 
@@ -18,30 +18,30 @@ const Comments: FC<CommentsProps> = ({
   onCommentRemove,
   onCommentChange,
 }) => {
-  const textAreaRef = useRef<HTMLTextAreaElement>(null);
+  const [newCommentText, setNewCommentText] = useState("");
 
-  const fillteredCommentsArray = Object.values(comments).filter(
-    (comment) => comment.cardId === cardId
+  const fillteredCommentsArray = useMemo(
+    () =>
+      Object.values(comments).filter((comment) => comment.cardId === cardId),
+    [comments, cardId]
   );
 
   const handleEnterPress = (
     event: React.KeyboardEvent<HTMLTextAreaElement>
   ) => {
     if (event.key === "Enter") {
-      onCommentAdd(cardId, (event.target as HTMLTextAreaElement).value);
+      handleCommentAdd();
     }
   };
 
   const handleCommentAdd = () => {
-    if (textAreaRef.current !== null && textAreaRef.current.value.trim()) {
-      onCommentAdd(cardId, textAreaRef.current.value);
-      textAreaRef.current.value = "";
-    }
+    onCommentAdd(cardId, newCommentText);
+    setNewCommentText("");
   };
 
   return (
     <>
-      <CommentsWrapper>
+      <CommentsList>
         {fillteredCommentsArray.map((filteredComment) => (
           <Comment
             key={filteredComment.id}
@@ -50,12 +50,13 @@ const Comments: FC<CommentsProps> = ({
             onSave={(value) => onCommentChange(filteredComment.id, value)}
           />
         ))}
-      </CommentsWrapper>
+      </CommentsList>
       <AddCommentWrapper>
         <textarea
-          ref={textAreaRef}
           rows={1}
           placeholder="New comment text"
+          value={newCommentText}
+          onChange={(e) => setNewCommentText(e.target.value)}
           onKeyDown={(e) => handleEnterPress(e)}
         />
         <button onClick={handleCommentAdd}>Add comment</button>
@@ -64,7 +65,7 @@ const Comments: FC<CommentsProps> = ({
   );
 };
 
-const CommentsWrapper = styled.ul`
+const CommentsList = styled.ul`
   padding: 1rem 1rem;
   list-style: none;
   background-color: var(--gray4);
