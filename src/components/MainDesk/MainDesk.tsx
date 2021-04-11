@@ -35,13 +35,18 @@ const MainDesk: FC<MainDeskProps> = ({
   comments,
 }) => {
   const [isNewColumnEdit, setIsNewColumnEdit] = useState(false);
-  const [newColumnText, setnewColumnText] = useState("");
+  const [newColumnTitle, setNewColumnTitle] = useState("");
+
+  const handleEditTitleClose = () => {
+    setIsNewColumnEdit(false);
+    setNewColumnTitle("");
+  };
 
   const handleColumnAdd = () => {
-    if (newColumnText.trim()) {
-      onColumnAdd(newColumnText);
-      setIsNewColumnEdit(false);
-      setnewColumnText("");
+    const trimmedTitle = newColumnTitle.trim();
+    if (trimmedTitle) {
+      onColumnAdd(newColumnTitle);
+      handleEditTitleClose();
     }
   };
   return (
@@ -64,9 +69,22 @@ const MainDesk: FC<MainDeskProps> = ({
               />
             );
           })}
-
           <EmptyColumn>
-            {!isNewColumnEdit ? (
+            {isNewColumnEdit ? (
+              <>
+                <textarea
+                  autoFocus
+                  rows={1}
+                  placeholder="Column title"
+                  value={newColumnTitle}
+                  onChange={(e) => setNewColumnTitle(e.target.value)}
+                />
+
+                <button onClick={handleColumnAdd}>Add column</button>
+
+                <button onClick={handleEditTitleClose}>x</button>
+              </>
+            ) : (
               <Button
                 variant="secondary"
                 onClick={() => {
@@ -75,27 +93,6 @@ const MainDesk: FC<MainDeskProps> = ({
               >
                 Add column
               </Button>
-            ) : (
-              <div>
-                <textarea
-                  autoFocus
-                  rows={1}
-                  placeholder="Column title"
-                  value={newColumnText}
-                  onChange={(e) => setnewColumnText(e.target.value)}
-                />
-
-                <button onClick={handleColumnAdd}>Add column</button>
-
-                <button
-                  onClick={() => {
-                    setIsNewColumnEdit(false);
-                    setnewColumnText("");
-                  }}
-                >
-                  x
-                </button>
-              </div>
             )}
           </EmptyColumn>
         </ColumnList>
@@ -107,7 +104,7 @@ const MainDesk: FC<MainDeskProps> = ({
 const Main = styled.main`
   flex-grow: 1;
 `;
-const ColumnList = styled.div`
+const ColumnList = styled.ul`
   display: flex;
   align-items: flex-start;
   height: calc(100vh - 70px);
@@ -117,7 +114,7 @@ const ColumnList = styled.div`
   overflow-x: auto;
   overflow-y: hidden;
 `;
-const EmptyColumn = styled.div`
+const EmptyColumn = styled.li`
   position: relative;
   flex: 0 0 272px;
   width: 272px;

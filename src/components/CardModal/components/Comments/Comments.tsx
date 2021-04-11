@@ -20,7 +20,7 @@ const Comments: FC<CommentsProps> = ({
 }) => {
   const [newCommentText, setNewCommentText] = useState("");
 
-  const fillteredCommentsArray = useMemo(
+  const filteredCommentsArray = useMemo(
     () =>
       Object.values(comments).filter((comment) => comment.cardId === cardId),
     [comments, cardId]
@@ -42,7 +42,7 @@ const Comments: FC<CommentsProps> = ({
   return (
     <>
       <CommentsList>
-        {fillteredCommentsArray.map((filteredComment) => (
+        {filteredCommentsArray.map((filteredComment) => (
           <Comment
             key={filteredComment.id}
             comment={filteredComment}
