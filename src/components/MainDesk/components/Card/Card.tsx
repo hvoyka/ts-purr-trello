@@ -5,8 +5,8 @@ import React, { FC, useRef } from "react";
 export interface CardProps {
   card: ColumnCard;
   commentsCount: number;
-  onRemoveClick: () => void;
-  onCardClick: () => void;
+  onRemove: () => void;
+  onClick: () => void;
   onTextAreaChange: (propertyName: keyof ColumnCard, value: string) => void;
 }
 
@@ -14,15 +14,23 @@ const Card: FC<CardProps> = ({
   card,
   commentsCount,
   onTextAreaChange,
-  onRemoveClick,
-  onCardClick,
+  onRemove,
+  onClick,
 }) => {
-  const textareaEl = useRef<HTMLTextAreaElement>(null);
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const textareaEl = textareaRef.current;
+
+  const handleTitleEdit = () => {
+    if (textareaRef && textareaEl) {
+      textareaEl.disabled = false;
+      textareaEl.focus();
+    }
+  };
 
   return (
-    <CardWrapper>
+    <Root>
       <CardTop>
-        <TextAreaBox>
+        <TextAreaWrapper>
           <CardTextArea
             maxLength={100}
             spellCheck={false}
@@ -30,40 +38,32 @@ const Card: FC<CardProps> = ({
             placeholder="Card title"
             value={card.title}
             disabled
-            ref={textareaEl}
+            ref={textareaRef}
             onChange={(event: React.ChangeEvent<HTMLTextAreaElement>) => {
               onTextAreaChange(CardPropertyKeys.TITLE, event.target.value);
             }}
           />
-          <TextAreaClickBlock
+          <TextAreaHiddenButton
             onClick={() => {
-              onCardClick();
+              onClick();
             }}
           />
           <CommentsCount>{commentsCount ? commentsCount : null}</CommentsCount>
-        </TextAreaBox>
+        </TextAreaWrapper>
 
-        <EnterCardButton
-          title="Edit title"
-          onClick={() => {
-            if (textareaEl && textareaEl.current) {
-              textareaEl.current.disabled = false;
-              textareaEl.current.focus();
-            }
-          }}
-        >
+        <EnterCardButton title="Edit title" onClick={handleTitleEdit}>
           &#9998;
         </EnterCardButton>
 
-        <RemoveCardButton title="Remove card" onClick={onRemoveClick}>
+        <RemoveCardButton title="Remove card" onClick={onRemove}>
           X
         </RemoveCardButton>
       </CardTop>
-    </CardWrapper>
+    </Root>
   );
 };
 
-const CardWrapper = styled.div`
+const Root = styled.div`
   flex: 1 1 auto;
   margin-bottom: 0;
   margin: 0 4px 10px;
@@ -116,11 +116,15 @@ const EnterCardButton = styled.button`
     transform: scale(1.05);
   }
 `;
-const TextAreaBox = styled.div`
+const TextAreaWrapper = styled.div`
   display: inline-block;
   position: relative;
 `;
-const TextAreaClickBlock = styled.div`
+const TextAreaHiddenButton = styled.button`
+  border: 0;
+  background: transparent;
+  width: 100%;
+  padding: 0;
   position: absolute;
   left: 0;
   right: 0;

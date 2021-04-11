@@ -44,18 +44,26 @@ const Column: FC<ColumnProps> = ({
   const [newCardTitle, setnewCardTitle] = useState("");
 
   const handleCardAdd = () => {
-    if (newCardTitle.trim()) {
+    const trimmedTitle = newCardTitle.trim();
+
+    if (trimmedTitle) {
       onCardAdd(column.id, newCardTitle, "");
-      setIsNewCardEdit(false);
-      setnewCardTitle("");
+      handleTitleEndOfEdit();
     }
   };
+
   const getCommentsCount = (comments: CardComments, cardId: string): number => {
     const filteredComments = Object.values(comments).filter(
       (comment) => comment.cardId === cardId
     );
     return filteredComments.length;
   };
+
+  const handleTitleEndOfEdit = () => {
+    setIsNewCardEdit(false);
+    setnewCardTitle("");
+  };
+
   return (
     <Root>
       <ListHeader>
@@ -88,8 +96,8 @@ const Column: FC<ColumnProps> = ({
               onTextAreaChange={(propertyName, value) =>
                 onCardPropertyChange(filteredCard.id, propertyName, value)
               }
-              onCardClick={() => onCardClick(filteredCard.id)}
-              onRemoveClick={() => onCardRemove(filteredCard.id)}
+              onClick={() => onCardClick(filteredCard.id)}
+              onRemove={() => onCardRemove(filteredCard.id)}
               commentsCount={getCommentsCount(comments, filteredCard.id)}
             />
           );
@@ -116,14 +124,7 @@ const Column: FC<ColumnProps> = ({
 
             <button onClick={handleCardAdd}>Add card</button>
 
-            <button
-              onClick={() => {
-                setIsNewCardEdit(false);
-                setnewCardTitle("");
-              }}
-            >
-              x
-            </button>
+            <button onClick={handleTitleEndOfEdit}>x</button>
           </div>
         )}
       </CardList>
@@ -131,7 +132,7 @@ const Column: FC<ColumnProps> = ({
   );
 };
 
-const Root = styled.li`
+const Root = styled.div`
   position: relative;
   flex: 0 0 272px;
   width: 272px;
