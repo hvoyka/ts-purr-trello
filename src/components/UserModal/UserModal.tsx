@@ -4,23 +4,23 @@ import { Button } from "react-bootstrap";
 import { Modal } from "../UI";
 
 interface UserModalProps {
-  isUserModalShow: boolean;
-  onUserNameAdd: (name: string) => void;
-  onUserModalClose: () => void;
+  isVisible: boolean;
+  onConfirmClick: (name: string) => void;
+  onClose: () => void;
 }
 
 const UserModal: FC<UserModalProps> = ({
-  onUserNameAdd,
-  isUserModalShow,
-  onUserModalClose,
+  onConfirmClick,
+  isVisible,
+  onClose,
 }) => {
   const [user, setUser] = useState("");
 
   const handleConfirmClick = () => {
     const trimmedUser = user.trim();
     if (trimmedUser) {
-      onUserNameAdd(trimmedUser);
-      onUserModalClose();
+      onConfirmClick(trimmedUser);
+      onClose();
     }
   };
 
@@ -38,9 +38,9 @@ const UserModal: FC<UserModalProps> = ({
     <>
       <Modal
         title="User Modal"
-        isModalShow={isUserModalShow}
-        showCloseButton={false}
-        onModalClose={handleConfirmClick}
+        isVisible={isVisible}
+        isCloseButtonVisible={false}
+        onClose={handleConfirmClick}
       >
         <Input
           type="text"

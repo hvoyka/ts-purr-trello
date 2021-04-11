@@ -181,14 +181,14 @@ function App() {
       />
 
       <UserModal
-        onUserNameAdd={onUserNameAdd}
-        isUserModalShow={isUserModalShow}
-        onUserModalClose={onUserModalClose}
+        onConfirmClick={onUserNameAdd}
+        isVisible={isUserModalShow}
+        onClose={onUserModalClose}
       />
 
       <CardModal
-        isCardModalShow={Boolean(cardIdForModalView)}
-        onCardModalClose={onCardModalClose}
+        isVisible={Boolean(cardIdForModalView)}
+        onClose={onCardModalClose}
         card={cards[cardIdForModalView]}
         columnTitle={getColumnTitle(cardIdForModalView)}
         comments={comments}

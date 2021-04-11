@@ -6,9 +6,9 @@ import { Comments } from "./components";
 
 interface CardModalProps {
   card: ColumnCard;
-  isCardModalShow: boolean;
+  isVisible: boolean;
   comments: CardComments;
-  onCardModalClose: () => void;
+  onClose: () => void;
   onCommentAdd: (cardId: string, text: string) => void;
   onCommentRemove: (id: string) => void;
   onCommentChange: (id: string, text: string) => void;
@@ -22,8 +22,8 @@ interface CardModalProps {
 
 const CardModal: FC<CardModalProps> = ({
   card,
-  isCardModalShow,
-  onCardModalClose,
+  isVisible,
+  onClose,
   onCardPropertyChange,
   comments,
   onCommentAdd,
@@ -31,14 +31,14 @@ const CardModal: FC<CardModalProps> = ({
   onCommentChange,
   columnTitle,
 }) => {
-  if (!isCardModalShow) return null;
+  if (!isVisible) return null;
 
   return (
     <Modal
       title="Card Modal"
-      isModalShow={isCardModalShow}
-      showCloseButton
-      onModalClose={onCardModalClose}
+      isVisible={isVisible}
+      isCloseButtonVisible
+      onClose={onClose}
     >
       <TextArea
         placeholder="Card title"

@@ -3,27 +3,22 @@ import { Modal as BoostrapModal } from "react-bootstrap";
 
 interface ModalProps {
   title?: string;
-  isModalShow: boolean;
-  showCloseButton?: boolean;
+  isVisible: boolean;
+  isCloseButtonVisible?: boolean;
   closeButton?: boolean;
-  onModalClose: () => void;
+  onClose: () => void;
 }
 
 const Modal: FC<ModalProps> = ({
-  isModalShow,
-  onModalClose,
-  showCloseButton,
+  isVisible,
+  onClose,
+  isCloseButtonVisible,
   children,
   title,
 }) => {
   return (
-    <BoostrapModal
-      onHide={onModalClose}
-      show={isModalShow}
-      animation={false}
-      centered
-    >
-      <BoostrapModal.Header closeButton={showCloseButton}>
+    <BoostrapModal onHide={onClose} show={isVisible} animation={false} centered>
+      <BoostrapModal.Header closeButton={isCloseButtonVisible}>
         {title}
       </BoostrapModal.Header>
       <BoostrapModal.Body>{children}</BoostrapModal.Body>
