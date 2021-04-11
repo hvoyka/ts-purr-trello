@@ -13,8 +13,8 @@ export interface ColumnProps {
   column: DeskColumn;
   cards: ColumnCards;
   comments: CardComments;
-  onColumnTitleChange: (title: string, id: string) => void;
-  onColumnRemove: (id: string) => void;
+  onTitleChange: (title: string) => void;
+  onRemove: () => void;
   onCardAdd: (columnId: string, title: string, text: string) => void;
   onCardRemove: (id: string) => void;
   onCardPropertyChange: (
@@ -27,8 +27,8 @@ export interface ColumnProps {
 
 const Column: FC<ColumnProps> = ({
   column,
-  onColumnTitleChange,
-  onColumnRemove,
+  onTitleChange,
+  onRemove,
   cards,
   onCardAdd,
   onCardRemove,
@@ -66,14 +66,14 @@ const Column: FC<ColumnProps> = ({
           placeholder="Column title"
           defaultValue={column.title}
           onChange={(event: React.ChangeEvent<HTMLTextAreaElement>) => {
-            onColumnTitleChange(event.target.value, column.id);
+            onTitleChange(event.target.value);
           }}
         />
 
         <RemoveColumnButton
           title="Remove column"
           variant="danger"
-          onClick={() => onColumnRemove(column.id)}
+          onClick={onRemove}
         >
           X
         </RemoveColumnButton>

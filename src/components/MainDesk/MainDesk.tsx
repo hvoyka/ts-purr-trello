@@ -53,8 +53,8 @@ const MainDesk: FC<MainDeskProps> = ({
               <Column
                 column={column}
                 key={column.id}
-                onColumnTitleChange={onColumnTitleChange}
-                onColumnRemove={onColumnRemove}
+                onTitleChange={(value) => onColumnTitleChange(column.id, value)}
+                onRemove={() => onColumnRemove(column.id)}
                 cards={cards}
                 onCardAdd={onCardAdd}
                 onCardRemove={onCardRemove}
