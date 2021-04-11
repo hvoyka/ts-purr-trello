@@ -4,20 +4,13 @@ import { CardComment } from "../../../../App";
 
 export interface CommentProps {
   comment: CardComment;
-  onCommentRemove: (id: string) => void;
-  onCommentChange: (id: string, text: string) => void;
+  onRemove: (id: string) => void;
+  onChange: (id: string, text: string) => void;
 }
 
-const Comment: FC<CommentProps> = ({
-  comment,
-  onCommentRemove,
-  onCommentChange,
-}) => {
+const Comment: FC<CommentProps> = ({ comment, onRemove, onChange }) => {
   const [isTextIsEdit, setIsTextIsEdit] = useState(false);
 
-  const handleTextEdit = () => {
-    setIsTextIsEdit(!isTextIsEdit);
-  };
   return (
     <>
       <div>{comment.author}</div>
@@ -26,15 +19,15 @@ const Comment: FC<CommentProps> = ({
           <textarea
             rows={1}
             value={comment.text}
-            onChange={(e) => onCommentChange(comment.id, e.target.value)}
+            onChange={(e) => onChange(comment.id, e.target.value)}
           />
-          <button onClick={handleTextEdit}>Save</button>
+          <button onClick={() => setIsTextIsEdit(false)}>Save</button>
         </SaveBox>
       ) : (
         <>
           <CommentWrapper>{comment.text}</CommentWrapper>
-          <button onClick={handleTextEdit}>Изменить</button> -{" "}
-          <button onClick={() => onCommentRemove(comment.id)}>Удалить</button>
+          <button onClick={() => setIsTextIsEdit(true)}>Изменить</button> -{" "}
+          <button onClick={() => onRemove(comment.id)}>Удалить</button>
         </>
       )}
     </>
