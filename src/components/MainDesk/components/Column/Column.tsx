@@ -85,7 +85,9 @@ const Column: FC<ColumnProps> = ({
             <Card
               key={filteredCard.id}
               card={filteredCard}
-              onCardPropertyChange={onCardPropertyChange}
+              onTextAreaChange={(propertyName, value) =>
+                onCardPropertyChange(filteredCard.id, propertyName, value)
+              }
               onCardClick={() => onCardClick(filteredCard.id)}
               onRemoveClick={() => onCardRemove(filteredCard.id)}
               commentsCount={getCommentsCount(comments, filteredCard.id)}

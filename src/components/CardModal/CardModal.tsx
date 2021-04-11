@@ -12,11 +12,7 @@ interface CardModalProps {
   onCommentAdd: (cardId: string, text: string) => void;
   onCommentRemove: (id: string) => void;
   onCommentChange: (id: string, text: string) => void;
-  onCardPropertyChange: (
-    id: string,
-    propertyName: keyof ColumnCard,
-    value: string
-  ) => void;
+  onTextAreaChange: (propertyName: keyof ColumnCard, value: string) => void;
   columnTitle: string;
 }
 
@@ -24,7 +20,7 @@ const CardModal: FC<CardModalProps> = ({
   card,
   isVisible,
   onClose,
-  onCardPropertyChange,
+  onTextAreaChange,
   comments,
   onCommentAdd,
   onCommentRemove,
@@ -45,14 +41,14 @@ const CardModal: FC<CardModalProps> = ({
         rows={1}
         defaultValue={card.title}
         onBlur={(event: React.ChangeEvent<HTMLTextAreaElement>) => {
-          onCardPropertyChange(card.id, "title", event.target.value);
+          onTextAreaChange("title", event.target.value);
         }}
       />
       <TextArea
         placeholder="Description"
         defaultValue={card.text}
         onChange={(event: React.ChangeEvent<HTMLTextAreaElement>) => {
-          onCardPropertyChange(card.id, "text", event.target.value);
+          onTextAreaChange("text", event.target.value);
         }}
       />
       <Comments

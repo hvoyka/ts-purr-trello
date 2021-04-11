@@ -7,17 +7,13 @@ export interface CardProps {
   commentsCount: number;
   onRemoveClick: () => void;
   onCardClick: () => void;
-  onCardPropertyChange: (
-    id: string,
-    propertyName: keyof ColumnCard,
-    value: string
-  ) => void;
+  onTextAreaChange: (propertyName: keyof ColumnCard, value: string) => void;
 }
 
 const Card: FC<CardProps> = ({
   card,
   commentsCount,
-  onCardPropertyChange,
+  onTextAreaChange,
   onRemoveClick,
   onCardClick,
 }) => {
@@ -36,7 +32,7 @@ const Card: FC<CardProps> = ({
             disabled
             ref={textareaEl}
             onChange={(event: React.ChangeEvent<HTMLTextAreaElement>) => {
-              onCardPropertyChange(card.id, "title", event.target.value);
+              onTextAreaChange("title", event.target.value);
             }}
           />
           <TextAreaClickBlock

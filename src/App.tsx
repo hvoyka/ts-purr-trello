@@ -192,7 +192,9 @@ function App() {
         card={cards[cardIdForModalView]}
         columnTitle={getColumnTitle(cardIdForModalView)}
         comments={comments}
-        onCardPropertyChange={onCardPropertyChange}
+        onTextAreaChange={(propertyName, value) =>
+          onCardPropertyChange(cardIdForModalView, propertyName, value)
+        }
         onCommentAdd={onCommentAdd}
         onCommentRemove={onCommentRemove}
         onCommentChange={onCommentChange}
