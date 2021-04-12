@@ -126,7 +126,7 @@ const Column: FC<ColumnProps> = ({
   );
 };
 
-const Root = styled.div`
+const Root = styled.li`
   position: relative;
   flex: 0 0 272px;
   width: 272px;

@@ -52,23 +52,27 @@ const MainDesk: FC<MainDeskProps> = ({
   return (
     <Main>
       <Container fluid>
-        <ColumnList>
-          {Object.values(columns).map((column) => {
-            return (
-              <Column
-                column={column}
-                key={column.id}
-                onTitleChange={(value) => onColumnTitleChange(column.id, value)}
-                onRemoveClick={() => onColumnRemoveClick(column.id)}
-                cards={cards}
-                onCardAdd={onCardAdd}
-                onCardRemoveClick={onCardRemoveClick}
-                onCardPropertyChange={onCardPropertyChange}
-                onCardClick={onCardClick}
-                comments={comments}
-              />
-            );
-          })}
+        <DeskWrapper>
+          <ColumnList>
+            {Object.values(columns).map((column) => {
+              return (
+                <Column
+                  column={column}
+                  key={column.id}
+                  onTitleChange={(value) =>
+                    onColumnTitleChange(column.id, value)
+                  }
+                  onRemoveClick={() => onColumnRemoveClick(column.id)}
+                  cards={cards}
+                  onCardAdd={onCardAdd}
+                  onCardRemoveClick={onCardRemoveClick}
+                  onCardPropertyChange={onCardPropertyChange}
+                  onCardClick={onCardClick}
+                  comments={comments}
+                />
+              );
+            })}
+          </ColumnList>
           <EmptyColumn>
             {isNewColumnEdit ? (
               <>
@@ -95,7 +99,7 @@ const MainDesk: FC<MainDeskProps> = ({
               </Button>
             )}
           </EmptyColumn>
-        </ColumnList>
+        </DeskWrapper>
       </Container>
     </Main>
   );
@@ -104,15 +108,19 @@ const MainDesk: FC<MainDeskProps> = ({
 const Main = styled.main`
   flex-grow: 1;
 `;
-const ColumnList = styled.div`
+const DeskWrapper = styled.div`
+  overflow-x: auto;
+  overflow-y: hidden;
+  height: calc(100vh - 70px);
+  display: flex;
+`;
+const ColumnList = styled.ul`
   display: flex;
   align-items: flex-start;
-  height: calc(100vh - 70px);
+
   user-select: none;
   white-space: nowrap;
   margin-bottom: 8px;
-  overflow-x: auto;
-  overflow-y: hidden;
 `;
 const EmptyColumn = styled.div`
   position: relative;
