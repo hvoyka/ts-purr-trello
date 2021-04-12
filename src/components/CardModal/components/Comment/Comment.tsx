@@ -2,53 +2,82 @@ import styled from "styled-components";
 import React, { useState, FC } from "react";
 import { CardComment } from "../../../../App";
 
-export interface Props {
+export interface CommentProps {
   comment: CardComment;
-  onRemoveComment: (id: string) => void;
-  onChangeComment: (id: string, text: string) => void;
+  onRemove: () => void;
+  onSave: (text: string) => void;
 }
 
-const Comment: FC<Props> = ({ comment, onRemoveComment, onChangeComment }) => {
-  const [isEdit, setisEdit] = useState(false);
+const Comment: FC<CommentProps> = ({ comment, onRemove, onSave }) => {
+  const [isTextIsEdit, setIsTextIsEdit] = useState(false);
+  const [commentText, setCommentText] = useState(comment.text);
 
-  const changeTextHandler = () => {
-    setisEdit(!isEdit);
+  const handleSaveClick = () => {
+    onSave(commentText);
+    setIsTextIsEdit(false);
   };
   return (
-    <li>
+    <ListItem>
       <div>{comment.author}</div>
-      {isEdit ? (
+      {isTextIsEdit ? (
         <SaveBox>
           <textarea
             rows={1}
-            value={comment.text}
-            onChange={(e) => onChangeComment(comment.id, e.target.value)}
+            value={commentText}
+            onChange={(e) => setCommentText(e.target.value)}
           />
-          <button onClick={changeTextHandler}>Save</button>
+          <button onClick={handleSaveClick}>Save</button>
         </SaveBox>
       ) : (
-        <div>
-          <StyledComment>{comment.text}</StyledComment>
-          <button onClick={changeTextHandler}>Изменить</button> -{" "}
-          <button onClick={() => onRemoveComment(comment.id)}>Удалить</button>
-        </div>
+        <>
+          <CommentWrapper>{comment.text}</CommentWrapper>
+          <ButtonsWrapper>
+            <EditButton onClick={() => setIsTextIsEdit(true)}>
+              изменить
+            </EditButton>
+            <Separator>-</Separator>
+            <EditButton onClick={onRemove}>удалить</EditButton>
+          </ButtonsWrapper>
+        </>
       )}
-    </li>
+    </ListItem>
   );
 };
 
-const StyledComment = styled.div`
+const ListItem = styled.li`
+  margin-bottom: 10px;
+`;
+const CommentWrapper = styled.div`
   display: flex;
   justify-content: space-between;
   padding: 0.5rem 1rem;
   border-radius: 5px;
   border: 1px solid var(--gray2);
   background-color: var(--blue3);
-  margin-bottom: 10px;
+  margin-bottom: 5px;
 `;
 const SaveBox = styled.div`
   border-radius: 5px;
   display: flex;
 `;
 
+const ButtonsWrapper = styled.div`
+  display: flex;
+`;
+
+const EditButton = styled.button`
+  background-color: transparent;
+  border: none;
+  color: var(--blue2);
+  cursor: pointer;
+  padding: 0;
+  font-size: 14px;
+  &:hover {
+    text-decoration: underline;
+  }
+`;
+const Separator = styled.span`
+  display: inline-block;
+  padding: 0 5px;
+`;
 export default Comment;

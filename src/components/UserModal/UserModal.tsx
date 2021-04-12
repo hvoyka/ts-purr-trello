@@ -3,53 +3,48 @@ import styled from "styled-components";
 import { Button } from "react-bootstrap";
 import { Modal } from "../UI";
 
-interface Props {
-  isUserModalShow: boolean;
-  addUserName: (name: string) => void;
-  onUserModalClose: () => void;
+interface UserModalProps {
+  isVisible: boolean;
+  onConfirmClick: (name: string) => void;
 }
 
-const UserModal: FC<Props> = ({
-  addUserName,
-  isUserModalShow,
-  onUserModalClose,
-}) => {
+const UserModal: FC<UserModalProps> = ({ onConfirmClick, isVisible }) => {
   const [user, setUser] = useState("");
 
-  const closeHandler = () => {
+  const handleUserNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setUser(event.target.value);
+  };
+
+  const handleConfirmClick = () => {
     const trimmedUser = user.trim();
     if (trimmedUser) {
-      addUserName(trimmedUser);
-      onUserModalClose();
+      onConfirmClick(trimmedUser);
     }
   };
 
-  const changeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setUser(event.target.value);
-  };
-  const enterHandler = (event: React.KeyboardEvent<HTMLInputElement>) => {
+  const handleEnterPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === "Enter") {
-      closeHandler();
+      handleConfirmClick();
     }
   };
+
   return (
     <>
       <Modal
         title="User Modal"
-        isModalShow={isUserModalShow}
-        showCloseButton={false}
-        onModalClose={closeHandler}
+        isVisible={isVisible}
+        isCloseButtonVisible={false}
       >
         <Input
           type="text"
           placeholder="User name"
-          onChange={changeHandler}
+          onChange={handleUserNameChange}
           defaultValue={user}
-          onKeyDown={enterHandler}
+          onKeyDown={handleEnterPress}
         />
         <Button
           onClick={(e) => {
-            closeHandler();
+            handleConfirmClick();
           }}
           variant="primary"
         >
@@ -59,8 +54,6 @@ const UserModal: FC<Props> = ({
     </>
   );
 };
-
-export default UserModal;
 
 const Input = styled.input`
   background: transparent;
@@ -83,3 +76,5 @@ const Input = styled.input`
     box-shadow: inset 0 0 0 2px var(--blue2);
   }
 `;
+
+export default UserModal;

@@ -1,11 +1,11 @@
 import { Navbar } from "react-bootstrap";
 import React, { FC } from "react";
 
-interface Props {
+interface HeaderProps {
   name: string;
 }
 
-const Header: FC<Props> = ({ name }) => {
+const Header: FC<HeaderProps> = ({ name }) => {
   return (
     <header>
       <Navbar bg="primary" variant="dark">

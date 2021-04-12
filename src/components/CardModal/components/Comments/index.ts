@@ -1,3 +1,1 @@
-import Comments from "./Comments";
-
-export { Comments };
+export { default as Comments } from "./Comments";

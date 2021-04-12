@@ -1,74 +1,77 @@
 import styled from "styled-components";
-import React, { useRef, FC } from "react";
+import React, { useState, useMemo, FC } from "react";
 import { CardComments } from "../../../../App";
 import { Comment } from "./../Comment";
 
-export interface Props {
+export interface CommentsProps {
   cardId: string;
   comments: CardComments;
-  onAddComent: (cardId: string, text: string) => void;
-  onRemoveComment: (id: string) => void;
-  onChangeComment: (id: string, text: string) => void;
+  onCommentAdd: (cardId: string, text: string) => void;
+  onCommentRemove: (id: string) => void;
+  onCommentChange: (id: string, text: string) => void;
 }
 
-const Comments: FC<Props> = ({
+const Comments: FC<CommentsProps> = ({
   cardId,
   comments,
-  onAddComent,
-  onRemoveComment,
-  onChangeComment,
+  onCommentAdd,
+  onCommentRemove,
+  onCommentChange,
 }) => {
-  const textAreaRef = useRef<HTMLTextAreaElement>(null);
+  const [newCommentText, setNewCommentText] = useState("");
 
-  const fillteredCommentsArray = Object.values(comments).filter(
-    (comment) => comment.cardId === cardId
+  const filteredCommentsArray = useMemo(
+    () =>
+      Object.values(comments).filter((comment) => comment.cardId === cardId),
+    [comments, cardId]
   );
 
-  const enterHandler = (event: React.KeyboardEvent<HTMLTextAreaElement>) => {
+  const handleEnterPress = (
+    event: React.KeyboardEvent<HTMLTextAreaElement>
+  ) => {
     if (event.key === "Enter") {
-      onAddComent(cardId, (event.target as HTMLTextAreaElement).value);
+      handleCommentAdd();
     }
   };
 
-  const addCommentHandler = () => {
-    if (textAreaRef.current !== null) {
-      onAddComent(cardId, textAreaRef.current.value);
-      textAreaRef.current.value = "";
-    }
+  const handleCommentAdd = () => {
+    onCommentAdd(cardId, newCommentText);
+    setNewCommentText("");
   };
 
   return (
     <>
-      <StyledCommentsBox>
-        {fillteredCommentsArray.map((filteredComment) => (
+      <CommentsList>
+        {filteredCommentsArray.map((filteredComment) => (
           <Comment
             key={filteredComment.id}
             comment={filteredComment}
-            onRemoveComment={onRemoveComment}
-            onChangeComment={onChangeComment}
+            onRemove={() => onCommentRemove(filteredComment.id)}
+            onSave={(value) => onCommentChange(filteredComment.id, value)}
           />
         ))}
-      </StyledCommentsBox>
-      <AddCommentBox>
+      </CommentsList>
+      <AddCommentWrapper>
         <textarea
-          ref={textAreaRef}
           rows={1}
           placeholder="New comment text"
-          onKeyDown={(e) => enterHandler(e)}
+          value={newCommentText}
+          onChange={(e) => setNewCommentText(e.target.value)}
+          onKeyDown={(e) => handleEnterPress(e)}
         />
-        <button onClick={addCommentHandler}>Add comment</button>
-      </AddCommentBox>
+        <button onClick={handleCommentAdd}>Add comment</button>
+      </AddCommentWrapper>
     </>
   );
 };
 
-const StyledCommentsBox = styled.ul`
+const CommentsList = styled.ul`
   padding: 1rem 1rem;
   list-style: none;
   background-color: var(--gray4);
   border-radius: 5px;
 `;
-const AddCommentBox = styled.div`
+const AddCommentWrapper = styled.div`
   padding: 1rem 1rem;
   border-radius: 5px;
   display: flex;
