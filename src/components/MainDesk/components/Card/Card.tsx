@@ -44,7 +44,7 @@ const Card: FC<CardProps> = ({
             <CardTitleButton onClick={onClick}>{card.title}</CardTitleButton>
           )}
 
-          <CommentsCount>{commentsCount ? commentsCount : null}</CommentsCount>
+          {!!commentsCount && <CommentsCount>{commentsCount}</CommentsCount>}
         </TextAreaWrapper>
 
         <EnterCardButton title="Edit title" onClick={handleTitleEditClick}>
