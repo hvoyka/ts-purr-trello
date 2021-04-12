@@ -10,7 +10,7 @@ interface CardModalProps {
   comments: CardComments;
   onClose: () => void;
   onCommentAdd: (cardId: string, text: string) => void;
-  onCommentRemove: (id: string) => void;
+  onCommentRemoveClick: (id: string) => void;
   onCommentChange: (id: string, text: string) => void;
   onTextAreaChange: (propertyName: keyof ColumnCard, value: string) => void;
   columnTitle: string;
@@ -23,7 +23,7 @@ const CardModal: FC<CardModalProps> = ({
   onTextAreaChange,
   comments,
   onCommentAdd,
-  onCommentRemove,
+  onCommentRemoveClick,
   onCommentChange,
   columnTitle,
 }) => {
@@ -55,7 +55,7 @@ const CardModal: FC<CardModalProps> = ({
         cardId={card.id}
         comments={comments}
         onCommentAdd={onCommentAdd}
-        onCommentRemove={onCommentRemove}
+        onCommentRemoveClick={onCommentRemoveClick}
         onCommentChange={onCommentChange}
       />
       <p>

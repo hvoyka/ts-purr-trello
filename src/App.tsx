@@ -82,7 +82,7 @@ function App() {
     setToLocalStorage(cloneColumns, LocalStorageKeys.COLUMNS);
   };
 
-  const onColumnRemove = (id: string) => {
+  const onColumnRemoveClick = (id: string) => {
     const cloneColumns = { ...columns };
     delete cloneColumns[id];
 
@@ -118,7 +118,7 @@ function App() {
     setToLocalStorage(cloneCards, LocalStorageKeys.CARDS);
   };
 
-  const onCardRemove = (id: string) => {
+  const onCardRemoveClick = (id: string) => {
     const cloneCards = { ...cards };
     delete cloneCards[id];
 
@@ -141,7 +141,7 @@ function App() {
     setToLocalStorage(cloneComments, LocalStorageKeys.COMMENTS);
   };
 
-  const onCommentRemove = (id: string) => {
+  const onCommentRemoveClick = (id: string) => {
     const cloneComments = { ...comments };
     delete cloneComments[id];
 
@@ -172,10 +172,10 @@ function App() {
         columns={columns}
         onColumnAdd={onColumnAdd}
         onColumnTitleChange={onColumnTitleChange}
-        onColumnRemove={onColumnRemove}
+        onColumnRemoveClick={onColumnRemoveClick}
         cards={cards}
         onCardAdd={onCardAdd}
-        onCardRemove={onCardRemove}
+        onCardRemoveClick={onCardRemoveClick}
         onCardPropertyChange={onCardPropertyChange}
         onCardClick={onCardClick}
         comments={comments}
@@ -193,7 +193,7 @@ function App() {
           onCardPropertyChange(cardIdForModalView, propertyName, value)
         }
         onCommentAdd={onCommentAdd}
-        onCommentRemove={onCommentRemove}
+        onCommentRemoveClick={onCommentRemoveClick}
         onCommentChange={onCommentChange}
       />
     </div>

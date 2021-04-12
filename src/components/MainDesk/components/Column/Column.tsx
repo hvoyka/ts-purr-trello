@@ -14,9 +14,9 @@ export interface ColumnProps {
   cards: ColumnCards;
   comments: CardComments;
   onTitleChange: (title: string) => void;
-  onRemove: () => void;
+  onRemoveClick: () => void;
   onCardAdd: (columnId: string, title: string, text: string) => void;
-  onCardRemove: (id: string) => void;
+  onCardRemoveClick: (id: string) => void;
   onCardPropertyChange: (
     id: string,
     propertyName: keyof ColumnCard,
@@ -28,10 +28,10 @@ export interface ColumnProps {
 const Column: FC<ColumnProps> = ({
   column,
   onTitleChange,
-  onRemove,
+  onRemoveClick,
   cards,
   onCardAdd,
-  onCardRemove,
+  onCardRemoveClick,
   onCardPropertyChange,
   onCardClick,
   comments,
@@ -43,12 +43,12 @@ const Column: FC<ColumnProps> = ({
   const [isNewCardEdit, setIsNewCardEdit] = useState(false);
   const [newCardTitle, setnewCardTitle] = useState("");
 
-  const handleCardAdd = () => {
+  const handleAddCardClick = () => {
     const trimmedTitle = newCardTitle.trim();
 
     if (trimmedTitle) {
       onCardAdd(column.id, newCardTitle, "");
-      handleTitleEndOfEdit();
+      handleTitleEdittingCloseClick();
     }
   };
 
@@ -59,7 +59,7 @@ const Column: FC<ColumnProps> = ({
     return filteredComments.length;
   };
 
-  const handleTitleEndOfEdit = () => {
+  const handleTitleEdittingCloseClick = () => {
     setIsNewCardEdit(false);
     setnewCardTitle("");
   };
@@ -81,7 +81,7 @@ const Column: FC<ColumnProps> = ({
         <RemoveColumnButton
           title="Remove column"
           variant="danger"
-          onClick={onRemove}
+          onClick={onRemoveClick}
         >
           X
         </RemoveColumnButton>
@@ -97,7 +97,7 @@ const Column: FC<ColumnProps> = ({
                 onCardPropertyChange(filteredCard.id, propertyName, value)
               }
               onClick={() => onCardClick(filteredCard.id)}
-              onRemove={() => onCardRemove(filteredCard.id)}
+              onRemoveClick={() => onCardRemoveClick(filteredCard.id)}
               commentsCount={getCommentsCount(comments, filteredCard.id)}
             />
           );
@@ -122,9 +122,9 @@ const Column: FC<ColumnProps> = ({
               onChange={(e) => setnewCardTitle(e.target.value)}
             />
 
-            <button onClick={handleCardAdd}>Add card</button>
+            <button onClick={handleAddCardClick}>Add card</button>
 
-            <button onClick={handleTitleEndOfEdit}>x</button>
+            <button onClick={handleTitleEdittingCloseClick}>x</button>
           </div>
         )}
       </CardList>

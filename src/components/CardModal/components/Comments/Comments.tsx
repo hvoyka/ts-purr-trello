@@ -7,7 +7,7 @@ export interface CommentsProps {
   cardId: string;
   comments: CardComments;
   onCommentAdd: (cardId: string, text: string) => void;
-  onCommentRemove: (id: string) => void;
+  onCommentRemoveClick: (id: string) => void;
   onCommentChange: (id: string, text: string) => void;
 }
 
@@ -15,7 +15,7 @@ const Comments: FC<CommentsProps> = ({
   cardId,
   comments,
   onCommentAdd,
-  onCommentRemove,
+  onCommentRemoveClick,
   onCommentChange,
 }) => {
   const [newCommentText, setNewCommentText] = useState("");
@@ -30,11 +30,11 @@ const Comments: FC<CommentsProps> = ({
     event: React.KeyboardEvent<HTMLTextAreaElement>
   ) => {
     if (event.key === "Enter") {
-      handleCommentAdd();
+      handleCommentAddClick();
     }
   };
 
-  const handleCommentAdd = () => {
+  const handleCommentAddClick = () => {
     onCommentAdd(cardId, newCommentText);
     setNewCommentText("");
   };
@@ -46,7 +46,7 @@ const Comments: FC<CommentsProps> = ({
           <Comment
             key={filteredComment.id}
             comment={filteredComment}
-            onRemove={() => onCommentRemove(filteredComment.id)}
+            onRemoveClick={() => onCommentRemoveClick(filteredComment.id)}
             onSave={(value) => onCommentChange(filteredComment.id, value)}
           />
         ))}
@@ -59,7 +59,7 @@ const Comments: FC<CommentsProps> = ({
           onChange={(e) => setNewCommentText(e.target.value)}
           onKeyDown={(e) => handleEnterPress(e)}
         />
-        <button onClick={handleCommentAdd}>Add comment</button>
+        <button onClick={handleCommentAddClick}>Add comment</button>
       </AddCommentWrapper>
     </>
   );
