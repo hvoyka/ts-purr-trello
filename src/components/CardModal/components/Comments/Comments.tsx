@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import React, { useState, useMemo, FC } from "react";
+import React, { useState, useMemo, FC, KeyboardEvent } from "react";
 import { CardComments } from "../../../../App";
 import { Comment } from "./../Comment";
 
@@ -25,18 +25,15 @@ const Comments: FC<CommentsProps> = ({
       Object.values(comments).filter((comment) => comment.cardId === cardId),
     [comments, cardId]
   );
-
-  const handleEnterPress = (
-    event: React.KeyboardEvent<HTMLTextAreaElement>
-  ) => {
-    if (event.key === "Enter") {
-      handleCommentAddClick();
-    }
-  };
-
   const handleCommentAddClick = () => {
     onCommentAdd(cardId, newCommentText);
     setNewCommentText("");
+  };
+
+  const handleEnterPress = (event: KeyboardEvent<HTMLTextAreaElement>) => {
+    if (event.key === "Enter") {
+      handleCommentAddClick();
+    }
   };
 
   return (
