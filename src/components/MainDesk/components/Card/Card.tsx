@@ -18,12 +18,13 @@ const Card: FC<CardProps> = ({
   onClick,
 }) => {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
-  const textareaEl = textareaRef.current;
 
   const handleTitleEditClick = () => {
-    if (textareaRef && textareaEl) {
-      textareaEl.disabled = false;
-      textareaEl.focus();
+    const textareaElement = textareaRef.current;
+
+    if (textareaElement) {
+      textareaElement.disabled = false;
+      textareaElement.focus();
     }
   };
 
