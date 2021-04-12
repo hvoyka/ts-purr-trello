@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { ColumnCard } from "../../../../App";
-import React, { FC, useRef } from "react";
+import React, { FC, useState } from "react";
 
 export interface CardProps {
   card: ColumnCard;
@@ -17,38 +17,33 @@ const Card: FC<CardProps> = ({
   onRemoveClick,
   onClick,
 }) => {
-  const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const [isTextareaEdit, setIsTextAreaEdit] = useState(false);
 
   const handleTitleEditClick = () => {
-    const textareaElement = textareaRef.current;
-
-    if (textareaElement) {
-      textareaElement.disabled = false;
-      textareaElement.focus();
-    }
+    setIsTextAreaEdit(true);
   };
 
   return (
     <Root>
       <CardTop>
         <TextAreaWrapper>
-          <CardTextArea
-            maxLength={100}
-            spellCheck={false}
-            rows={1}
-            placeholder="Card title"
-            value={card.title}
-            disabled
-            ref={textareaRef}
-            onChange={(event: React.ChangeEvent<HTMLTextAreaElement>) => {
-              onTextAreaChange("title", event.target.value);
-            }}
-          />
-          <TextAreaHiddenButton
-            onClick={() => {
-              onClick();
-            }}
-          />
+          {isTextareaEdit ? (
+            <CardTextArea
+              autoFocus
+              maxLength={100}
+              spellCheck={false}
+              rows={1}
+              placeholder="Card title"
+              value={card.title}
+              onChange={(event: React.ChangeEvent<HTMLTextAreaElement>) => {
+                onTextAreaChange("title", event.target.value);
+              }}
+              onBlur={() => setIsTextAreaEdit(false)}
+            />
+          ) : (
+            <CardTitleButton onClick={onClick}>{card.title}</CardTitleButton>
+          )}
+
           <CommentsCount>{commentsCount ? commentsCount : null}</CommentsCount>
         </TextAreaWrapper>
 
@@ -91,7 +86,6 @@ const CardTextArea = styled.textarea`
   outline: none;
   border: none;
   -webkit-appearance: none;
-  border-radius: 3px;
   display: block;
   color: var(--blue2);
   &:focus {
@@ -120,17 +114,15 @@ const EnterCardButton = styled.button`
 const TextAreaWrapper = styled.div`
   display: inline-block;
   position: relative;
+  width: 100%;
 `;
-const TextAreaHiddenButton = styled.button`
+const CardTitleButton = styled.button`
   border: 0;
   background: transparent;
   width: 100%;
   padding: 0;
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 0;
-  bottom: 0;
+  text-align: left;
+  font-weight: 600;
 `;
 
 const CardTop = styled.div`
