@@ -7,6 +7,7 @@ import {
   CardComments,
 } from "../../../../App";
 import { Card } from "../Card";
+import { getCommentsCount } from "./utils";
 import React, { FC, useMemo, useState } from "react";
 
 export interface ColumnProps {
@@ -55,13 +56,6 @@ const Column: FC<ColumnProps> = ({
       onCardAdd(column.id, newCardTitle);
       handleTitleEdittingCloseClick();
     }
-  };
-
-  const getCommentsCount = (comments: CardComments, cardId: string): number => {
-    const filteredComments = Object.values(comments).filter(
-      (comment) => comment.cardId === cardId
-    );
-    return filteredComments.length;
   };
 
   return (
