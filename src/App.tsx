@@ -12,11 +12,6 @@ import {
   initCommentsData,
 } from "./utils/init-default-data";
 
-export enum CardPropertyKeys {
-  TITLE = "title",
-  TEXT = "text",
-}
-
 export interface DeskColumn {
   id: string;
   title: string;

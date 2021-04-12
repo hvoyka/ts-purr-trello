@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { ColumnCard, CardPropertyKeys } from "../../../../App";
+import { ColumnCard } from "../../../../App";
 import React, { FC, useRef } from "react";
 
 export interface CardProps {
@@ -40,7 +40,7 @@ const Card: FC<CardProps> = ({
             disabled
             ref={textareaRef}
             onChange={(event: React.ChangeEvent<HTMLTextAreaElement>) => {
-              onTextAreaChange(CardPropertyKeys.TITLE, event.target.value);
+              onTextAreaChange("title", event.target.value);
             }}
           />
           <TextAreaHiddenButton
