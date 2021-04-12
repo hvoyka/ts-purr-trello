@@ -1,3 +1,1 @@
-import UserModal from "./UserModal";
-
-export { UserModal };
+export { default as UserModal } from "./UserModal";

@@ -1,25 +1,20 @@
 import { Container, Button } from "react-bootstrap";
-import {
-  DeskColumns,
-  ColumnCards,
-  ColumnCard,
-  CommentsCounts,
-} from "../../App";
+import { DeskColumns, ColumnCards, ColumnCard, CardComments } from "../../App";
 import { Column } from "./components";
 import styled from "styled-components";
 import React, { FC, useState } from "react";
 
-export interface Props {
+export interface MainDeskProps {
   columns: DeskColumns;
   cards: ColumnCards;
-  commentsCounts: CommentsCounts;
-  onAddColumn: (title: string) => void;
-  onChangeColumnTitle: (title: string, id: string) => void;
-  onRemoveColumn: (id: string) => void;
-  onAddCard: (columnId: string, title?: string, text?: string) => void;
-  onRemoveCard: (id: string) => void;
+  comments: CardComments;
+  onColumnAdd: (title: string) => void;
+  onColumnTitleChange: (title: string, id: string) => void;
+  onColumnRemove: (id: string) => void;
+  onCardAdd: (columnId: string, title: string, text: string) => void;
+  onCardRemove: (id: string) => void;
 
-  onChangeCardProperty: (
+  onCardPropertyChange: (
     id: string,
     propertyName: keyof ColumnCard,
     value: string
@@ -27,30 +22,35 @@ export interface Props {
   onCardClick: (id: string) => void;
 }
 
-const MainDesk: FC<Props> = ({
+const MainDesk: FC<MainDeskProps> = ({
   columns,
-  onAddColumn,
-  onChangeColumnTitle,
-  onRemoveColumn,
+  onColumnAdd,
+  onColumnTitleChange,
+  onColumnRemove,
   cards,
-  onAddCard,
-  onRemoveCard,
-  onChangeCardProperty,
+  onCardAdd,
+  onCardRemove,
+  onCardPropertyChange,
   onCardClick,
-  commentsCounts,
+  comments,
 }) => {
   const [isNewColumnEdit, setIsNewColumnEdit] = useState(false);
-  const [newColumnText, setnewColumnText] = useState("");
+  const [newColumnTitle, setNewColumnTitle] = useState("");
 
-  const addColumnHandler = () => {
-    if (newColumnText.trim()) {
-      onAddColumn(newColumnText);
-      setIsNewColumnEdit(false);
-      setnewColumnText("");
+  const handleEditTitleClose = () => {
+    setIsNewColumnEdit(false);
+    setNewColumnTitle("");
+  };
+
+  const handleColumnAdd = () => {
+    const trimmedTitle = newColumnTitle.trim();
+    if (trimmedTitle) {
+      onColumnAdd(newColumnTitle);
+      handleEditTitleClose();
     }
   };
   return (
-    <StyledMain>
+    <Main>
       <Container fluid>
         <ColumnList>
           {Object.values(columns).map((column) => {
@@ -58,20 +58,33 @@ const MainDesk: FC<Props> = ({
               <Column
                 column={column}
                 key={column.id}
-                onChangeColumnTitle={onChangeColumnTitle}
-                onRemoveColumn={onRemoveColumn}
+                onTitleChange={(value) => onColumnTitleChange(column.id, value)}
+                onRemove={() => onColumnRemove(column.id)}
                 cards={cards}
-                onAddCard={onAddCard}
-                onRemoveCard={onRemoveCard}
-                onChangeCardProperty={onChangeCardProperty}
+                onCardAdd={onCardAdd}
+                onCardRemove={onCardRemove}
+                onCardPropertyChange={onCardPropertyChange}
                 onCardClick={onCardClick}
-                commentsCounts={commentsCounts}
+                comments={comments}
               />
             );
           })}
-
           <EmptyColumn>
-            {!isNewColumnEdit ? (
+            {isNewColumnEdit ? (
+              <>
+                <textarea
+                  autoFocus
+                  rows={1}
+                  placeholder="Column title"
+                  value={newColumnTitle}
+                  onChange={(e) => setNewColumnTitle(e.target.value)}
+                />
+
+                <button onClick={handleColumnAdd}>Add column</button>
+
+                <button onClick={handleEditTitleClose}>x</button>
+              </>
+            ) : (
               <Button
                 variant="secondary"
                 onClick={() => {
@@ -80,36 +93,15 @@ const MainDesk: FC<Props> = ({
               >
                 Add column
               </Button>
-            ) : (
-              <div>
-                <textarea
-                  autoFocus
-                  rows={1}
-                  placeholder="Column title"
-                  value={newColumnText}
-                  onChange={(e) => setnewColumnText(e.target.value)}
-                />
-
-                <button onClick={addColumnHandler}>Add column</button>
-
-                <button
-                  onClick={() => {
-                    setIsNewColumnEdit(false);
-                    setnewColumnText("");
-                  }}
-                >
-                  x
-                </button>
-              </div>
             )}
           </EmptyColumn>
         </ColumnList>
       </Container>
-    </StyledMain>
+    </Main>
   );
 };
 
-const StyledMain = styled.main`
+const Main = styled.main`
   flex-grow: 1;
 `;
 const ColumnList = styled.div`

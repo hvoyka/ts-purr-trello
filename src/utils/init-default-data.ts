@@ -6,14 +6,14 @@ import {
 import { DeskColumns, ColumnCards, CardComments } from ".././App";
 import { defaultColumns, defaultCards, defaultComments } from "./default-data";
 
-export const setUserNameData = (): string => {
+export const initUserNameData = (): string => {
   const userNameFromStorage = getFromLocalStorage(LocalStorageKeys.USER_NAME);
 
   if (userNameFromStorage) return userNameFromStorage;
   return "";
 };
 
-export const setColumnsData = (): DeskColumns => {
+export const initColumnsData = (): DeskColumns => {
   const columnsFromStorage = getFromLocalStorage(LocalStorageKeys.COLUMNS);
 
   if (columnsFromStorage) {
@@ -24,7 +24,7 @@ export const setColumnsData = (): DeskColumns => {
   }
 };
 
-export const setCardsData = (): ColumnCards => {
+export const initCardsData = (): ColumnCards => {
   const cardsFromStorage = getFromLocalStorage(LocalStorageKeys.CARDS);
 
   if (cardsFromStorage) {
@@ -35,7 +35,7 @@ export const setCardsData = (): ColumnCards => {
   }
 };
 
-export const setCommentsData = (): CardComments => {
+export const initCommentsData = (): CardComments => {
   const commentsFromStorage = getFromLocalStorage(LocalStorageKeys.COMMENTS);
 
   if (commentsFromStorage) {

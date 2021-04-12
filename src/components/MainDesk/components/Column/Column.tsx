@@ -4,37 +4,37 @@ import {
   ColumnCards,
   ColumnCard,
   DeskColumn,
-  CommentsCounts,
+  CardComments,
 } from "../../../../App";
 import { Card } from "../Card";
 import React, { FC, useMemo, useState } from "react";
 
-export interface Props {
+export interface ColumnProps {
   column: DeskColumn;
-  commentsCounts: CommentsCounts;
-  onChangeColumnTitle: (title: string, id: string) => void;
-  onRemoveColumn: (id: string) => void;
-  onAddCard: (columnId: string, title?: string, text?: string) => void;
-  onRemoveCard: (id: string) => void;
-  onChangeCardProperty: (
+  cards: ColumnCards;
+  comments: CardComments;
+  onTitleChange: (title: string) => void;
+  onRemove: () => void;
+  onCardAdd: (columnId: string, title: string, text: string) => void;
+  onCardRemove: (id: string) => void;
+  onCardPropertyChange: (
     id: string,
     propertyName: keyof ColumnCard,
     value: string
   ) => void;
   onCardClick: (id: string) => void;
-  cards: ColumnCards;
 }
 
-const Column: FC<Props> = ({
+const Column: FC<ColumnProps> = ({
   column,
-  onChangeColumnTitle,
-  onRemoveColumn,
+  onTitleChange,
+  onRemove,
   cards,
-  onAddCard,
-  onRemoveCard,
-  onChangeCardProperty,
+  onCardAdd,
+  onCardRemove,
+  onCardPropertyChange,
   onCardClick,
-  commentsCounts,
+  comments,
 }) => {
   const filteredCardsArray = useMemo(
     () => Object.values(cards).filter((card) => card.columnId === column.id),
@@ -43,15 +43,29 @@ const Column: FC<Props> = ({
   const [isNewCardEdit, setIsNewCardEdit] = useState(false);
   const [newCardTitle, setnewCardTitle] = useState("");
 
-  const addCardHandler = () => {
-    if (newCardTitle.trim()) {
-      onAddCard(column.id, newCardTitle);
-      setIsNewCardEdit(false);
-      setnewCardTitle("");
+  const handleCardAdd = () => {
+    const trimmedTitle = newCardTitle.trim();
+
+    if (trimmedTitle) {
+      onCardAdd(column.id, newCardTitle, "");
+      handleTitleEndOfEdit();
     }
   };
+
+  const getCommentsCount = (comments: CardComments, cardId: string): number => {
+    const filteredComments = Object.values(comments).filter(
+      (comment) => comment.cardId === cardId
+    );
+    return filteredComments.length;
+  };
+
+  const handleTitleEndOfEdit = () => {
+    setIsNewCardEdit(false);
+    setnewCardTitle("");
+  };
+
   return (
-    <StyledColumn>
+    <Root>
       <ListHeader>
         <TextArea
           maxLength={100}
@@ -60,14 +74,14 @@ const Column: FC<Props> = ({
           placeholder="Column title"
           defaultValue={column.title}
           onChange={(event: React.ChangeEvent<HTMLTextAreaElement>) => {
-            onChangeColumnTitle(event.target.value, column.id);
+            onTitleChange(event.target.value);
           }}
         />
 
         <RemoveColumnButton
           title="Remove column"
           variant="danger"
-          onClick={() => onRemoveColumn(column.id)}
+          onClick={onRemove}
         >
           X
         </RemoveColumnButton>
@@ -79,10 +93,12 @@ const Column: FC<Props> = ({
             <Card
               key={filteredCard.id}
               card={filteredCard}
-              commentCount={commentsCounts[filteredCard.id]?.count}
-              onChangeCardProperty={onChangeCardProperty}
-              onCardClick={() => onCardClick(filteredCard.id)}
-              onRemoveClick={() => onRemoveCard(filteredCard.id)}
+              onTextAreaChange={(propertyName, value) =>
+                onCardPropertyChange(filteredCard.id, propertyName, value)
+              }
+              onClick={() => onCardClick(filteredCard.id)}
+              onRemove={() => onCardRemove(filteredCard.id)}
+              commentsCount={getCommentsCount(comments, filteredCard.id)}
             />
           );
         })}
@@ -106,24 +122,17 @@ const Column: FC<Props> = ({
               onChange={(e) => setnewCardTitle(e.target.value)}
             />
 
-            <button onClick={addCardHandler}>Add card</button>
+            <button onClick={handleCardAdd}>Add card</button>
 
-            <button
-              onClick={() => {
-                setIsNewCardEdit(false);
-                setnewCardTitle("");
-              }}
-            >
-              x
-            </button>
+            <button onClick={handleTitleEndOfEdit}>x</button>
           </div>
         )}
       </CardList>
-    </StyledColumn>
+    </Root>
   );
 };
 
-const StyledColumn = styled.div`
+const Root = styled.div`
   position: relative;
   flex: 0 0 272px;
   width: 272px;
@@ -192,7 +201,7 @@ const ListHeader = styled.div`
   min-height: 20px;
   padding-right: 36px;
 `;
-const CardList = styled.ul`
+const CardList = styled.div`
   padding: 0;
   margin: 0;
 `;

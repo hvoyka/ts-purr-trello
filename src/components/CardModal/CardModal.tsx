@@ -1,65 +1,62 @@
 import React, { FC } from "react";
 import styled from "styled-components";
 import { Modal } from "../UI";
-import { ColumnCard, CardComments } from "../../App";
+import { ColumnCard, CardComments, CardPropertyKeys } from "../../App";
 import { Comments } from "./components";
 
-interface Props {
+interface CardModalProps {
   card: ColumnCard;
-  isCardModalShow: boolean;
+  isVisible: boolean;
   comments: CardComments;
-  onCardModalClose: () => void;
-  onAddComent: (cardId: string, text: string) => void;
-  onRemoveComment: (id: string) => void;
-  onChangeComment: (id: string, text: string) => void;
-  onChangeCardProperty: (
-    id: string,
-    propertyName: keyof ColumnCard,
-    value: string
-  ) => void;
+  onClose: () => void;
+  onCommentAdd: (cardId: string, text: string) => void;
+  onCommentRemove: (id: string) => void;
+  onCommentChange: (id: string, text: string) => void;
+  onTextAreaChange: (propertyName: keyof ColumnCard, value: string) => void;
   columnTitle: string;
 }
 
-const CardModal: FC<Props> = ({
+const CardModal: FC<CardModalProps> = ({
   card,
-  isCardModalShow,
-  onCardModalClose,
-  onChangeCardProperty,
+  isVisible,
+  onClose,
+  onTextAreaChange,
   comments,
-  onAddComent,
-  onRemoveComment,
-  onChangeComment,
+  onCommentAdd,
+  onCommentRemove,
+  onCommentChange,
   columnTitle,
 }) => {
-  if (!isCardModalShow) return null;
+  if (!isVisible) return null;
+
   return (
     <Modal
       title="Card Modal"
-      isModalShow={isCardModalShow}
-      showCloseButton
-      onModalClose={onCardModalClose}
+      isVisible={isVisible}
+      isCloseButtonVisible
+      onClose={onClose}
     >
       <TextArea
         placeholder="Card title"
         rows={1}
         defaultValue={card.title}
         onBlur={(event: React.ChangeEvent<HTMLTextAreaElement>) => {
-          onChangeCardProperty(card.id, "title", event.target.value);
+          onTextAreaChange(CardPropertyKeys.TITLE, event.target.value);
         }}
       />
       <TextArea
         placeholder="Description"
         defaultValue={card.text}
         onChange={(event: React.ChangeEvent<HTMLTextAreaElement>) => {
-          onChangeCardProperty(card.id, "text", event.target.value);
+          onTextAreaChange(CardPropertyKeys.TEXT, event.target.value);
         }}
       />
       <Comments
         cardId={card.id}
         comments={comments}
-        onAddComent={onAddComent}
-        onRemoveComment={onRemoveComment}
-        onChangeComment={onChangeComment}
+        onCommentAdd={onCommentAdd}
+        onCommentRemove={onCommentRemove}
+        onCommentChange={onCommentChange}
       />
       <p>
         Card author: <b>{card.author}</b> - column: <b>{columnTitle}</b>

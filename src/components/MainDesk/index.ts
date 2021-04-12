@@ -1,3 +1,1 @@
-import MainDesk from "./MainDesk";
-
-export { MainDesk };
+export { default as MainDesk } from "./MainDesk";

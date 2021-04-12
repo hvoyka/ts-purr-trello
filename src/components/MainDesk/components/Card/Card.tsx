@@ -1,78 +1,75 @@
 import styled from "styled-components";
-import { ColumnCard } from "../../../../App";
+import { ColumnCard, CardPropertyKeys } from "../../../../App";
 import React, { FC, useRef } from "react";
 
-export interface Props {
+export interface CardProps {
   card: ColumnCard;
-  commentCount: number;
-  onRemoveClick: () => void;
-  onCardClick: () => void;
-  onChangeCardProperty: (
-    id: string,
-    propertyName: keyof ColumnCard,
-    value: string
-  ) => void;
+  commentsCount: number;
+  onRemove: () => void;
+  onClick: () => void;
+  onTextAreaChange: (propertyName: keyof ColumnCard, value: string) => void;
 }
 
-const Card: FC<Props> = ({
+const Card: FC<CardProps> = ({
   card,
-  onChangeCardProperty,
-  onRemoveClick,
-  onCardClick,
-  commentCount,
+  commentsCount,
+  onTextAreaChange,
+  onRemove,
+  onClick,
 }) => {
-  const textareaEl = useRef<HTMLTextAreaElement>(null);
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const textareaEl = textareaRef.current;
+
+  const handleTitleEdit = () => {
+    if (textareaRef && textareaEl) {
+      textareaEl.disabled = false;
+      textareaEl.focus();
+    }
+  };
 
   return (
-    <StyledCardBox>
-      <p>{commentCount}</p>
-      <TextAreaBox>
-        <CardTextArea
-          maxLength={100}
-          spellCheck={false}
-          rows={1}
-          placeholder="Card title"
-          value={card.title}
-          disabled
-          ref={textareaEl}
-          onChange={(event: React.ChangeEvent<HTMLTextAreaElement>) => {
-            onChangeCardProperty(card.id, "title", event.target.value);
-          }}
-        />
-        <TextAreaClickBlock
-          onClick={() => {
-            onCardClick();
-          }}
-        />
-      </TextAreaBox>
+    <Root>
+      <CardTop>
+        <TextAreaWrapper>
+          <CardTextArea
+            maxLength={100}
+            spellCheck={false}
+            rows={1}
+            placeholder="Card title"
+            value={card.title}
+            disabled
+            ref={textareaRef}
+            onChange={(event: React.ChangeEvent<HTMLTextAreaElement>) => {
+              onTextAreaChange(CardPropertyKeys.TITLE, event.target.value);
+            }}
+          />
+          <TextAreaHiddenButton
+            onClick={() => {
+              onClick();
+            }}
+          />
+          <CommentsCount>{commentsCount ? commentsCount : null}</CommentsCount>
+        </TextAreaWrapper>
 
-      <EnterCardButton
-        title="Edit title"
-        onClick={() => {
-          if (textareaEl && textareaEl.current) {
-            textareaEl.current.disabled = false;
-            textareaEl.current.focus();
-          }
-        }}
-      >
-        &#9998;
-      </EnterCardButton>
+        <EnterCardButton title="Edit title" onClick={handleTitleEdit}>
+          &#9998;
+        </EnterCardButton>
 
-      <RemoveCardButton title="Remove card" onClick={onRemoveClick}>
-        X
-      </RemoveCardButton>
-    </StyledCardBox>
+        <RemoveCardButton title="Remove card" onClick={onRemove}>
+          X
+        </RemoveCardButton>
+      </CardTop>
+    </Root>
   );
 };
 
-const StyledCardBox = styled.div`
+const Root = styled.div`
   flex: 1 1 auto;
   margin-bottom: 0;
   margin: 0 4px 10px;
   padding-bottom: 10px;
   z-index: 1;
-  display: flex;
-  justify-content: space-between;
+  padding: 4px 8px;
   border-radius: 5px;
   border: 1px solid var(--gray3);
 `;
@@ -86,7 +83,7 @@ const CardTextArea = styled.textarea`
   box-shadow: none;
   font-weight: 600;
   min-height: 20px;
-  padding: 4px 8px;
+
   resize: none;
   max-height: 256px;
   width: 100%;
@@ -119,11 +116,15 @@ const EnterCardButton = styled.button`
     transform: scale(1.05);
   }
 `;
-const TextAreaBox = styled.div`
+const TextAreaWrapper = styled.div`
   display: inline-block;
   position: relative;
 `;
-const TextAreaClickBlock = styled.div`
+const TextAreaHiddenButton = styled.button`
+  border: 0;
+  background: transparent;
+  width: 100%;
+  padding: 0;
   position: absolute;
   left: 0;
   right: 0;
@@ -131,4 +132,11 @@ const TextAreaClickBlock = styled.div`
   bottom: 0;
 `;
 
+const CardTop = styled.div`
+  display: flex;
+  justify-content: space-between;
+`;
+const CommentsCount = styled.div`
+  font-size: 12px;
+`;
 export default Card;

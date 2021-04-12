@@ -6,11 +6,16 @@ import { CardModal } from "./components/CardModal";
 import { LocalStorageKeys, setToLocalStorage } from "./utils/local-storage";
 
 import {
-  setUserNameData,
-  setColumnsData,
-  setCardsData,
-  setCommentsData,
+  initUserNameData,
+  initColumnsData,
+  initCardsData,
+  initCommentsData,
 } from "./utils/init-default-data";
+
+export enum CardPropertyKeys {
+  TITLE = "title",
+  TEXT = "text",
+}
 
 export interface DeskColumn {
   id: string;
@@ -31,102 +36,77 @@ export interface CardComment {
   author: string;
 }
 
-export interface CommentCount {
-  id: string;
-  count: number;
-}
-
 export type DeskColumns = Record<string, DeskColumn>;
 export type ColumnCards = Record<string, ColumnCard>;
 export type CardComments = Record<string, CardComment>;
-export type CommentsCounts = Record<string, CommentCount>;
 
 function App() {
-  const [columns, setColumns] = useState<DeskColumns>(setColumnsData());
-  const [cards, setCards] = useState<ColumnCards>(setCardsData());
-  const [comments, setComments] = useState<CardComments>(setCommentsData());
-  const [userName, setUserName] = useState(setUserNameData());
+  const [columns, setColumns] = useState<DeskColumns>(initColumnsData);
+  const [cards, setCards] = useState<ColumnCards>(initCardsData);
+  const [comments, setComments] = useState<CardComments>(initCommentsData);
+  const [userName, setUserName] = useState(initUserNameData);
   const [isUserModalShow, setIsUserModalShow] = useState(true);
-  const [idCardModal, setIdCardModal] = useState("");
-  const [commentsCounts, setCommentsCounts] = useState<CommentsCounts>({
-    "1": { id: "1", count: 0 },
-  });
-
-  useEffect(() => {
-    const result: CommentsCounts = {};
-    Object.values(comments).forEach((comment) => {
-      result[comment.cardId] = result[comment.cardId]
-        ? {
-            ...result[comment.cardId],
-            count: result[comment.cardId].count + 1,
-          }
-        : { id: comment.cardId, count: 1 };
-    });
-    setCommentsCounts(result);
-  }, [comments]);
+  const [cardIdForModalView, setcardIdForModalView] = useState("");
 
   useEffect(() => {
     if (userName) setIsUserModalShow(false);
   }, [userName]);
 
-  const onUserModalClose = () => {
-    setIsUserModalShow(false);
-  };
-
   const onCardModalClose = () => {
-    setIdCardModal("");
+    setcardIdForModalView("");
   };
 
   const onCardClick = (id: string) => {
-    setIdCardModal(id);
+    setcardIdForModalView(id);
   };
 
-  const addUserName = (name: string) => {
+  const onUserNameAdd = (name: string) => {
     setUserName(name);
     setToLocalStorage(name, LocalStorageKeys.USER_NAME);
   };
 
-  const onChangeColumnTitle = (title: string, id: string) => {
-    const cloneState = { ...columns };
-    cloneState[id] = { id, title };
+  const onColumnTitleChange = (title: string, id: string) => {
+    const cloneColumns = { ...columns };
+    cloneColumns[id] = { id, title };
 
-    setColumns(cloneState);
-    setToLocalStorage(cloneState, LocalStorageKeys.COLUMNS);
+    setColumns(cloneColumns);
+    setToLocalStorage(cloneColumns, LocalStorageKeys.COLUMNS);
   };
 
-  const onAddColumn = (title: string) => {
-    const cloneState = { ...columns };
+  const onColumnAdd = (title: string) => {
+    const cloneColumns = { ...columns };
     const columnID = uuid();
-    cloneState[columnID] = { id: columnID, title };
+    cloneColumns[columnID] = { id: columnID, title };
 
-    setColumns(cloneState);
-    setToLocalStorage(cloneState, LocalStorageKeys.COLUMNS);
+    setColumns(cloneColumns);
+    setToLocalStorage(cloneColumns, LocalStorageKeys.COLUMNS);
   };
 
-  const onRemoveColumn = (id: string) => {
-    const cloneState = { ...columns };
-    delete cloneState[id];
+  const onColumnRemove = (id: string) => {
+    const cloneColumns = { ...columns };
+    delete cloneColumns[id];
 
-    setColumns(cloneState);
-    setToLocalStorage(cloneState, LocalStorageKeys.COLUMNS);
+    setColumns(cloneColumns);
+    setToLocalStorage(cloneColumns, LocalStorageKeys.COLUMNS);
   };
 
-  const onChangeCardProperty = (
+  const onCardPropertyChange = (
     id: string,
     propertyName: keyof ColumnCard,
     value: string
   ) => {
-    const cloneState = { ...cards };
-    cloneState[id][propertyName] = value;
+    const cloneCards = { ...cards };
+    cloneCards[id][propertyName] = value;
 
-    setCards(cloneState);
-    setToLocalStorage(cloneState, LocalStorageKeys.CARDS);
+    setCards(cloneCards);
+    setToLocalStorage(cloneCards, LocalStorageKeys.CARDS);
   };
 
-  const onAddCard = (columnId: string, title = "", text = "") => {
-    const cloneState = { ...cards };
+  const onCardAdd = (columnId: string, title: string, text: string) => {
+    const cloneCards = { ...cards };
     const cardID = uuid();
-    cloneState[cardID] = {
+
+    cloneCards[cardID] = {
       id: cardID,
       columnId,
       title,
@@ -134,46 +114,55 @@ function App() {
       author: userName,
     };
 
-    setCards(cloneState);
-    setToLocalStorage(cloneState, LocalStorageKeys.CARDS);
+    setCards(cloneCards);
+    setToLocalStorage(cloneCards, LocalStorageKeys.CARDS);
   };
 
-  const onRemoveCard = (id: string) => {
-    const cloneState = { ...cards };
-    delete cloneState[id];
+  const onCardRemove = (id: string) => {
+    const cloneCards = { ...cards };
+    delete cloneCards[id];
 
-    setCards(cloneState);
-    setToLocalStorage(cloneState, LocalStorageKeys.CARDS);
+    setCards(cloneCards);
+    setToLocalStorage(cloneCards, LocalStorageKeys.CARDS);
   };
 
-  const onAddComent = (cardId: string, text = "") => {
-    const cloneState = { ...comments };
+  const onCommentAdd = (cardId: string, text: string) => {
+    const cloneComments = { ...comments };
     const commentID = uuid();
-    cloneState[commentID] = {
+
+    cloneComments[commentID] = {
       id: commentID,
       cardId,
       text,
       author: userName,
     };
 
-    setComments(cloneState);
-    setToLocalStorage(cloneState, LocalStorageKeys.COMMENTS);
+    setComments(cloneComments);
+    setToLocalStorage(cloneComments, LocalStorageKeys.COMMENTS);
   };
 
-  const onRemoveComment = (id: string) => {
-    const cloneState = { ...comments };
-    delete cloneState[id];
+  const onCommentRemove = (id: string) => {
+    const cloneComments = { ...comments };
+    delete cloneComments[id];
 
-    setComments(cloneState);
-    setToLocalStorage(cloneState, LocalStorageKeys.COMMENTS);
+    setComments(cloneComments);
+    setToLocalStorage(cloneComments, LocalStorageKeys.COMMENTS);
   };
 
-  const onChangeComment = (id: string, text: string) => {
-    const cloneState = { ...comments };
-    cloneState[id] = { ...cloneState[id], text };
+  const onCommentChange = (id: string, text: string) => {
+    const cloneComments = { ...comments };
+    cloneComments[id].text = text;
 
-    setComments(cloneState);
-    setToLocalStorage(cloneState, LocalStorageKeys.COMMENTS);
+    setComments(cloneComments);
+    setToLocalStorage(cloneComments, LocalStorageKeys.COMMENTS);
+  };
+
+  const getColumnTitle = (cardIdForModalView: string): string => {
+    const cardForModalView = cards[cardIdForModalView];
+    const columnIdFromCard = cardForModalView?.columnId;
+    const columnWithThisCard = columns[columnIdFromCard];
+
+    return columnWithThisCard?.title;
   };
 
   return (
@@ -181,33 +170,31 @@ function App() {
       <Header name={userName} />
       <MainDesk
         columns={columns}
-        onAddColumn={onAddColumn}
-        onChangeColumnTitle={onChangeColumnTitle}
-        onRemoveColumn={onRemoveColumn}
+        onColumnAdd={onColumnAdd}
+        onColumnTitleChange={onColumnTitleChange}
+        onColumnRemove={onColumnRemove}
         cards={cards}
-        onAddCard={onAddCard}
-        onRemoveCard={onRemoveCard}
-        onChangeCardProperty={onChangeCardProperty}
+        onCardAdd={onCardAdd}
+        onCardRemove={onCardRemove}
+        onCardPropertyChange={onCardPropertyChange}
         onCardClick={onCardClick}
-        commentsCounts={commentsCounts}
+        comments={comments}
       />
 
-      <UserModal
-        addUserName={addUserName}
-        isUserModalShow={isUserModalShow}
-        onUserModalClose={onUserModalClose}
-      />
+      <UserModal onConfirmClick={onUserNameAdd} isVisible={isUserModalShow} />
 
       <CardModal
-        isCardModalShow={Boolean(idCardModal)}
-        onCardModalClose={onCardModalClose}
-        card={cards[idCardModal]}
-        columnTitle={columns[cards[idCardModal]?.columnId]?.title}
+        isVisible={Boolean(cardIdForModalView)}
+        onClose={onCardModalClose}
+        card={cards[cardIdForModalView]}
+        columnTitle={getColumnTitle(cardIdForModalView)}
         comments={comments}
-        onChangeCardProperty={onChangeCardProperty}
-        onAddComent={onAddComent}
-        onRemoveComment={onRemoveComment}
-        onChangeComment={onChangeComment}
+        onTextAreaChange={(propertyName, value) =>
+          onCardPropertyChange(cardIdForModalView, propertyName, value)
+        }
+        onCommentAdd={onCommentAdd}
+        onCommentRemove={onCommentRemove}
+        onCommentChange={onCommentChange}
       />
     </div>
   );
