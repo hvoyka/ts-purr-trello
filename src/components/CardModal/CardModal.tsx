@@ -30,12 +30,7 @@ const CardModal: FC<CardModalProps> = ({
   if (!isVisible) return null;
 
   return (
-    <Modal
-      title="Card Modal"
-      isVisible={isVisible}
-      isCloseButtonVisible
-      onClose={onClose}
-    >
+    <Modal title="Card Modal" isVisible={isVisible} onClose={onClose}>
       <TextArea
         placeholder="Card title"
         rows={1}
