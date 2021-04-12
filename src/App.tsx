@@ -46,18 +46,18 @@ function App() {
   const [comments, setComments] = useState<CardComments>(initCommentsData);
   const [userName, setUserName] = useState(initUserNameData);
   const [isUserModalShow, setIsUserModalShow] = useState(true);
-  const [cardIdForModalView, setcardIdForModalView] = useState("");
+  const [cardIdForModalView, setCardIdForModalView] = useState("");
 
   useEffect(() => {
     if (userName) setIsUserModalShow(false);
   }, [userName]);
 
   const onCardModalClose = () => {
-    setcardIdForModalView("");
+    setCardIdForModalView("");
   };
 
   const onCardClick = (id: string) => {
-    setcardIdForModalView(id);
+    setCardIdForModalView(id);
   };
 
   const onUserNameAdd = (name: string) => {
