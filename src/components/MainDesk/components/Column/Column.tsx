@@ -15,7 +15,7 @@ export interface ColumnProps {
   comments: CardComments;
   onTitleChange: (title: string) => void;
   onRemoveClick: () => void;
-  onCardAdd: (columnId: string, title: string, text: string) => void;
+  onCardAdd: (columnId: string, title: string, text?: string) => void;
   onCardRemoveClick: (id: string) => void;
   onCardPropertyChange: (
     id: string,
@@ -43,11 +43,16 @@ const Column: FC<ColumnProps> = ({
   const [isNewCardEdit, setIsNewCardEdit] = useState(false);
   const [newCardTitle, setnewCardTitle] = useState("");
 
+  const handleTitleEdittingCloseClick = () => {
+    setIsNewCardEdit(false);
+    setnewCardTitle("");
+  };
+
   const handleAddCardClick = () => {
     const trimmedTitle = newCardTitle.trim();
 
     if (trimmedTitle) {
-      onCardAdd(column.id, newCardTitle, "");
+      onCardAdd(column.id, newCardTitle);
       handleTitleEdittingCloseClick();
     }
   };
@@ -57,11 +62,6 @@ const Column: FC<ColumnProps> = ({
       (comment) => comment.cardId === cardId
     );
     return filteredComments.length;
-  };
-
-  const handleTitleEdittingCloseClick = () => {
-    setIsNewCardEdit(false);
-    setnewCardTitle("");
   };
 
   return (
