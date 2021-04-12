@@ -96,32 +96,31 @@ const Column: FC<ColumnProps> = ({
             />
           );
         })}
-
-        {!isNewCardEdit ? (
-          <AddCardButton
-            title="Add card"
-            onClick={() => {
-              setIsNewCardEdit(true);
-            }}
-          >
-            +
-          </AddCardButton>
-        ) : (
-          <div>
-            <textarea
-              autoFocus
-              rows={1}
-              placeholder="Column title"
-              value={newCardTitle}
-              onChange={(e) => setnewCardTitle(e.target.value)}
-            />
-
-            <button onClick={handleAddCardClick}>Add card</button>
-
-            <button onClick={handleTitleEdittingCloseClick}>x</button>
-          </div>
-        )}
       </CardList>
+      {!isNewCardEdit ? (
+        <AddCardButton
+          title="Add card"
+          onClick={() => {
+            setIsNewCardEdit(true);
+          }}
+        >
+          +
+        </AddCardButton>
+      ) : (
+        <div>
+          <textarea
+            autoFocus
+            rows={1}
+            placeholder="Column title"
+            value={newCardTitle}
+            onChange={(e) => setnewCardTitle(e.target.value)}
+          />
+
+          <button onClick={handleAddCardClick}>Add card</button>
+
+          <button onClick={handleTitleEdittingCloseClick}>x</button>
+        </div>
+      )}
     </Root>
   );
 };
@@ -195,9 +194,10 @@ const ListHeader = styled.div`
   min-height: 20px;
   padding-right: 36px;
 `;
-const CardList = styled.div`
+const CardList = styled.ul`
   padding: 0;
   margin: 0;
+  list-style: none;
 `;
 
 export default Column;

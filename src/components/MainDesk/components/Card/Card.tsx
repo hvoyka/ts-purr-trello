@@ -59,7 +59,7 @@ const Card: FC<CardProps> = ({
   );
 };
 
-const Root = styled.div`
+const Root = styled.li`
   flex: 1 1 auto;
   margin-bottom: 0;
   margin: 0 4px 10px;
