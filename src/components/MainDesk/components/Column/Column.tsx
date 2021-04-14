@@ -7,6 +7,7 @@ import {
   CardComments,
 } from "../../../../App";
 import { Card } from "../Card";
+import { getCommentsCount } from "./utils";
 import React, { FC, useMemo, useState } from "react";
 
 export interface ColumnProps {
@@ -15,7 +16,7 @@ export interface ColumnProps {
   comments: CardComments;
   onTitleChange: (title: string) => void;
   onRemoveClick: () => void;
-  onCardAdd: (columnId: string, title: string, text: string) => void;
+  onCardAdd: (columnId: string, title: string, text?: string) => void;
   onCardRemoveClick: (id: string) => void;
   onCardPropertyChange: (
     id: string,
@@ -43,25 +44,18 @@ const Column: FC<ColumnProps> = ({
   const [isNewCardEdit, setIsNewCardEdit] = useState(false);
   const [newCardTitle, setnewCardTitle] = useState("");
 
+  const handleTitleEdittingCloseClick = () => {
+    setIsNewCardEdit(false);
+    setnewCardTitle("");
+  };
+
   const handleAddCardClick = () => {
     const trimmedTitle = newCardTitle.trim();
 
     if (trimmedTitle) {
-      onCardAdd(column.id, newCardTitle, "");
+      onCardAdd(column.id, newCardTitle);
       handleTitleEdittingCloseClick();
     }
-  };
-
-  const getCommentsCount = (comments: CardComments, cardId: string): number => {
-    const filteredComments = Object.values(comments).filter(
-      (comment) => comment.cardId === cardId
-    );
-    return filteredComments.length;
-  };
-
-  const handleTitleEdittingCloseClick = () => {
-    setIsNewCardEdit(false);
-    setnewCardTitle("");
   };
 
   return (
@@ -102,37 +96,36 @@ const Column: FC<ColumnProps> = ({
             />
           );
         })}
-
-        {!isNewCardEdit ? (
-          <AddCardButton
-            title="Add card"
-            onClick={() => {
-              setIsNewCardEdit(true);
-            }}
-          >
-            +
-          </AddCardButton>
-        ) : (
-          <div>
-            <textarea
-              autoFocus
-              rows={1}
-              placeholder="Column title"
-              value={newCardTitle}
-              onChange={(e) => setnewCardTitle(e.target.value)}
-            />
-
-            <button onClick={handleAddCardClick}>Add card</button>
-
-            <button onClick={handleTitleEdittingCloseClick}>x</button>
-          </div>
-        )}
       </CardList>
+      {!isNewCardEdit ? (
+        <AddCardButton
+          title="Add card"
+          onClick={() => {
+            setIsNewCardEdit(true);
+          }}
+        >
+          +
+        </AddCardButton>
+      ) : (
+        <div>
+          <textarea
+            autoFocus
+            rows={1}
+            placeholder="Column title"
+            value={newCardTitle}
+            onChange={(e) => setnewCardTitle(e.target.value)}
+          />
+
+          <button onClick={handleAddCardClick}>Add card</button>
+
+          <button onClick={handleTitleEdittingCloseClick}>x</button>
+        </div>
+      )}
     </Root>
   );
 };
 
-const Root = styled.div`
+const Root = styled.li`
   position: relative;
   flex: 0 0 272px;
   width: 272px;
@@ -201,9 +194,10 @@ const ListHeader = styled.div`
   min-height: 20px;
   padding-right: 36px;
 `;
-const CardList = styled.div`
+const CardList = styled.ul`
   padding: 0;
   margin: 0;
+  list-style: none;
 `;
 
 export default Column;

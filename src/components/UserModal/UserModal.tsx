@@ -1,4 +1,4 @@
-import React, { useState, FC, ChangeEvent, KeyboardEvent } from "react";
+import React, { useState, FC, KeyboardEvent } from "react";
 import styled from "styled-components";
 import { Button } from "react-bootstrap";
 import { Modal } from "../UI";
@@ -10,10 +10,6 @@ interface UserModalProps {
 
 const UserModal: FC<UserModalProps> = ({ onConfirmClick, isVisible }) => {
   const [user, setUser] = useState("");
-
-  const handleUserNameChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setUser(event.target.value);
-  };
 
   const handleConfirmClick = () => {
     const trimmedUser = user.trim();
@@ -30,20 +26,18 @@ const UserModal: FC<UserModalProps> = ({ onConfirmClick, isVisible }) => {
 
   return (
     <>
-      <Modal
-        title="User Modal"
-        isVisible={isVisible}
-        isCloseButtonVisible={false}
-      >
+      <Modal title="User Modal" isVisible={isVisible}>
         <Input
           type="text"
           placeholder="User name"
-          onChange={handleUserNameChange}
+          onChange={(event) => {
+            setUser(event.target.value);
+          }}
           defaultValue={user}
           onKeyDown={handleEnterPress}
         />
         <Button
-          onClick={(e) => {
+          onClick={() => {
             handleConfirmClick();
           }}
           variant="primary"

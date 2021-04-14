@@ -54,7 +54,7 @@ const Comments: FC<CommentsProps> = ({
           placeholder="New comment text"
           value={newCommentText}
           onChange={(e) => setNewCommentText(e.target.value)}
-          onKeyDown={(e) => handleEnterPress(e)}
+          onKeyDown={handleEnterPress}
         />
         <button onClick={handleCommentAddClick}>Add comment</button>
       </AddCommentWrapper>

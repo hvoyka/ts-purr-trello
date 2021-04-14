@@ -12,11 +12,6 @@ import {
   initCommentsData,
 } from "./utils/init-default-data";
 
-export enum CardPropertyKeys {
-  TITLE = "title",
-  TEXT = "text",
-}
-
 export interface DeskColumn {
   id: string;
   title: string;
@@ -102,7 +97,7 @@ function App() {
     setToLocalStorage(cloneCards, LocalStorageKeys.CARDS);
   };
 
-  const onCardAdd = (columnId: string, title: string, text: string) => {
+  const onCardAdd = (columnId: string, title: string, text: string = "") => {
     const cloneCards = { ...cards };
     const cardID = uuid();
 

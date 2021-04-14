@@ -1,7 +1,7 @@
 import React, { FC } from "react";
 import styled from "styled-components";
 import { Modal } from "../UI";
-import { ColumnCard, CardComments, CardPropertyKeys } from "../../App";
+import { ColumnCard, CardComments } from "../../App";
 import { Comments } from "./components";
 
 interface CardModalProps {
@@ -30,25 +30,20 @@ const CardModal: FC<CardModalProps> = ({
   if (!isVisible) return null;
 
   return (
-    <Modal
-      title="Card Modal"
-      isVisible={isVisible}
-      isCloseButtonVisible
-      onClose={onClose}
-    >
+    <Modal title="Card Modal" isVisible={isVisible} onClose={onClose}>
       <TextArea
         placeholder="Card title"
         rows={1}
         defaultValue={card.title}
         onBlur={(event: React.ChangeEvent<HTMLTextAreaElement>) => {
-          onTextAreaChange(CardPropertyKeys.TITLE, event.target.value);
+          onTextAreaChange("title", event.target.value);
         }}
       />
       <TextArea
         placeholder="Description"
         defaultValue={card.text}
         onChange={(event: React.ChangeEvent<HTMLTextAreaElement>) => {
-          onTextAreaChange(CardPropertyKeys.TEXT, event.target.value);
+          onTextAreaChange("text", event.target.value);
         }}
       />
       <Comments
