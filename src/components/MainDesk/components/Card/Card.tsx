@@ -5,7 +5,7 @@ import React, { FC, useRef } from "react";
 export interface CardProps {
   card: ColumnCard;
   commentsCount: number;
-  onRemove: () => void;
+  onRemoveClick: () => void;
   onClick: () => void;
   onTextAreaChange: (propertyName: keyof ColumnCard, value: string) => void;
 }
@@ -14,13 +14,13 @@ const Card: FC<CardProps> = ({
   card,
   commentsCount,
   onTextAreaChange,
-  onRemove,
+  onRemoveClick,
   onClick,
 }) => {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const textareaEl = textareaRef.current;
 
-  const handleTitleEdit = () => {
+  const handleTitleEditClick = () => {
     if (textareaRef && textareaEl) {
       textareaEl.disabled = false;
       textareaEl.focus();
@@ -51,11 +51,11 @@ const Card: FC<CardProps> = ({
           <CommentsCount>{commentsCount ? commentsCount : null}</CommentsCount>
         </TextAreaWrapper>
 
-        <EnterCardButton title="Edit title" onClick={handleTitleEdit}>
+        <EnterCardButton title="Edit title" onClick={handleTitleEditClick}>
           &#9998;
         </EnterCardButton>
 
-        <RemoveCardButton title="Remove card" onClick={onRemove}>
+        <RemoveCardButton title="Remove card" onClick={onRemoveClick}>
           X
         </RemoveCardButton>
       </CardTop>
