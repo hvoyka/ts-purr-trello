@@ -4,11 +4,11 @@ import { CardComment } from "../../../../App";
 
 export interface CommentProps {
   comment: CardComment;
-  onRemove: () => void;
+  onRemoveClick: () => void;
   onSave: (text: string) => void;
 }
 
-const Comment: FC<CommentProps> = ({ comment, onRemove, onSave }) => {
+const Comment: FC<CommentProps> = ({ comment, onRemoveClick, onSave }) => {
   const [isTextIsEdit, setIsTextIsEdit] = useState(false);
   const [commentText, setCommentText] = useState(comment.text);
 
@@ -36,7 +36,7 @@ const Comment: FC<CommentProps> = ({ comment, onRemove, onSave }) => {
               изменить
             </EditButton>
             <Separator>-</Separator>
-            <EditButton onClick={onRemove}>удалить</EditButton>
+            <EditButton onClick={onRemoveClick}>удалить</EditButton>
           </ButtonsWrapper>
         </>
       )}

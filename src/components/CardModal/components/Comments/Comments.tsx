@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import React, { useState, useMemo, FC } from "react";
+import React, { useState, useMemo, FC, KeyboardEvent } from "react";
 import { CardComments } from "../../../../App";
 import { Comment } from "./../Comment";
 
@@ -7,7 +7,7 @@ export interface CommentsProps {
   cardId: string;
   comments: CardComments;
   onCommentAdd: (cardId: string, text: string) => void;
-  onCommentRemove: (id: string) => void;
+  onCommentRemoveClick: (id: string) => void;
   onCommentChange: (id: string, text: string) => void;
 }
 
@@ -15,7 +15,7 @@ const Comments: FC<CommentsProps> = ({
   cardId,
   comments,
   onCommentAdd,
-  onCommentRemove,
+  onCommentRemoveClick,
   onCommentChange,
 }) => {
   const [newCommentText, setNewCommentText] = useState("");
@@ -25,18 +25,15 @@ const Comments: FC<CommentsProps> = ({
       Object.values(comments).filter((comment) => comment.cardId === cardId),
     [comments, cardId]
   );
-
-  const handleEnterPress = (
-    event: React.KeyboardEvent<HTMLTextAreaElement>
-  ) => {
-    if (event.key === "Enter") {
-      handleCommentAdd();
-    }
-  };
-
-  const handleCommentAdd = () => {
+  const handleCommentAddClick = () => {
     onCommentAdd(cardId, newCommentText);
     setNewCommentText("");
+  };
+
+  const handleEnterPress = (event: KeyboardEvent<HTMLTextAreaElement>) => {
+    if (event.key === "Enter") {
+      handleCommentAddClick();
+    }
   };
 
   return (
@@ -46,7 +43,7 @@ const Comments: FC<CommentsProps> = ({
           <Comment
             key={filteredComment.id}
             comment={filteredComment}
-            onRemove={() => onCommentRemove(filteredComment.id)}
+            onRemoveClick={() => onCommentRemoveClick(filteredComment.id)}
             onSave={(value) => onCommentChange(filteredComment.id, value)}
           />
         ))}
@@ -57,9 +54,9 @@ const Comments: FC<CommentsProps> = ({
           placeholder="New comment text"
           value={newCommentText}
           onChange={(e) => setNewCommentText(e.target.value)}
-          onKeyDown={(e) => handleEnterPress(e)}
+          onKeyDown={handleEnterPress}
         />
-        <button onClick={handleCommentAdd}>Add comment</button>
+        <button onClick={handleCommentAddClick}>Add comment</button>
       </AddCommentWrapper>
     </>
   );
