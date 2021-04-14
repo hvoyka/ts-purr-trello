@@ -36,12 +36,7 @@ const UserModal: FC<UserModalProps> = ({ onConfirmClick, isVisible }) => {
           defaultValue={user}
           onKeyDown={handleEnterPress}
         />
-        <Button
-          onClick={() => {
-            handleConfirmClick();
-          }}
-          variant="primary"
-        >
+        <Button onClick={handleConfirmClick} variant="primary">
           Confirm
         </Button>
       </Modal>
