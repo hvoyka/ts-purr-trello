@@ -43,6 +43,7 @@ const Column: FC<ColumnProps> = ({
   );
   const [isNewCardEdit, setIsNewCardEdit] = useState(false);
   const [newCardTitle, setNewCardTitle] = useState("");
+  const [newColumnTitle, setNewColumnTitle] = useState(column.title);
 
   const handleTitleEdittingCloseClick = () => {
     setIsNewCardEdit(false);
@@ -58,6 +59,15 @@ const Column: FC<ColumnProps> = ({
     }
   };
 
+  const handleCardTitleAreaBlure = () => {
+    const trimmedColumnTitle = newColumnTitle.trim();
+    if (trimmedColumnTitle) {
+      onTitleChange(trimmedColumnTitle);
+    } else {
+      setNewColumnTitle(column.title);
+    }
+  };
+
   return (
     <Root>
       <ListHeader>
@@ -66,10 +76,11 @@ const Column: FC<ColumnProps> = ({
           spellCheck={false}
           rows={2}
           placeholder="Column title"
-          defaultValue={column.title}
+          value={newColumnTitle}
           onChange={(event: React.ChangeEvent<HTMLTextAreaElement>) => {
-            onTitleChange(event.target.value);
+            setNewColumnTitle(event.target.value);
           }}
+          onBlur={handleCardTitleAreaBlure}
         />
 
         <RemoveColumnButton

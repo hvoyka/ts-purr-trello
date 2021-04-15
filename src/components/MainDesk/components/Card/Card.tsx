@@ -24,7 +24,7 @@ const Card: FC<CardProps> = ({
     setIsTextAreaEdit(true);
   };
 
-  const handleTitleBlure = () => {
+  const handleTitleAreaBlure = () => {
     const trimmedCardTitle = cardTitle.trim();
     if (trimmedCardTitle) {
       onTextAreaChange("title", trimmedCardTitle);
@@ -33,6 +33,7 @@ const Card: FC<CardProps> = ({
     }
     setIsTextAreaEdit(false);
   };
+
   return (
     <Root>
       <CardTop>
@@ -48,7 +49,7 @@ const Card: FC<CardProps> = ({
               onChange={(event: React.ChangeEvent<HTMLTextAreaElement>) => {
                 setCardTitle(event.target.value);
               }}
-              onBlur={handleTitleBlure}
+              onBlur={handleTitleAreaBlure}
             />
           ) : (
             <CardTitleButton onClick={onClick}>{card.title}</CardTitleButton>
