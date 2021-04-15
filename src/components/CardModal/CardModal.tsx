@@ -27,7 +27,9 @@ const CardModal: FC<CardModalProps> = ({
   onCommentChange,
   columnTitle,
 }) => {
-  const [newCardTitle, setNewCardTitle] = useState(card.title);
+  const [newCardTitle, setNewCardTitle] = useState(card?.title);
+
+  if (!isVisible) return null;
 
   const handleTitleAreaBlure = () => {
     const trimmedCardTitle = newCardTitle.trim();
@@ -43,28 +45,28 @@ const CardModal: FC<CardModalProps> = ({
       <TextArea
         placeholder="Card title"
         rows={1}
-        value={newCardTitle}
-        onChange={(event: React.ChangeEvent<HTMLTextAreaElement>) => {
-          setNewCardTitle(event.target.value);
-        }}
+        defaultValue={card.title}
+        onChange={(event: React.ChangeEvent<HTMLTextAreaElement>) =>
+          setNewCardTitle(event.target.value)
+        }
         onBlur={handleTitleAreaBlure}
       />
       <TextArea
         placeholder="Description"
-        value={card.text}
+        value={card?.text}
         onChange={(event: React.ChangeEvent<HTMLTextAreaElement>) => {
           onTextAreaChange("text", event.target.value);
         }}
       />
       <Comments
-        cardId={card.id}
+        cardId={card?.id}
         comments={comments}
         onCommentAdd={onCommentAdd}
         onCommentRemoveClick={onCommentRemoveClick}
         onCommentChange={onCommentChange}
       />
       <p>
-        Card author: <b>{card.author}</b> - column: <b>{columnTitle}</b>
+        Card author: <b>{card?.author}</b> - column: <b>{columnTitle}</b>
       </p>
     </Modal>
   );

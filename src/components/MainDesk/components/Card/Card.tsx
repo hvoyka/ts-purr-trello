@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { ColumnCard } from "../../../../App";
-import React, { FC, useState } from "react";
+import React, { FC, useState, useEffect } from "react";
 
 export interface CardProps {
   card: ColumnCard;
@@ -19,6 +19,10 @@ const Card: FC<CardProps> = ({
 }) => {
   const [isTextareaEdit, setIsTextAreaEdit] = useState(false);
   const [cardTitle, setCardTitle] = useState(card.title);
+
+  useEffect(() => {
+    setCardTitle(card.title);
+  }, [card.title]);
 
   const handleTitleEditClick = () => {
     setIsTextAreaEdit(true);
