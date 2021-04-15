@@ -178,19 +178,21 @@ function App() {
 
       <UserModal onConfirmClick={onUserNameAdd} isVisible={isUserModalShow} />
 
-      <CardModal
-        isVisible={Boolean(cardIdForModalView)}
-        onClose={onCardModalClose}
-        card={cards[cardIdForModalView]}
-        columnTitle={getColumnTitle(cardIdForModalView)}
-        comments={comments}
-        onTextAreaChange={(propertyName, value) =>
-          onCardPropertyChange(cardIdForModalView, propertyName, value)
-        }
-        onCommentAdd={onCommentAdd}
-        onCommentRemoveClick={onCommentRemoveClick}
-        onCommentChange={onCommentChange}
-      />
+      {cardIdForModalView && (
+        <CardModal
+          isVisible={Boolean(cardIdForModalView)}
+          onClose={onCardModalClose}
+          card={cards[cardIdForModalView]}
+          columnTitle={getColumnTitle(cardIdForModalView)}
+          comments={comments}
+          onTextAreaChange={(propertyName, value) =>
+            onCardPropertyChange(cardIdForModalView, propertyName, value)
+          }
+          onCommentAdd={onCommentAdd}
+          onCommentRemoveClick={onCommentRemoveClick}
+          onCommentChange={onCommentChange}
+        />
+      )}
     </div>
   );
 }

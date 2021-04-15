@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React, { FC, useState } from "react";
 import styled from "styled-components";
 import { Modal } from "../UI";
 import { ColumnCard, CardComments } from "../../App";
@@ -27,21 +27,31 @@ const CardModal: FC<CardModalProps> = ({
   onCommentChange,
   columnTitle,
 }) => {
-  if (!isVisible) return null;
+  const [newCardTitle, setNewCardTitle] = useState(card.title);
+
+  const handleTitleAreaBlure = () => {
+    const trimmedCardTitle = newCardTitle.trim();
+    if (trimmedCardTitle) {
+      onTextAreaChange("title", trimmedCardTitle);
+    } else {
+      setNewCardTitle(card.title);
+    }
+  };
 
   return (
     <Modal title="Card Modal" isVisible={isVisible} onClose={onClose}>
       <TextArea
         placeholder="Card title"
         rows={1}
-        defaultValue={card.title}
-        onBlur={(event: React.ChangeEvent<HTMLTextAreaElement>) => {
-          onTextAreaChange("title", event.target.value);
+        value={newCardTitle}
+        onChange={(event: React.ChangeEvent<HTMLTextAreaElement>) => {
+          setNewCardTitle(event.target.value);
         }}
+        onBlur={handleTitleAreaBlure}
       />
       <TextArea
         placeholder="Description"
-        defaultValue={card.text}
+        value={card.text}
         onChange={(event: React.ChangeEvent<HTMLTextAreaElement>) => {
           onTextAreaChange("text", event.target.value);
         }}

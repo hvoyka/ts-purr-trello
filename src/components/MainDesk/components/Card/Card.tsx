@@ -52,10 +52,8 @@ const Card: FC<CardProps> = ({
               onBlur={handleTitleAreaBlure}
             />
           ) : (
-            <CardTitleButton onClick={onClick}>{card.title}</CardTitleButton>
+            <CardTitleButton onClick={onClick}>{cardTitle}</CardTitleButton>
           )}
-
-          {!!commentsCount && <CommentsCount>{commentsCount}</CommentsCount>}
         </TextAreaWrapper>
 
         <EnterCardButton title="Edit title" onClick={handleTitleEditClick}>
@@ -65,16 +63,18 @@ const Card: FC<CardProps> = ({
         <RemoveCardButton title="Remove card" onClick={onRemoveClick}>
           X
         </RemoveCardButton>
+        {!!commentsCount && <CommentsCount>{commentsCount}</CommentsCount>}
       </CardTop>
     </Root>
   );
 };
 
 const Root = styled.li`
+  position: relative;
   flex: 1 1 auto;
   margin-bottom: 0;
   margin: 0 4px 10px;
-  padding-bottom: 10px;
+  padding: 10px 5px 10px 5px;
   z-index: 1;
   padding: 4px 8px;
   border-radius: 5px;
@@ -131,6 +131,7 @@ const CardTitleButton = styled.button`
   border: 0;
   background: transparent;
   width: 100%;
+  height: 100%;
   padding: 0;
   text-align: left;
   font-weight: 600;
@@ -142,5 +143,8 @@ const CardTop = styled.div`
 `;
 const CommentsCount = styled.div`
   font-size: 12px;
+  position: absolute;
+  top: 0;
+  left: 0;
 `;
 export default Card;
