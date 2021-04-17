@@ -1,7 +1,7 @@
 import React, { useState, FC, KeyboardEvent } from "react";
 import styled from "styled-components";
 import { Button } from "react-bootstrap";
-import { Modal } from "../UI";
+import { Modal } from "../ui";
 
 interface UserModalProps {
   isVisible: boolean;

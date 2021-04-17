@@ -1,6 +1,6 @@
 import React, { FC, useState } from "react";
 import styled from "styled-components";
-import { Modal } from "../UI";
+import { Modal } from "../ui";
 import { ColumnCard, CardComments } from "../../App";
 import { Comments } from "./components";
 

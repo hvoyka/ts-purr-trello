@@ -1,5 +1,2 @@
-import { Column } from "./Column";
-import { Card } from "./Card";
-import { CardModal } from "../../CardModal";
-
-export { Column, Card, CardModal };
+export { Column } from "./Column";
+export { Card } from "./Card";
