@@ -42,7 +42,7 @@ const MainDesk: FC<MainDeskProps> = ({
     setNewColumnTitle("");
   };
 
-  const handleColumnAdd = () => {
+  const handleColumnAddClick = () => {
     const trimmedTitle = newColumnTitle.trim();
     if (trimmedTitle) {
       onColumnAdd(newColumnTitle);
@@ -84,7 +84,7 @@ const MainDesk: FC<MainDeskProps> = ({
                   onChange={(e) => setNewColumnTitle(e.target.value)}
                 />
 
-                <button onClick={handleColumnAdd}>Add column</button>
+                <button onClick={handleColumnAddClick}>Add column</button>
 
                 <button onClick={handleEditTitleClose}>x</button>
               </>

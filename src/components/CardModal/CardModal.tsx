@@ -31,7 +31,7 @@ const CardModal: FC<CardModalProps> = ({
 
   if (!isVisible) return null;
 
-  const handleTitleAreaBlure = () => {
+  const handleTitleAreaBlur = () => {
     const trimmedCardTitle = newCardTitle.trim();
     if (trimmedCardTitle) {
       onTextAreaChange("title", trimmedCardTitle);
@@ -49,7 +49,7 @@ const CardModal: FC<CardModalProps> = ({
         onChange={(event: React.ChangeEvent<HTMLTextAreaElement>) =>
           setNewCardTitle(event.target.value)
         }
-        onBlur={handleTitleAreaBlure}
+        onBlur={handleTitleAreaBlur}
       />
       <TextArea
         placeholder="Description"

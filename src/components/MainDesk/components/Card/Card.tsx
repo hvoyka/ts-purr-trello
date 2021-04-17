@@ -17,7 +17,7 @@ const Card: FC<CardProps> = ({
   onRemoveClick,
   onClick,
 }) => {
-  const [isTextareaEdit, setIsTextAreaEdit] = useState(false);
+  const [isCardTitleEdit, setIsCardTitleEdit] = useState(false);
   const [cardTitle, setCardTitle] = useState(card.title);
 
   useEffect(() => {
@@ -25,24 +25,26 @@ const Card: FC<CardProps> = ({
   }, [card.title]);
 
   const handleTitleEditClick = () => {
-    setIsTextAreaEdit(true);
+    setIsCardTitleEdit(true);
   };
 
-  const handleTitleAreaBlure = () => {
+  const handleTitleAreaBlur = () => {
     const trimmedCardTitle = cardTitle.trim();
+
     if (trimmedCardTitle) {
       onTextAreaChange("title", trimmedCardTitle);
     } else {
       setCardTitle(card.title);
     }
-    setIsTextAreaEdit(false);
+
+    setIsCardTitleEdit(false);
   };
 
   return (
     <Root>
       <CardTop>
         <TextAreaWrapper>
-          {isTextareaEdit ? (
+          {isCardTitleEdit ? (
             <CardTextArea
               autoFocus
               maxLength={100}
@@ -53,7 +55,7 @@ const Card: FC<CardProps> = ({
               onChange={(event: React.ChangeEvent<HTMLTextAreaElement>) => {
                 setCardTitle(event.target.value);
               }}
-              onBlur={handleTitleAreaBlure}
+              onBlur={handleTitleAreaBlur}
             />
           ) : (
             <CardTitleButton onClick={onClick}>{cardTitle}</CardTitleButton>
@@ -67,6 +69,7 @@ const Card: FC<CardProps> = ({
         <RemoveCardButton title="Remove card" onClick={onRemoveClick}>
           X
         </RemoveCardButton>
+
         {!!commentsCount && <CommentsCount>{commentsCount}</CommentsCount>}
       </CardTop>
     </Root>

@@ -59,7 +59,7 @@ const Column: FC<ColumnProps> = ({
     }
   };
 
-  const handleCardTitleAreaBlure = () => {
+  const handleCardTitleAreaBlur = () => {
     const trimmedColumnTitle = newColumnTitle.trim();
     if (trimmedColumnTitle) {
       onTitleChange(trimmedColumnTitle);
@@ -80,7 +80,7 @@ const Column: FC<ColumnProps> = ({
           onChange={(event: React.ChangeEvent<HTMLTextAreaElement>) => {
             setNewColumnTitle(event.target.value);
           }}
-          onBlur={handleCardTitleAreaBlure}
+          onBlur={handleCardTitleAreaBlur}
         />
 
         <RemoveColumnButton
