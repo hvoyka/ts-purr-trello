@@ -163,6 +163,7 @@ function App() {
   return (
     <div className="App">
       <Header name={userName} />
+
       <MainDesk
         columns={columns}
         onColumnAdd={onColumnAdd}
@@ -179,7 +180,7 @@ function App() {
       <UserModal onConfirmClick={onUserNameAdd} isVisible={isUserModalShow} />
 
       <CardModal
-        isVisible={Boolean(cardIdForModalView)}
+        isVisible={!!cardIdForModalView}
         onClose={onCardModalClose}
         card={cards[cardIdForModalView]}
         columnTitle={getColumnTitle(cardIdForModalView)}

@@ -26,7 +26,7 @@ const UserModal: FC<UserModalProps> = ({ onConfirmClick, isVisible }) => {
 
   return (
     <>
-      <Modal title="User Modal" isVisible={isVisible}>
+      <Modal title="Enter your name" isVisible={isVisible}>
         <Input
           type="text"
           placeholder="User name"

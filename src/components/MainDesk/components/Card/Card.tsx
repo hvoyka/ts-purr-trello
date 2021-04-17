@@ -1,6 +1,8 @@
 import styled from "styled-components";
 import { ColumnCard } from "../../../../App";
 import React, { FC, useState, useEffect } from "react";
+import { FaRegCommentDots } from "react-icons/fa";
+import { AiOutlineEdit } from "react-icons/ai";
 
 export interface CardProps {
   card: ColumnCard;
@@ -63,14 +65,19 @@ const Card: FC<CardProps> = ({
         </TextAreaWrapper>
 
         <EnterCardButton title="Edit title" onClick={handleTitleEditClick}>
-          &#9998;
+          <AiOutlineEdit />
         </EnterCardButton>
 
         <RemoveCardButton title="Remove card" onClick={onRemoveClick}>
           X
         </RemoveCardButton>
 
-        {!!commentsCount && <CommentsCount>{commentsCount}</CommentsCount>}
+        {!!commentsCount && (
+          <CommentsCountWrapper>
+            <CommentsCount>{commentsCount}</CommentsCount>
+            <FaRegCommentDots />
+          </CommentsCountWrapper>
+        )}
       </CardTop>
     </Root>
   );
@@ -83,7 +90,7 @@ const Root = styled.li`
   margin: 0 4px 10px;
   padding: 10px 5px 10px 5px;
   z-index: 1;
-  padding: 4px 8px;
+  padding: 4px 8px 15px 8px;
   border-radius: 5px;
   border: 1px solid var(--gray3);
 `;
@@ -125,6 +132,7 @@ const EnterCardButton = styled.button`
   border: none;
   color: var(--blue2);
   border: 1px solid transparent;
+  font-size: 20px;
   &:hover {
     transform: scale(1.05);
   }
@@ -148,10 +156,18 @@ const CardTop = styled.div`
   display: flex;
   justify-content: space-between;
 `;
+const CommentsCountWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  position: absolute;
+  bottom: 0;
+  left: 7px;
+`;
 const CommentsCount = styled.div`
   font-size: 12px;
-  position: absolute;
-  top: 0;
-  left: 0;
+  font-weight: bold;
+  margin-right: 8px;
 `;
 export default Card;
