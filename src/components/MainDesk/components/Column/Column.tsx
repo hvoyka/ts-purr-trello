@@ -42,11 +42,12 @@ const Column: FC<ColumnProps> = ({
     [cards, column.id]
   );
   const [isNewCardEdit, setIsNewCardEdit] = useState(false);
-  const [newCardTitle, setnewCardTitle] = useState("");
+  const [newCardTitle, setNewCardTitle] = useState("");
+  const [newColumnTitle, setNewColumnTitle] = useState(column.title);
 
   const handleTitleEdittingCloseClick = () => {
     setIsNewCardEdit(false);
-    setnewCardTitle("");
+    setNewCardTitle("");
   };
 
   const handleAddCardClick = () => {
@@ -58,6 +59,15 @@ const Column: FC<ColumnProps> = ({
     }
   };
 
+  const handleCardTitleAreaBlure = () => {
+    const trimmedColumnTitle = newColumnTitle.trim();
+    if (trimmedColumnTitle) {
+      onTitleChange(trimmedColumnTitle);
+    } else {
+      setNewColumnTitle(column.title);
+    }
+  };
+
   return (
     <Root>
       <ListHeader>
@@ -66,10 +76,11 @@ const Column: FC<ColumnProps> = ({
           spellCheck={false}
           rows={2}
           placeholder="Column title"
-          defaultValue={column.title}
+          value={newColumnTitle}
           onChange={(event: React.ChangeEvent<HTMLTextAreaElement>) => {
-            onTitleChange(event.target.value);
+            setNewColumnTitle(event.target.value);
           }}
+          onBlur={handleCardTitleAreaBlure}
         />
 
         <RemoveColumnButton
@@ -97,7 +108,21 @@ const Column: FC<ColumnProps> = ({
           );
         })}
       </CardList>
-      {!isNewCardEdit ? (
+      {isNewCardEdit ? (
+        <>
+          <textarea
+            autoFocus
+            rows={1}
+            placeholder="Column title"
+            value={newCardTitle}
+            onChange={(e) => setNewCardTitle(e.target.value)}
+          />
+
+          <button onClick={handleAddCardClick}>Add card</button>
+
+          <button onClick={handleTitleEdittingCloseClick}>x</button>
+        </>
+      ) : (
         <AddCardButton
           title="Add card"
           onClick={() => {
@@ -106,20 +131,6 @@ const Column: FC<ColumnProps> = ({
         >
           +
         </AddCardButton>
-      ) : (
-        <div>
-          <textarea
-            autoFocus
-            rows={1}
-            placeholder="Column title"
-            value={newCardTitle}
-            onChange={(e) => setnewCardTitle(e.target.value)}
-          />
-
-          <button onClick={handleAddCardClick}>Add card</button>
-
-          <button onClick={handleTitleEdittingCloseClick}>x</button>
-        </div>
       )}
     </Root>
   );
