@@ -13,9 +13,16 @@ const Comment: FC<CommentProps> = ({ comment, onRemoveClick, onSave }) => {
   const [commentText, setCommentText] = useState(comment.text);
 
   const handleSaveClick = () => {
-    onSave(commentText);
+    const trimmedcommentText = commentText.trim();
+    if (trimmedcommentText) {
+      onSave(commentText);
+    } else {
+      setCommentText(comment.text);
+    }
+
     setIsTextIsEdit(false);
   };
+
   return (
     <ListItem>
       <div>{comment.author}</div>

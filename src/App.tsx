@@ -60,7 +60,7 @@ function App() {
     setToLocalStorage(name, LocalStorageKeys.USER_NAME);
   };
 
-  const onColumnTitleChange = (title: string, id: string) => {
+  const onColumnTitleChange = (id: string, title: string) => {
     const cloneColumns = { ...columns };
     cloneColumns[id] = { id, title };
 
