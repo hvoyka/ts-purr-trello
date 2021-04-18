@@ -13,13 +13,17 @@ const Comment: FC<CommentProps> = ({ comment, onRemoveClick, onSave }) => {
   const [commentText, setCommentText] = useState(comment.text);
 
   const handleSaveClick = () => {
-    const trimmedcommentText = commentText.trim();
-    if (trimmedcommentText) {
+    const trimmedCommentText = commentText.trim();
+    if (trimmedCommentText) {
       onSave(commentText);
     } else {
       setCommentText(comment.text);
     }
 
+    setIsTextIsEdit(false);
+  };
+  const handleCancelClick = () => {
+    setCommentText(comment.text);
     setIsTextIsEdit(false);
   };
 
@@ -34,6 +38,7 @@ const Comment: FC<CommentProps> = ({ comment, onRemoveClick, onSave }) => {
             onChange={(e) => setCommentText(e.target.value)}
           />
           <button onClick={handleSaveClick}>Save</button>
+          <button onClick={handleCancelClick}>Cancel</button>
         </SaveBox>
       ) : (
         <>

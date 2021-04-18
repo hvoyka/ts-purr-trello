@@ -26,8 +26,11 @@ const Comments: FC<CommentsProps> = ({
     [comments, cardId]
   );
   const handleCommentAddClick = () => {
-    onCommentAdd(cardId, newCommentText);
-    setNewCommentText("");
+    const trimmedNewCommentText = newCommentText.trim();
+    if (trimmedNewCommentText) {
+      onCommentAdd(cardId, newCommentText);
+      setNewCommentText("");
+    }
   };
 
   const handleEnterPress = (event: KeyboardEvent<HTMLTextAreaElement>) => {

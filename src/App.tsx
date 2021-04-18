@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { v1 as uuid } from "uuid";
 import { Header, MainDesk, UserModal } from "./components";
 import { CardModal } from "./components/CardModal";
@@ -40,12 +40,7 @@ function App() {
   const [cards, setCards] = useState<ColumnCards>(initCardsData);
   const [comments, setComments] = useState<CardComments>(initCommentsData);
   const [userName, setUserName] = useState(initUserNameData);
-  const [isUserModalShow, setIsUserModalShow] = useState(true);
   const [cardIdForModalView, setCardIdForModalView] = useState("");
-
-  useEffect(() => {
-    if (userName) setIsUserModalShow(false);
-  }, [userName]);
 
   const onCardModalClose = () => {
     setCardIdForModalView("");
@@ -177,7 +172,7 @@ function App() {
         comments={comments}
       />
 
-      <UserModal onConfirmClick={onUserNameAdd} isVisible={isUserModalShow} />
+      <UserModal onConfirmClick={onUserNameAdd} isVisible={!userName} />
 
       <CardModal
         isVisible={!!cardIdForModalView}
