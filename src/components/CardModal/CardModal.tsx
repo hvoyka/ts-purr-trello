@@ -6,7 +6,7 @@ import { Comments } from "./components";
 import TextareaAutosize from "react-textarea-autosize";
 
 interface CardModalProps {
-  card: ColumnCard;
+  card: ColumnCard | undefined;
   isVisible: boolean;
   comments: CardComments;
   onClose: () => void;
@@ -28,7 +28,7 @@ const CardModal: FC<CardModalProps> = ({
   onCommentChange,
   columnTitle,
 }) => {
-  if (!isVisible) return null;
+  if (!isVisible || card === undefined) return null;
 
   const handleTitleAreaBlur = (
     event: React.ChangeEvent<HTMLTextAreaElement>
