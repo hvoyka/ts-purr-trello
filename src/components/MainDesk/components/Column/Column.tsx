@@ -152,8 +152,8 @@ const Root = styled.li`
   max-height: 100%;
 
   white-space: normal;
-  padding-right: 5px;
-  padding-left: 5px;
+  padding: 5px;
+
   margin: 10px 4px;
 `;
 const RemoveColumnButton = styled(Button)`
@@ -199,7 +199,7 @@ const TextArea = styled.textarea`
 const ListHeader = styled.div`
   position: relative;
   flex: 0 0 auto;
-  padding: 10px 8px;
+  padding: 5px;
   padding-right: 8px;
   position: relative;
   min-height: 20px;

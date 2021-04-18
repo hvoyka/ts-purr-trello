@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { ColumnCard } from "../../../../App";
-import React, { FC, useState, useEffect } from "react";
+import React, { FC, useState } from "react";
 import { FaRegCommentDots } from "react-icons/fa";
 import { AiOutlineEdit } from "react-icons/ai";
 
@@ -20,25 +20,19 @@ const Card: FC<CardProps> = ({
   onClick,
 }) => {
   const [isCardTitleEdit, setIsCardTitleEdit] = useState(false);
-  const [cardTitle, setCardTitle] = useState(card.title);
-
-  useEffect(() => {
-    setCardTitle(card.title);
-  }, [card.title]);
 
   const handleTitleEditClick = () => {
-    setIsCardTitleEdit(true);
+    setIsCardTitleEdit(!isCardTitleEdit);
   };
 
-  const handleTitleAreaBlur = () => {
-    const trimmedCardTitle = cardTitle.trim();
+  const handleTitleAreaBlur = (
+    event: React.ChangeEvent<HTMLTextAreaElement>
+  ) => {
+    const trimmedCardTitle = event.target.value.trim();
 
     if (trimmedCardTitle) {
       onTextAreaChange("title", trimmedCardTitle);
-    } else {
-      setCardTitle(card.title);
     }
-
     setIsCardTitleEdit(false);
   };
 
@@ -53,14 +47,11 @@ const Card: FC<CardProps> = ({
               spellCheck={false}
               rows={1}
               placeholder="Card title"
-              value={cardTitle}
-              onChange={(event: React.ChangeEvent<HTMLTextAreaElement>) => {
-                setCardTitle(event.target.value);
-              }}
+              defaultValue={card.title}
               onBlur={handleTitleAreaBlur}
             />
           ) : (
-            <CardTitleButton onClick={onClick}>{cardTitle}</CardTitleButton>
+            <CardTitleButton onClick={onClick}>{card.title}</CardTitleButton>
           )}
         </TextAreaWrapper>
 
