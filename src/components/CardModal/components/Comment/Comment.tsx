@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import React, { useState, FC } from "react";
 import { CardComment } from "../../../../App";
+import TextareaAutosize from "react-textarea-autosize";
 
 export interface CommentProps {
   comment: CardComment;
@@ -32,8 +33,9 @@ const Comment: FC<CommentProps> = ({ comment, onRemoveClick, onSave }) => {
       <div>{comment.author}</div>
       {isTextIsEdit ? (
         <SaveBox>
-          <textarea
-            rows={1}
+          <TextArea
+            spellCheck={false}
+            maxRows={2}
             value={commentText}
             onChange={(e) => setCommentText(e.target.value)}
           />
@@ -62,6 +64,7 @@ const ListItem = styled.li`
 const CommentWrapper = styled.div`
   display: flex;
   justify-content: space-between;
+  overflow-wrap: anywhere;
   padding: 0.5rem 1rem;
   border-radius: 5px;
   border: 1px solid var(--gray2);
@@ -91,5 +94,8 @@ const EditButton = styled.button`
 const Separator = styled.span`
   display: inline-block;
   padding: 0 5px;
+`;
+const TextArea = styled(TextareaAutosize)`
+  resize: none;
 `;
 export default Comment;

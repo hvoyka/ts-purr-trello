@@ -1,8 +1,9 @@
 import styled from "styled-components";
 import { ColumnCard } from "../../../../App";
-import React, { FC, useState } from "react";
+import React, { FC, useState, KeyboardEvent } from "react";
 import { FaRegCommentDots } from "react-icons/fa";
 import { AiOutlineEdit } from "react-icons/ai";
+import TextareaAutosize from "react-textarea-autosize";
 
 export interface CardProps {
   card: ColumnCard;
@@ -36,6 +37,12 @@ const Card: FC<CardProps> = ({
     setIsCardTitleEdit(false);
   };
 
+  const handleEnterPress = (event: KeyboardEvent<HTMLTextAreaElement>) => {
+    if (event.key === "Enter") {
+      event.currentTarget.blur();
+    }
+  };
+
   return (
     <Root>
       <CardTop>
@@ -43,12 +50,12 @@ const Card: FC<CardProps> = ({
           {isCardTitleEdit ? (
             <CardTextArea
               autoFocus
-              maxLength={100}
               spellCheck={false}
-              rows={1}
+              maxRows={2}
               placeholder="Card title"
               defaultValue={card.title}
               onBlur={handleTitleAreaBlur}
+              onKeyDown={handleEnterPress}
             />
           ) : (
             <CardTitleButton onClick={onClick}>{card.title}</CardTitleButton>
@@ -86,7 +93,7 @@ const Root = styled.li`
   border: 1px solid var(--gray3);
 `;
 
-const CardTextArea = styled.textarea`
+const CardTextArea = styled(TextareaAutosize)`
   overflow: hidden;
   overflow-wrap: break-word;
   resize: none;
@@ -131,7 +138,8 @@ const EnterCardButton = styled.button`
 const TextAreaWrapper = styled.div`
   display: inline-block;
   position: relative;
-  width: 100%;
+  width: 75%;
+  overflow-wrap: break-word;
 `;
 const CardTitleButton = styled.button`
   border: 0;

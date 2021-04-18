@@ -2,6 +2,7 @@ import styled from "styled-components";
 import React, { useState, useMemo, FC, KeyboardEvent } from "react";
 import { CardComments } from "../../../../App";
 import { Comment } from "./../Comment";
+import TextareaAutosize from "react-textarea-autosize";
 
 export interface CommentsProps {
   cardId: string;
@@ -52,8 +53,9 @@ const Comments: FC<CommentsProps> = ({
         ))}
       </CommentsList>
       <AddCommentWrapper>
-        <textarea
-          rows={1}
+        <TextArea
+          spellCheck={false}
+          maxRows={2}
           placeholder="New comment text"
           value={newCommentText}
           onChange={(e) => setNewCommentText(e.target.value)}
@@ -76,5 +78,7 @@ const AddCommentWrapper = styled.div`
   border-radius: 5px;
   display: flex;
 `;
-
+const TextArea = styled(TextareaAutosize)`
+  resize: none;
+`;
 export default Comments;

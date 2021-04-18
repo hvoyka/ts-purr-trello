@@ -1,8 +1,9 @@
-import React, { FC } from "react";
+import React, { FC, KeyboardEvent } from "react";
 import styled from "styled-components";
 import { Modal } from "../ui";
 import { ColumnCard, CardComments } from "../../App";
 import { Comments } from "./components";
+import TextareaAutosize from "react-textarea-autosize";
 
 interface CardModalProps {
   card: ColumnCard;
@@ -47,18 +48,29 @@ const CardModal: FC<CardModalProps> = ({
     }
   };
 
+  const handleAreaEnterPress = (event: KeyboardEvent<HTMLTextAreaElement>) => {
+    if (event.key === "Enter") {
+      event.currentTarget.blur();
+    }
+  };
+
   return (
     <Modal title="Card Edit" isVisible={isVisible} onClose={onClose}>
       <TextArea
         placeholder="Card title"
-        rows={1}
+        spellCheck={false}
+        maxRows={2}
         defaultValue={card.title}
         onBlur={handleTitleAreaBlur}
+        onKeyDown={handleAreaEnterPress}
       />
       <TextArea
+        spellCheck={false}
+        maxRows={8}
         placeholder="Description"
         defaultValue={card.text}
         onBlur={handleDescriptionAreaBlur}
+        onKeyDown={handleAreaEnterPress}
       />
       <Comments
         cardId={card.id}
@@ -74,7 +86,7 @@ const CardModal: FC<CardModalProps> = ({
   );
 };
 
-const TextArea = styled.textarea`
+const TextArea = styled(TextareaAutosize)`
   overflow: hidden;
   overflow-wrap: break-word;
   border-radius: 3px;
