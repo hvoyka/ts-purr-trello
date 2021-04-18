@@ -3,7 +3,7 @@ import { ColumnCard } from "../../../../App";
 import React, { FC, useState, KeyboardEvent } from "react";
 import { FaRegCommentDots } from "react-icons/fa";
 import { AiOutlineEdit, AiOutlineSave } from "react-icons/ai";
-import TextareaAutosize from "react-textarea-autosize";
+import { TextArea } from "../../../ui";
 
 export interface CardProps {
   card: ColumnCard;
@@ -51,7 +51,7 @@ const Card: FC<CardProps> = ({
       <CardTop>
         <TextAreaWrapper>
           {isCardTitleEdit ? (
-            <CardTextArea
+            <TextArea
               autoFocus
               spellCheck={false}
               maxRows={2}
@@ -102,29 +102,6 @@ const Root = styled.li`
   border: 1px solid var(--gray3);
 `;
 
-const CardTextArea = styled(TextareaAutosize)`
-  overflow: hidden;
-  overflow-wrap: break-word;
-  resize: none;
-  background: transparent;
-  border-radius: 3px;
-  box-shadow: none;
-  font-weight: 600;
-  min-height: 20px;
-
-  resize: none;
-  max-height: 256px;
-  width: 100%;
-  outline: none;
-  border: none;
-  -webkit-appearance: none;
-  display: block;
-  color: var(--blue2);
-  &:focus {
-    background-color: var(--white);
-    box-shadow: inset 0 0 0 2px var(--blue2);
-  }
-`;
 const RemoveCardButton = styled.button`
   background-color: transparent;
   border: none;
@@ -158,6 +135,7 @@ const CardTitleButton = styled.button`
   padding: 0;
   text-align: left;
   font-weight: 600;
+  margin-bottom: 10px;
 `;
 
 const CardTop = styled.div`

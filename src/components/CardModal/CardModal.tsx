@@ -1,9 +1,8 @@
 import React, { FC, KeyboardEvent } from "react";
-import styled from "styled-components";
 import { Modal } from "../ui";
 import { ColumnCard, CardComments } from "../../App";
 import { Comments } from "./components";
-import TextareaAutosize from "react-textarea-autosize";
+import { TextArea } from "../ui";
 
 interface CardModalProps {
   card: ColumnCard | undefined;
@@ -85,29 +84,5 @@ const CardModal: FC<CardModalProps> = ({
     </Modal>
   );
 };
-
-const TextArea = styled(TextareaAutosize)`
-  overflow: hidden;
-  overflow-wrap: break-word;
-  border-radius: 3px;
-  box-shadow: none;
-  font-weight: 600;
-  min-height: 20px;
-  padding: 4px 8px;
-  resize: none;
-  max-height: 256px;
-  width: 100%;
-  outline: none;
-  border: 1px solid var(--gray2);
-
-  -webkit-appearance: none;
-  display: block;
-  color: var(--blue2);
-  margin-bottom: 15px;
-  &:focus {
-    background-color: var(--white);
-    background-color: var(--blue3);
-  }
-`;
 
 export default CardModal;

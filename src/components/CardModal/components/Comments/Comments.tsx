@@ -2,7 +2,7 @@ import styled from "styled-components";
 import React, { useState, useMemo, FC, KeyboardEvent } from "react";
 import { CardComments } from "../../../../App";
 import { Comment } from "./../Comment";
-import TextareaAutosize from "react-textarea-autosize";
+import { TextArea } from "../../../ui";
 
 export interface CommentsProps {
   cardId: string;
@@ -78,7 +78,5 @@ const AddCommentWrapper = styled.div`
   border-radius: 5px;
   display: flex;
 `;
-const TextArea = styled(TextareaAutosize)`
-  resize: none;
-`;
+
 export default Comments;

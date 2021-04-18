@@ -1,7 +1,7 @@
 import styled from "styled-components";
-import React, { useState, FC } from "react";
+import { useState, FC } from "react";
 import { CardComment } from "../../../../App";
-import TextareaAutosize from "react-textarea-autosize";
+import { TextArea } from "../../../ui";
 
 export interface CommentProps {
   comment: CardComment;
@@ -95,7 +95,5 @@ const Separator = styled.span`
   display: inline-block;
   padding: 0 5px;
 `;
-const TextArea = styled(TextareaAutosize)`
-  resize: none;
-`;
+
 export default Comment;
