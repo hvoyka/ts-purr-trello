@@ -159,20 +159,22 @@ function App() {
     <div className="App">
       <Header name={userName} />
 
-      <MainDesk
-        columns={columns}
-        onColumnAdd={onColumnAdd}
-        onColumnTitleChange={onColumnTitleChange}
-        onColumnRemoveClick={onColumnRemoveClick}
-        cards={cards}
-        onCardAdd={onCardAdd}
-        onCardRemoveClick={onCardRemoveClick}
-        onCardPropertyChange={onCardPropertyChange}
-        onCardClick={onCardClick}
-        comments={comments}
-      />
-
-      <UserModal onConfirmClick={onUserNameAdd} isVisible={!userName} />
+      {userName ? (
+        <MainDesk
+          columns={columns}
+          onColumnAdd={onColumnAdd}
+          onColumnTitleChange={onColumnTitleChange}
+          onColumnRemoveClick={onColumnRemoveClick}
+          cards={cards}
+          onCardAdd={onCardAdd}
+          onCardRemoveClick={onCardRemoveClick}
+          onCardPropertyChange={onCardPropertyChange}
+          onCardClick={onCardClick}
+          comments={comments}
+        />
+      ) : (
+        <UserModal onConfirmClick={onUserNameAdd} isVisible={!userName} />
+      )}
 
       <CardModal
         isVisible={!!cardIdForModalView}

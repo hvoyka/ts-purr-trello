@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { ColumnCard } from "../../../../App";
 import React, { FC, useState, KeyboardEvent } from "react";
 import { FaRegCommentDots } from "react-icons/fa";
-import { AiOutlineEdit } from "react-icons/ai";
+import { AiOutlineEdit, AiOutlineSave } from "react-icons/ai";
 import TextareaAutosize from "react-textarea-autosize";
 
 export interface CardProps {
@@ -23,7 +23,10 @@ const Card: FC<CardProps> = ({
   const [isCardTitleEdit, setIsCardTitleEdit] = useState(false);
 
   const handleTitleEditClick = () => {
-    setIsCardTitleEdit(!isCardTitleEdit);
+    setIsCardTitleEdit(true);
+  };
+  const handleTitleSaveClick = () => {
+    setIsCardTitleEdit(false);
   };
 
   const handleTitleAreaBlur = (
@@ -62,9 +65,15 @@ const Card: FC<CardProps> = ({
           )}
         </TextAreaWrapper>
 
-        <EnterCardButton title="Edit title" onClick={handleTitleEditClick}>
-          <AiOutlineEdit />
-        </EnterCardButton>
+        {isCardTitleEdit ? (
+          <EnterCardButton title="Save title" onClick={handleTitleSaveClick}>
+            <AiOutlineSave />
+          </EnterCardButton>
+        ) : (
+          <EnterCardButton title="Edit title" onClick={handleTitleEditClick}>
+            <AiOutlineEdit />
+          </EnterCardButton>
+        )}
 
         <RemoveCardButton title="Remove card" onClick={onRemoveClick}>
           X
