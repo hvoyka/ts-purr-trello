@@ -1,6 +1,9 @@
 import styled from "styled-components";
 import { ColumnCard } from "../../../../App";
-import React, { FC, useState, useEffect } from "react";
+import React, { FC, useState, KeyboardEvent } from "react";
+import { FaRegCommentDots } from "react-icons/fa";
+import { AiOutlineEdit, AiOutlineSave } from "react-icons/ai";
+import { TextArea } from "../../../ui";
 
 export interface CardProps {
   card: ColumnCard;
@@ -17,57 +20,71 @@ const Card: FC<CardProps> = ({
   onRemoveClick,
   onClick,
 }) => {
-  const [isTextareaEdit, setIsTextAreaEdit] = useState(false);
-  const [cardTitle, setCardTitle] = useState(card.title);
-
-  useEffect(() => {
-    setCardTitle(card.title);
-  }, [card.title]);
+  const [isCardTitleEdit, setIsCardTitleEdit] = useState(false);
 
   const handleTitleEditClick = () => {
-    setIsTextAreaEdit(true);
+    setIsCardTitleEdit(true);
+  };
+  const handleTitleSaveClick = () => {
+    setIsCardTitleEdit(false);
   };
 
-  const handleTitleAreaBlure = () => {
-    const trimmedCardTitle = cardTitle.trim();
+  const handleTitleAreaBlur = (
+    event: React.ChangeEvent<HTMLTextAreaElement>
+  ) => {
+    const trimmedCardTitle = event.target.value.trim();
+
     if (trimmedCardTitle) {
       onTextAreaChange("title", trimmedCardTitle);
-    } else {
-      setCardTitle(card.title);
     }
-    setIsTextAreaEdit(false);
+    setIsCardTitleEdit(false);
+  };
+
+  const handleEnterPress = (event: KeyboardEvent<HTMLTextAreaElement>) => {
+    if (event.key === "Enter") {
+      event.currentTarget.blur();
+    }
   };
 
   return (
     <Root>
       <CardTop>
         <TextAreaWrapper>
-          {isTextareaEdit ? (
-            <CardTextArea
+          {isCardTitleEdit ? (
+            <TextArea
               autoFocus
-              maxLength={100}
               spellCheck={false}
-              rows={1}
+              maxRows={2}
               placeholder="Card title"
-              value={cardTitle}
-              onChange={(event: React.ChangeEvent<HTMLTextAreaElement>) => {
-                setCardTitle(event.target.value);
-              }}
-              onBlur={handleTitleAreaBlure}
+              defaultValue={card.title}
+              onBlur={handleTitleAreaBlur}
+              onKeyDown={handleEnterPress}
             />
           ) : (
-            <CardTitleButton onClick={onClick}>{cardTitle}</CardTitleButton>
+            <CardTitleButton onClick={onClick}>{card.title}</CardTitleButton>
           )}
         </TextAreaWrapper>
 
-        <EnterCardButton title="Edit title" onClick={handleTitleEditClick}>
-          &#9998;
-        </EnterCardButton>
+        {isCardTitleEdit ? (
+          <EnterCardButton title="Save title" onClick={handleTitleSaveClick}>
+            <AiOutlineSave />
+          </EnterCardButton>
+        ) : (
+          <EnterCardButton title="Edit title" onClick={handleTitleEditClick}>
+            <AiOutlineEdit />
+          </EnterCardButton>
+        )}
 
         <RemoveCardButton title="Remove card" onClick={onRemoveClick}>
           X
         </RemoveCardButton>
-        {!!commentsCount && <CommentsCount>{commentsCount}</CommentsCount>}
+
+        {!!commentsCount && (
+          <CommentsCountWrapper>
+            <CommentsCount>{commentsCount}</CommentsCount>
+            <FaRegCommentDots />
+          </CommentsCountWrapper>
+        )}
       </CardTop>
     </Root>
   );
@@ -80,34 +97,11 @@ const Root = styled.li`
   margin: 0 4px 10px;
   padding: 10px 5px 10px 5px;
   z-index: 1;
-  padding: 4px 8px;
+  padding: 4px 8px 15px 8px;
   border-radius: 5px;
   border: 1px solid var(--gray3);
 `;
 
-const CardTextArea = styled.textarea`
-  overflow: hidden;
-  overflow-wrap: break-word;
-  resize: none;
-  background: transparent;
-  border-radius: 3px;
-  box-shadow: none;
-  font-weight: 600;
-  min-height: 20px;
-
-  resize: none;
-  max-height: 256px;
-  width: 100%;
-  outline: none;
-  border: none;
-  -webkit-appearance: none;
-  display: block;
-  color: var(--blue2);
-  &:focus {
-    background-color: var(--white);
-    box-shadow: inset 0 0 0 2px var(--blue2);
-  }
-`;
 const RemoveCardButton = styled.button`
   background-color: transparent;
   border: none;
@@ -122,6 +116,7 @@ const EnterCardButton = styled.button`
   border: none;
   color: var(--blue2);
   border: 1px solid transparent;
+  font-size: 20px;
   &:hover {
     transform: scale(1.05);
   }
@@ -129,7 +124,8 @@ const EnterCardButton = styled.button`
 const TextAreaWrapper = styled.div`
   display: inline-block;
   position: relative;
-  width: 100%;
+  width: 75%;
+  overflow-wrap: break-word;
 `;
 const CardTitleButton = styled.button`
   border: 0;
@@ -139,16 +135,25 @@ const CardTitleButton = styled.button`
   padding: 0;
   text-align: left;
   font-weight: 600;
+  margin-bottom: 10px;
 `;
 
 const CardTop = styled.div`
   display: flex;
   justify-content: space-between;
 `;
+const CommentsCountWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  position: absolute;
+  bottom: 0;
+  left: 7px;
+`;
 const CommentsCount = styled.div`
   font-size: 12px;
-  position: absolute;
-  top: 0;
-  left: 0;
+  font-weight: bold;
+  margin-right: 8px;
 `;
 export default Card;

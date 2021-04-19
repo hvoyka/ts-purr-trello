@@ -1,7 +1,7 @@
 import React, { useState, FC, KeyboardEvent } from "react";
 import styled from "styled-components";
 import { Button } from "react-bootstrap";
-import { Modal } from "../UI";
+import { Modal } from "../ui";
 
 interface UserModalProps {
   isVisible: boolean;
@@ -26,9 +26,10 @@ const UserModal: FC<UserModalProps> = ({ onConfirmClick, isVisible }) => {
 
   return (
     <>
-      <Modal title="User Modal" isVisible={isVisible}>
+      <Modal title="Enter your name" isVisible={isVisible}>
         <Input
           type="text"
+          maxLength={40}
           placeholder="User name"
           onChange={(event) => {
             setUser(event.target.value);

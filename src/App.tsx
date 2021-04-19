@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { v1 as uuid } from "uuid";
 import { Header, MainDesk, UserModal } from "./components";
 import { CardModal } from "./components/CardModal";
@@ -40,12 +40,7 @@ function App() {
   const [cards, setCards] = useState<ColumnCards>(initCardsData);
   const [comments, setComments] = useState<CardComments>(initCommentsData);
   const [userName, setUserName] = useState(initUserNameData);
-  const [isUserModalShow, setIsUserModalShow] = useState(true);
   const [cardIdForModalView, setCardIdForModalView] = useState("");
-
-  useEffect(() => {
-    if (userName) setIsUserModalShow(false);
-  }, [userName]);
 
   const onCardModalClose = () => {
     setCardIdForModalView("");
@@ -163,23 +158,26 @@ function App() {
   return (
     <div className="App">
       <Header name={userName} />
-      <MainDesk
-        columns={columns}
-        onColumnAdd={onColumnAdd}
-        onColumnTitleChange={onColumnTitleChange}
-        onColumnRemoveClick={onColumnRemoveClick}
-        cards={cards}
-        onCardAdd={onCardAdd}
-        onCardRemoveClick={onCardRemoveClick}
-        onCardPropertyChange={onCardPropertyChange}
-        onCardClick={onCardClick}
-        comments={comments}
-      />
 
-      <UserModal onConfirmClick={onUserNameAdd} isVisible={isUserModalShow} />
+      {userName ? (
+        <MainDesk
+          columns={columns}
+          onColumnAdd={onColumnAdd}
+          onColumnTitleChange={onColumnTitleChange}
+          onColumnRemoveClick={onColumnRemoveClick}
+          cards={cards}
+          onCardAdd={onCardAdd}
+          onCardRemoveClick={onCardRemoveClick}
+          onCardPropertyChange={onCardPropertyChange}
+          onCardClick={onCardClick}
+          comments={comments}
+        />
+      ) : (
+        <UserModal onConfirmClick={onUserNameAdd} isVisible={!userName} />
+      )}
 
       <CardModal
-        isVisible={Boolean(cardIdForModalView)}
+        isVisible={!!cardIdForModalView}
         onClose={onCardModalClose}
         card={cards[cardIdForModalView]}
         columnTitle={getColumnTitle(cardIdForModalView)}

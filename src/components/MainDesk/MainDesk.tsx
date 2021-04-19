@@ -2,7 +2,8 @@ import { Container, Button } from "react-bootstrap";
 import { DeskColumns, ColumnCards, ColumnCard, CardComments } from "../../App";
 import { Column } from "./components";
 import styled from "styled-components";
-import React, { FC, useState } from "react";
+import { FC, useState, ChangeEvent } from "react";
+import { TextArea } from "../ui";
 
 export interface MainDeskProps {
   columns: DeskColumns;
@@ -42,7 +43,7 @@ const MainDesk: FC<MainDeskProps> = ({
     setNewColumnTitle("");
   };
 
-  const handleColumnAdd = () => {
+  const handleColumnAddClick = () => {
     const trimmedTitle = newColumnTitle.trim();
     if (trimmedTitle) {
       onColumnAdd(newColumnTitle);
@@ -76,15 +77,17 @@ const MainDesk: FC<MainDeskProps> = ({
           <EmptyColumn>
             {isNewColumnEdit ? (
               <>
-                <textarea
+                <TextArea
                   autoFocus
-                  rows={1}
+                  maxRows={1}
                   placeholder="Column title"
                   value={newColumnTitle}
-                  onChange={(e) => setNewColumnTitle(e.target.value)}
+                  onChange={(event: ChangeEvent<HTMLTextAreaElement>) =>
+                    setNewColumnTitle(event.target.value)
+                  }
                 />
 
-                <button onClick={handleColumnAdd}>Add column</button>
+                <button onClick={handleColumnAddClick}>Add column</button>
 
                 <button onClick={handleEditTitleClose}>x</button>
               </>

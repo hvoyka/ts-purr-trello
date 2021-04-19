@@ -1,6 +1,4 @@
-import { Header } from "./Header";
-import { MainDesk } from "./MainDesk";
-import { UserModal } from "./UserModal";
-import { Modal } from "./UI";
-
-export { Header, MainDesk, UserModal, Modal };
+export { Header } from "./Header";
+export { MainDesk } from "./MainDesk";
+export { UserModal } from "./UserModal";
+export * from "./ui/";
