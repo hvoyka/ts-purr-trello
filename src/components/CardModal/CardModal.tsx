@@ -3,6 +3,7 @@ import { Modal } from "../ui";
 import { ColumnCard, CardComments } from "../../App";
 import { Comments } from "./components";
 import { TextArea } from "../ui";
+import styled from "styled-components";
 
 interface CardModalProps {
   card: ColumnCard | undefined;
@@ -77,11 +78,15 @@ const CardModal: FC<CardModalProps> = ({
         onCommentRemoveClick={onCommentRemoveClick}
         onCommentChange={onCommentChange}
       />
-      <p>
+      <Info>
         Card author: <b>{card.author}</b> - column: <b>{columnTitle}</b>
-      </p>
+      </Info>
     </Modal>
   );
 };
+
+const Info = styled.div`
+  overflow-wrap: break-word;
+`;
 
 export default CardModal;
