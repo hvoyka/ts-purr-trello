@@ -27,7 +27,7 @@ const CardModal: FC<CardModalProps> = ({
   onCommentChange,
   columnTitle,
 }) => {
-  if (!isVisible || card === undefined) return null;
+  if (!card) return null;
 
   const handleTitleAreaBlur = (
     event: React.ChangeEvent<HTMLTextAreaElement>
@@ -69,7 +69,6 @@ const CardModal: FC<CardModalProps> = ({
         placeholder="Description"
         defaultValue={card.text}
         onBlur={handleDescriptionAreaBlur}
-        onKeyDown={handleAreaEnterPress}
       />
       <Comments
         cardId={card.id}
