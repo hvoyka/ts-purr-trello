@@ -20,7 +20,9 @@ const TextArea: FC<TextAreaProps> = (props) => {
   return <StyledTextArea {...props} />;
 };
 
-const StyledTextArea = styled(TextareaAutosize)<{ columnHeader?: boolean }>`
+const StyledTextArea = styled(({ columnHeader, ...rest }) => (
+  <TextareaAutosize {...rest} />
+))<{ columnHeader?: boolean }>`
   border-radius: 3px;
   box-shadow: none;
   font-weight: 600;
@@ -35,12 +37,12 @@ const StyledTextArea = styled(TextareaAutosize)<{ columnHeader?: boolean }>`
   color: var(--blue2);
   border: 1px solid var(--blue2);
   margin-bottom: 10px;
-  ${(columnHeader) =>
+  ${({ columnHeader }) =>
     columnHeader ? "background: transparent; border: none" : null};
 
   &:focus {
     background-color: var(--blue3);
-    ${(columnHeader) =>
+    ${({ columnHeader }) =>
       columnHeader
         ? " background-color: var(--white);  box-shadow: inset 0 0 0 2px var(--blue2);"
         : null};

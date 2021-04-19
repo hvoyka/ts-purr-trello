@@ -97,6 +97,7 @@ const Column: FC<ColumnProps> = ({
           defaultValue={newColumnTitle}
           onBlur={handleCardTitleAreaBlur}
           onKeyDown={handleTitleAreaEnterPress}
+          columnHeader
         />
 
         <RemoveColumnButton
