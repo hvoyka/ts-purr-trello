@@ -1,6 +1,7 @@
 import styled from "styled-components";
-import React, { useState, FC } from "react";
+import { useState, FC } from "react";
 import { CardComment } from "../../../../App";
+import { TextArea } from "../../../ui";
 
 export interface CommentProps {
   comment: CardComment;
@@ -13,13 +14,17 @@ const Comment: FC<CommentProps> = ({ comment, onRemoveClick, onSave }) => {
   const [commentText, setCommentText] = useState(comment.text);
 
   const handleSaveClick = () => {
-    const trimmedcommentText = commentText.trim();
-    if (trimmedcommentText) {
+    const trimmedCommentText = commentText.trim();
+    if (trimmedCommentText) {
       onSave(commentText);
     } else {
       setCommentText(comment.text);
     }
 
+    setIsTextIsEdit(false);
+  };
+  const handleCancelClick = () => {
+    setCommentText(comment.text);
     setIsTextIsEdit(false);
   };
 
@@ -28,12 +33,14 @@ const Comment: FC<CommentProps> = ({ comment, onRemoveClick, onSave }) => {
       <div>{comment.author}</div>
       {isTextIsEdit ? (
         <SaveBox>
-          <textarea
-            rows={1}
+          <TextArea
+            spellCheck={false}
+            maxRows={2}
             value={commentText}
             onChange={(e) => setCommentText(e.target.value)}
           />
           <button onClick={handleSaveClick}>Save</button>
+          <button onClick={handleCancelClick}>Cancel</button>
         </SaveBox>
       ) : (
         <>
@@ -57,6 +64,7 @@ const ListItem = styled.li`
 const CommentWrapper = styled.div`
   display: flex;
   justify-content: space-between;
+  overflow-wrap: anywhere;
   padding: 0.5rem 1rem;
   border-radius: 5px;
   border: 1px solid var(--gray2);
@@ -87,4 +95,5 @@ const Separator = styled.span`
   display: inline-block;
   padding: 0 5px;
 `;
+
 export default Comment;

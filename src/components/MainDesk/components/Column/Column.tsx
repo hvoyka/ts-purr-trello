@@ -8,7 +8,8 @@ import {
 } from "../../../../App";
 import { Card } from "../Card";
 import { getCommentsCount } from "./utils";
-import React, { FC, useMemo, useState } from "react";
+import React, { FC, useMemo, useState, KeyboardEvent } from "react";
+import TextareaAutosize from "react-textarea-autosize";
 
 export interface ColumnProps {
   column: DeskColumn;
@@ -43,6 +44,7 @@ const Column: FC<ColumnProps> = ({
   );
   const [isNewCardEdit, setIsNewCardEdit] = useState(false);
   const [newCardTitle, setNewCardTitle] = useState("");
+
   const [newColumnTitle, setNewColumnTitle] = useState(column.title);
 
   const handleTitleEdittingCloseClick = () => {
@@ -59,8 +61,25 @@ const Column: FC<ColumnProps> = ({
     }
   };
 
-  const handleCardTitleAreaBlure = () => {
-    const trimmedColumnTitle = newColumnTitle.trim();
+  const handleTitleAreaEnterPress = (
+    event: KeyboardEvent<HTMLTextAreaElement>
+  ) => {
+    if (event.key === "Enter") {
+      event.currentTarget.blur();
+    }
+  };
+  const handleCardAreaEnterPress = (
+    event: KeyboardEvent<HTMLTextAreaElement>
+  ) => {
+    if (event.key === "Enter") {
+      handleAddCardClick();
+      event.currentTarget.blur();
+    }
+  };
+  const handleCardTitleAreaBlur = (
+    event: React.ChangeEvent<HTMLTextAreaElement>
+  ) => {
+    const trimmedColumnTitle = event.target.value.trim();
     if (trimmedColumnTitle) {
       onTitleChange(trimmedColumnTitle);
     } else {
@@ -72,15 +91,12 @@ const Column: FC<ColumnProps> = ({
     <Root>
       <ListHeader>
         <TextArea
-          maxLength={100}
           spellCheck={false}
-          rows={2}
+          maxRows={8}
           placeholder="Column title"
-          value={newColumnTitle}
-          onChange={(event: React.ChangeEvent<HTMLTextAreaElement>) => {
-            setNewColumnTitle(event.target.value);
-          }}
-          onBlur={handleCardTitleAreaBlure}
+          defaultValue={newColumnTitle}
+          onBlur={handleCardTitleAreaBlur}
+          onKeyDown={handleTitleAreaEnterPress}
         />
 
         <RemoveColumnButton
@@ -110,12 +126,14 @@ const Column: FC<ColumnProps> = ({
       </CardList>
       {isNewCardEdit ? (
         <>
-          <textarea
+          <TextArea
             autoFocus
-            rows={1}
-            placeholder="Column title"
+            spellCheck={false}
+            maxRows={8}
+            placeholder="Card title"
             value={newCardTitle}
             onChange={(e) => setNewCardTitle(e.target.value)}
+            onKeyDown={handleCardAreaEnterPress}
           />
 
           <button onClick={handleAddCardClick}>Add card</button>
@@ -152,8 +170,8 @@ const Root = styled.li`
   max-height: 100%;
 
   white-space: normal;
-  padding-right: 5px;
-  padding-left: 5px;
+  padding: 5px;
+
   margin: 10px 4px;
 `;
 const RemoveColumnButton = styled(Button)`
@@ -172,9 +190,7 @@ const AddCardButton = styled(Button)`
   font-size: 15px;
   line-height: 15px;
 `;
-const TextArea = styled.textarea`
-  overflow: hidden;
-  overflow-wrap: break-word;
+const TextArea = styled(TextareaAutosize)`
   resize: none;
   background: transparent;
   border-radius: 3px;
@@ -199,7 +215,7 @@ const TextArea = styled.textarea`
 const ListHeader = styled.div`
   position: relative;
   flex: 0 0 auto;
-  padding: 10px 8px;
+  padding: 5px;
   padding-right: 8px;
   position: relative;
   min-height: 20px;

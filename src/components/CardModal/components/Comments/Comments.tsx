@@ -2,6 +2,7 @@ import styled from "styled-components";
 import React, { useState, useMemo, FC, KeyboardEvent } from "react";
 import { CardComments } from "../../../../App";
 import { Comment } from "./../Comment";
+import { TextArea } from "../../../ui";
 
 export interface CommentsProps {
   cardId: string;
@@ -26,8 +27,11 @@ const Comments: FC<CommentsProps> = ({
     [comments, cardId]
   );
   const handleCommentAddClick = () => {
-    onCommentAdd(cardId, newCommentText);
-    setNewCommentText("");
+    const trimmedNewCommentText = newCommentText.trim();
+    if (trimmedNewCommentText) {
+      onCommentAdd(cardId, newCommentText);
+      setNewCommentText("");
+    }
   };
 
   const handleEnterPress = (event: KeyboardEvent<HTMLTextAreaElement>) => {
@@ -49,8 +53,9 @@ const Comments: FC<CommentsProps> = ({
         ))}
       </CommentsList>
       <AddCommentWrapper>
-        <textarea
-          rows={1}
+        <TextArea
+          spellCheck={false}
+          maxRows={2}
           placeholder="New comment text"
           value={newCommentText}
           onChange={(e) => setNewCommentText(e.target.value)}
