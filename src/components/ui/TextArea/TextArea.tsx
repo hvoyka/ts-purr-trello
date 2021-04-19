@@ -1,4 +1,4 @@
-import { FC, KeyboardEvent, ChangeEvent } from "react";
+import { FC, KeyboardEvent, ChangeEvent, CSSProperties } from "react";
 import styled from "styled-components";
 import TextareaAutosize from "react-textarea-autosize";
 
@@ -11,6 +11,7 @@ interface TextAreaProps {
   spellCheck?: boolean;
   autoFocus?: boolean;
   columnHeader?: boolean;
+  customStyles?: CSSProperties;
   onChange?: (event: ChangeEvent<HTMLTextAreaElement>) => void;
   onBlur?: (event: ChangeEvent<HTMLTextAreaElement>) => void;
   onKeyDown?: (event: KeyboardEvent<HTMLTextAreaElement>) => void;
@@ -20,8 +21,8 @@ const TextArea: FC<TextAreaProps> = (props) => {
   return <StyledTextArea {...props} />;
 };
 
-const StyledTextArea = styled(({ columnHeader, ...rest }) => (
-  <TextareaAutosize {...rest} />
+const StyledTextArea = styled(({ columnHeader, customStyles, ...rest }) => (
+  <TextareaAutosize style={customStyles} {...rest} />
 ))<{ columnHeader?: boolean }>`
   border-radius: 3px;
   box-shadow: none;
