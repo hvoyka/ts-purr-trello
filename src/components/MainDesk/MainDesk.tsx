@@ -37,6 +37,7 @@ const MainDesk: FC<MainDeskProps> = ({
 }) => {
   const [isNewColumnEdit, setIsNewColumnEdit] = useState(false);
   const [newColumnTitle, setNewColumnTitle] = useState("");
+  const [idColumnWereNewCardEdit, setIdColumnWereNewCardEdit] = useState("");
 
   const handleEditTitleClose = () => {
     setIsNewColumnEdit(false);
@@ -49,6 +50,10 @@ const MainDesk: FC<MainDeskProps> = ({
       onColumnAdd(newColumnTitle);
       handleEditTitleClose();
     }
+  };
+
+  const onAnyNewCardEdit = (columnId: string) => {
+    setIdColumnWereNewCardEdit(columnId);
   };
   return (
     <Main>
@@ -70,6 +75,8 @@ const MainDesk: FC<MainDeskProps> = ({
                   onCardPropertyChange={onCardPropertyChange}
                   onCardClick={onCardClick}
                   comments={comments}
+                  isThisNewCardEdit={idColumnWereNewCardEdit === column.id}
+                  onThisNewCardEdit={() => onAnyNewCardEdit(column.id)}
                 />
               );
             })}
