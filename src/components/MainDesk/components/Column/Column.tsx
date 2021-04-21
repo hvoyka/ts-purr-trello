@@ -9,7 +9,7 @@ import {
 import { Card } from "../Card";
 import { getCommentsCount } from "./utils";
 import React, { FC, useMemo, useState, KeyboardEvent } from "react";
-import TextareaAutosize from "react-textarea-autosize";
+import { TextArea } from "../../../ui";
 
 export interface ColumnProps {
   column: DeskColumn;
@@ -97,6 +97,7 @@ const Column: FC<ColumnProps> = ({
           defaultValue={newColumnTitle}
           onBlur={handleCardTitleAreaBlur}
           onKeyDown={handleTitleAreaEnterPress}
+          columnHeader
         />
 
         <RemoveColumnButton
@@ -190,28 +191,7 @@ const AddCardButton = styled(Button)`
   font-size: 15px;
   line-height: 15px;
 `;
-const TextArea = styled(TextareaAutosize)`
-  resize: none;
-  background: transparent;
-  border-radius: 3px;
-  box-shadow: none;
-  font-weight: 600;
-  min-height: 20px;
-  padding: 4px 8px;
-  resize: none;
-  max-height: 256px;
-  width: 100%;
-  outline: none;
-  border: none;
-  -webkit-appearance: none;
-  border-radius: 3px;
-  display: block;
-  color: var(--blue2);
-  &:focus {
-    background-color: var(--white);
-    box-shadow: inset 0 0 0 2px var(--blue2);
-  }
-`;
+
 const ListHeader = styled.div`
   position: relative;
   flex: 0 0 auto;
