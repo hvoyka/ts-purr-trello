@@ -50,9 +50,19 @@ function App() {
     setCardIdForModalView(id);
   };
 
-  const setCloneColumnsData = (cloneColumns: SetStateAction<DeskColumns>) => {
+  const setColumnsData = (cloneColumns: SetStateAction<DeskColumns>) => {
     setColumns(cloneColumns);
     setToLocalStorage(cloneColumns, LocalStorageKeys.COLUMNS);
+  };
+
+  const setCardsData = (cloneCards: SetStateAction<ColumnCards>) => {
+    setCards(cloneCards);
+    setToLocalStorage(cloneCards, LocalStorageKeys.CARDS);
+  };
+
+  const setCommentsData = (cloneComments: SetStateAction<CardComments>) => {
+    setComments(cloneComments);
+    setToLocalStorage(cloneComments, LocalStorageKeys.COMMENTS);
   };
 
   const onUserNameAdd = (name: string) => {
@@ -64,7 +74,7 @@ function App() {
     const cloneColumns = { ...columns };
     cloneColumns[id] = { id, title };
 
-    setCloneColumnsData(cloneColumns);
+    setColumnsData(cloneColumns);
   };
 
   const onColumnAdd = (title: string) => {
@@ -72,14 +82,14 @@ function App() {
     const columnID = uuid();
     cloneColumns[columnID] = { id: columnID, title };
 
-    setCloneColumnsData(cloneColumns);
+    setColumnsData(cloneColumns);
   };
 
   const onColumnRemoveClick = (id: string) => {
     const cloneColumns = { ...columns };
     delete cloneColumns[id];
 
-    setCloneColumnsData(cloneColumns);
+    setColumnsData(cloneColumns);
   };
 
   const onCardPropertyChange = (
@@ -90,8 +100,7 @@ function App() {
     const cloneCards = { ...cards };
     cloneCards[id][propertyName] = value;
 
-    setCards(cloneCards);
-    setToLocalStorage(cloneCards, LocalStorageKeys.CARDS);
+    setCardsData(cloneCards);
   };
 
   const onCardAdd = (columnId: string, title: string, text: string = "") => {
@@ -106,16 +115,14 @@ function App() {
       author: userName,
     };
 
-    setCards(cloneCards);
-    setToLocalStorage(cloneCards, LocalStorageKeys.CARDS);
+    setCardsData(cloneCards);
   };
 
   const onCardRemoveClick = (id: string) => {
     const cloneCards = { ...cards };
     delete cloneCards[id];
 
-    setCards(cloneCards);
-    setToLocalStorage(cloneCards, LocalStorageKeys.CARDS);
+    setCardsData(cloneCards);
   };
 
   const onCommentAdd = (cardId: string, text: string) => {
@@ -129,24 +136,21 @@ function App() {
       author: userName,
     };
 
-    setComments(cloneComments);
-    setToLocalStorage(cloneComments, LocalStorageKeys.COMMENTS);
+    setCommentsData(cloneComments);
   };
 
   const onCommentRemoveClick = (id: string) => {
     const cloneComments = { ...comments };
     delete cloneComments[id];
 
-    setComments(cloneComments);
-    setToLocalStorage(cloneComments, LocalStorageKeys.COMMENTS);
+    setCommentsData(cloneComments);
   };
 
   const onCommentChange = (id: string, text: string) => {
     const cloneComments = { ...comments };
     cloneComments[id].text = text;
 
-    setComments(cloneComments);
-    setToLocalStorage(cloneComments, LocalStorageKeys.COMMENTS);
+    setCommentsData(cloneComments);
   };
 
   const getColumnTitle = (cardIdForModalView: string): string => {
