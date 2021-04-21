@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import React, { useState, useMemo, FC, KeyboardEvent } from "react";
+import React, { useState, useMemo, FC } from "react";
 import { CardComments } from "../../../../App";
 import { Comment } from "./../Comment";
 import { TextArea } from "../../../ui";
@@ -34,12 +34,6 @@ const Comments: FC<CommentsProps> = ({
     }
   };
 
-  const handleEnterPress = (event: KeyboardEvent<HTMLTextAreaElement>) => {
-    if (event.key === "Enter") {
-      handleCommentAddClick();
-    }
-  };
-
   return (
     <>
       <CommentsList>
@@ -59,7 +53,6 @@ const Comments: FC<CommentsProps> = ({
           placeholder="New comment text"
           value={newCommentText}
           onChange={(e) => setNewCommentText(e.target.value)}
-          onKeyDown={handleEnterPress}
         />
         <button onClick={handleCommentAddClick}>Add comment</button>
       </AddCommentWrapper>

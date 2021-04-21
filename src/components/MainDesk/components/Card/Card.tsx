@@ -2,7 +2,11 @@ import styled from "styled-components";
 import { ColumnCard } from "../../../../App";
 import React, { FC, useState, KeyboardEvent } from "react";
 import { FaRegCommentDots } from "react-icons/fa";
-import { AiOutlineEdit, AiOutlineSave } from "react-icons/ai";
+import {
+  AiOutlineEdit,
+  AiOutlineSave,
+  AiOutlineCloseCircle,
+} from "react-icons/ai";
 import { TextArea } from "../../../ui";
 
 export interface CardProps {
@@ -54,7 +58,7 @@ const Card: FC<CardProps> = ({
             <TextArea
               autoFocus
               spellCheck={false}
-              maxRows={2}
+              maxRows={4}
               placeholder="Card title"
               defaultValue={card.title}
               onBlur={handleTitleAreaBlur}
@@ -65,20 +69,21 @@ const Card: FC<CardProps> = ({
           )}
         </TextAreaWrapper>
 
-        {isCardTitleEdit ? (
-          <EnterCardButton title="Save title" onClick={handleTitleSaveClick}>
-            <AiOutlineSave />
-          </EnterCardButton>
-        ) : (
-          <EnterCardButton title="Edit title" onClick={handleTitleEditClick}>
-            <AiOutlineEdit />
-          </EnterCardButton>
-        )}
+        <ButtonWrapper>
+          {isCardTitleEdit ? (
+            <CardButton title="Save title" onClick={handleTitleSaveClick}>
+              <AiOutlineSave />
+            </CardButton>
+          ) : (
+            <CardButton title="Edit title" onClick={handleTitleEditClick}>
+              <AiOutlineEdit />
+            </CardButton>
+          )}
 
-        <RemoveCardButton title="Remove card" onClick={onRemoveClick}>
-          X
-        </RemoveCardButton>
-
+          <CardButton title="Remove card" onClick={onRemoveClick}>
+            <AiOutlineCloseCircle />
+          </CardButton>
+        </ButtonWrapper>
         {!!commentsCount && (
           <CommentsCountWrapper>
             <CommentsCount>{commentsCount}</CommentsCount>
@@ -90,6 +95,15 @@ const Card: FC<CardProps> = ({
   );
 };
 
+const ButtonWrapper = styled.div`
+  position: absolute;
+  top: 0;
+  right: 0;
+  opacity: 0;
+  transition: opacity 0.3s;
+  background: rgba(var(--gray4-rgb), 0.8);
+`;
+
 const Root = styled.li`
   position: relative;
   flex: 1 1 auto;
@@ -100,31 +114,26 @@ const Root = styled.li`
   padding: 4px 8px 15px 8px;
   border-radius: 5px;
   border: 1px solid var(--gray3);
-`;
-
-const RemoveCardButton = styled.button`
-  background-color: transparent;
-  border: none;
-  color: var(--blue2);
-  border: 1px solid transparent;
-  &:hover {
-    border: 1px solid var(--blue2);
+  &:hover ${ButtonWrapper} {
+    opacity: 1;
   }
 `;
-const EnterCardButton = styled.button`
+
+const CardButton = styled.button`
   background-color: transparent;
   border: none;
   color: var(--blue2);
   border: 1px solid transparent;
-  font-size: 20px;
+  padding: 3px;
+
   &:hover {
-    transform: scale(1.05);
+    border: 1px solid var(--blue2);
   }
 `;
 const TextAreaWrapper = styled.div`
   display: inline-block;
   position: relative;
-  width: 75%;
+  width: 100%;
   overflow-wrap: break-word;
 `;
 const CardTitleButton = styled.button`
