@@ -38,7 +38,6 @@ const StyledTextArea = styled(TextareaAutosize)<{
   display: block;
   color: var(--blue2);
   border: 1px solid var(--blue2);
-  margin-bottom: 10px;
   ${({ columnHeader }) =>
     columnHeader ? "background: transparent; border: none" : null};
 
