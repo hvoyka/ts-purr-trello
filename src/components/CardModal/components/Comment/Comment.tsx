@@ -61,7 +61,7 @@ const Comment: FC<CommentProps> = ({ comment, onRemoveClick, onSave }) => {
 const ListItem = styled.li`
   margin-bottom: 10px;
 `;
-const CommentWrapper = styled.div`
+const CommentWrapper = styled.pre`
   display: flex;
   justify-content: space-between;
   overflow-wrap: anywhere;
