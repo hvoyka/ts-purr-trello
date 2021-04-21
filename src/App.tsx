@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, SetStateAction } from "react";
 import { v1 as uuid } from "uuid";
 import { Header, MainDesk, UserModal } from "./components";
 import { CardModal } from "./components/CardModal";
@@ -50,6 +50,11 @@ function App() {
     setCardIdForModalView(id);
   };
 
+  const setCloneColumnsData = (cloneColumns: SetStateAction<DeskColumns>) => {
+    setColumns(cloneColumns);
+    setToLocalStorage(cloneColumns, LocalStorageKeys.COLUMNS);
+  };
+
   const onUserNameAdd = (name: string) => {
     setUserName(name);
     setToLocalStorage(name, LocalStorageKeys.USER_NAME);
@@ -59,8 +64,7 @@ function App() {
     const cloneColumns = { ...columns };
     cloneColumns[id] = { id, title };
 
-    setColumns(cloneColumns);
-    setToLocalStorage(cloneColumns, LocalStorageKeys.COLUMNS);
+    setCloneColumnsData(cloneColumns);
   };
 
   const onColumnAdd = (title: string) => {
@@ -68,16 +72,14 @@ function App() {
     const columnID = uuid();
     cloneColumns[columnID] = { id: columnID, title };
 
-    setColumns(cloneColumns);
-    setToLocalStorage(cloneColumns, LocalStorageKeys.COLUMNS);
+    setCloneColumnsData(cloneColumns);
   };
 
   const onColumnRemoveClick = (id: string) => {
     const cloneColumns = { ...columns };
     delete cloneColumns[id];
 
-    setColumns(cloneColumns);
-    setToLocalStorage(cloneColumns, LocalStorageKeys.COLUMNS);
+    setCloneColumnsData(cloneColumns);
   };
 
   const onCardPropertyChange = (
