@@ -21,6 +21,8 @@ export interface MainDeskProps {
     value: string
   ) => void;
   onCardClick: (id: string) => void;
+  idColumnWithCardEdit: string;
+  onAnyNewCardEdit: (columnId: string) => void;
 }
 
 const MainDesk: FC<MainDeskProps> = ({
@@ -34,10 +36,11 @@ const MainDesk: FC<MainDeskProps> = ({
   onCardPropertyChange,
   onCardClick,
   comments,
+  idColumnWithCardEdit,
+  onAnyNewCardEdit,
 }) => {
   const [isNewColumnEdit, setIsNewColumnEdit] = useState(false);
   const [newColumnTitle, setNewColumnTitle] = useState("");
-  const [idColumnWereNewCardEdit, setIdColumnWereNewCardEdit] = useState("");
 
   const handleEditTitleClose = () => {
     setIsNewColumnEdit(false);
@@ -52,9 +55,6 @@ const MainDesk: FC<MainDeskProps> = ({
     }
   };
 
-  const onAnyNewCardEdit = (columnId: string) => {
-    setIdColumnWereNewCardEdit(columnId);
-  };
   return (
     <Main>
       <Container fluid>
@@ -75,7 +75,7 @@ const MainDesk: FC<MainDeskProps> = ({
                   onCardPropertyChange={onCardPropertyChange}
                   onCardClick={onCardClick}
                   comments={comments}
-                  isThisNewCardEdit={idColumnWereNewCardEdit === column.id}
+                  isThisNewCardEdit={idColumnWithCardEdit === column.id}
                   onThisNewCardEdit={() => onAnyNewCardEdit(column.id)}
                 />
               );

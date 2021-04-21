@@ -41,6 +41,11 @@ function App() {
   const [comments, setComments] = useState<CardComments>(initCommentsData);
   const [userName, setUserName] = useState(initUserNameData);
   const [cardIdForModalView, setCardIdForModalView] = useState("");
+  const [idColumnWithCardEdit, setIdColumnWithCardEdit] = useState("");
+
+  const onAnyNewCardEdit = (columnId: string) => {
+    setIdColumnWithCardEdit(columnId);
+  };
 
   const onCardModalClose = () => {
     setCardIdForModalView("");
@@ -48,6 +53,7 @@ function App() {
 
   const onCardClick = (id: string) => {
     setCardIdForModalView(id);
+    setIdColumnWithCardEdit("");
   };
 
   const setColumnsData = (cloneColumns: SetStateAction<DeskColumns>) => {
@@ -177,6 +183,8 @@ function App() {
           onCardPropertyChange={onCardPropertyChange}
           onCardClick={onCardClick}
           comments={comments}
+          idColumnWithCardEdit={idColumnWithCardEdit}
+          onAnyNewCardEdit={onAnyNewCardEdit}
         />
       ) : (
         <UserModal onConfirmClick={onUserNameAdd} isVisible={!userName} />
