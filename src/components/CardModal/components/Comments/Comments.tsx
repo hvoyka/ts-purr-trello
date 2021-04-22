@@ -54,7 +54,7 @@ const Comments: FC<CommentsProps> = ({
           value={newCommentText}
           onChange={(e) => setNewCommentText(e.target.value)}
         />
-        <button onClick={handleCommentAddClick}>Add comment</button>
+        <button onClick={handleCommentAddClick}>Add</button>
       </AddCommentWrapper>
     </>
   );
@@ -65,6 +65,7 @@ const CommentsList = styled.ul`
   list-style: none;
   background-color: var(--gray4);
   border-radius: 5px;
+  margin-bottom: 0;
 `;
 const AddCommentWrapper = styled.div`
   padding: 1rem 1rem;

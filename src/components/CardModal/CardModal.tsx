@@ -56,7 +56,7 @@ const CardModal: FC<CardModalProps> = ({
 
   return (
     <Modal title="Card Edit" isVisible={isVisible} onClose={onClose}>
-      <TextArea
+      <StyledTextArea
         placeholder="Card title"
         spellCheck={false}
         maxRows={2}
@@ -64,7 +64,7 @@ const CardModal: FC<CardModalProps> = ({
         onBlur={handleTitleAreaBlur}
         onKeyDown={handleAreaEnterPress}
       />
-      <TextArea
+      <StyledTextArea
         spellCheck={false}
         maxRows={8}
         placeholder="Description"
@@ -87,6 +87,10 @@ const CardModal: FC<CardModalProps> = ({
 
 const Info = styled.div`
   overflow-wrap: break-word;
+`;
+
+const StyledTextArea = styled(TextArea)`
+  margin-bottom: 10px;
 `;
 
 export default CardModal;

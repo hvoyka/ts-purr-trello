@@ -25,6 +25,8 @@ export interface ColumnProps {
     value: string
   ) => void;
   onCardClick: (id: string) => void;
+  isThisNewCardEdit: boolean;
+  onThisNewCardEdit: () => void;
 }
 
 const Column: FC<ColumnProps> = ({
@@ -37,6 +39,8 @@ const Column: FC<ColumnProps> = ({
   onCardPropertyChange,
   onCardClick,
   comments,
+  isThisNewCardEdit,
+  onThisNewCardEdit,
 }) => {
   const filteredCardsArray = useMemo(
     () => Object.values(cards).filter((card) => card.columnId === column.id),
@@ -125,7 +129,7 @@ const Column: FC<ColumnProps> = ({
           );
         })}
       </CardList>
-      {isNewCardEdit ? (
+      {isNewCardEdit && isThisNewCardEdit ? (
         <>
           <TextArea
             autoFocus
@@ -146,6 +150,7 @@ const Column: FC<ColumnProps> = ({
           title="Add card"
           onClick={() => {
             setIsNewCardEdit(true);
+            onThisNewCardEdit();
           }}
         >
           +
