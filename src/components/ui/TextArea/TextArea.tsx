@@ -17,12 +17,14 @@ interface TextAreaProps {
   onKeyDown?: (event: KeyboardEvent<HTMLTextAreaElement>) => void;
 }
 
-const TextArea: FC<TextAreaProps> = ({ rootCSS, ...props }) => {
-  return <StyledTextArea $CSS={rootCSS} {...props} />;
+const TextArea: FC<TextAreaProps> = ({ rootCSS, columnHeader, ...props }) => {
+  return (
+    <StyledTextArea $CSS={rootCSS} $columnHeader={columnHeader} {...props} />
+  );
 };
 
 const StyledTextArea = styled(TextareaAutosize)<{
-  columnHeader?: boolean;
+  $columnHeader?: boolean;
   $CSS?: CSSProp;
 }>`
   border-radius: 3px;
@@ -38,14 +40,13 @@ const StyledTextArea = styled(TextareaAutosize)<{
   display: block;
   color: var(--blue2);
   border: 1px solid var(--blue2);
-  margin-bottom: 10px;
-  ${({ columnHeader }) =>
-    columnHeader ? "background: transparent; border: none" : null};
+  ${({ $columnHeader }) =>
+    $columnHeader ? "background: transparent; border: none" : null};
 
   &:focus {
     background-color: var(--blue3);
-    ${({ columnHeader }) =>
-      columnHeader
+    ${({ $columnHeader }) =>
+      $columnHeader
         ? " background-color: var(--white);  box-shadow: inset 0 0 0 2px var(--blue2);"
         : null};
   }
