@@ -21,8 +21,8 @@ export interface MainDeskProps {
     value: string
   ) => void;
   onCardClick: (id: string) => void;
-  idColumnWithCardEdit: string;
-  onAnyNewCardEdit: (columnId: string) => void;
+  columnIdWithCardAdding: string;
+  onAddCardClick: (columnId: string) => void;
 }
 
 const MainDesk: FC<MainDeskProps> = ({
@@ -36,14 +36,14 @@ const MainDesk: FC<MainDeskProps> = ({
   onCardPropertyChange,
   onCardClick,
   comments,
-  idColumnWithCardEdit,
-  onAnyNewCardEdit,
+  columnIdWithCardAdding,
+  onAddCardClick,
 }) => {
-  const [isNewColumnEdit, setIsNewColumnEdit] = useState(false);
+  const [isColumnAdding, setIsColumnAdding] = useState(false);
   const [newColumnTitle, setNewColumnTitle] = useState("");
 
   const handleEditTitleClose = () => {
-    setIsNewColumnEdit(false);
+    setIsColumnAdding(false);
     setNewColumnTitle("");
   };
 
@@ -75,14 +75,14 @@ const MainDesk: FC<MainDeskProps> = ({
                   onCardPropertyChange={onCardPropertyChange}
                   onCardClick={onCardClick}
                   comments={comments}
-                  isThisNewCardEdit={idColumnWithCardEdit === column.id}
-                  onThisNewCardEdit={() => onAnyNewCardEdit(column.id)}
+                  isNewCardAdding={columnIdWithCardAdding === column.id}
+                  onAddCardClick={() => onAddCardClick(column.id)}
                 />
               );
             })}
           </ColumnList>
           <EmptyColumn>
-            {isNewColumnEdit ? (
+            {isColumnAdding ? (
               <>
                 <TextArea
                   autoFocus
@@ -102,7 +102,7 @@ const MainDesk: FC<MainDeskProps> = ({
               <Button
                 variant="secondary"
                 onClick={() => {
-                  setIsNewColumnEdit(true);
+                  setIsColumnAdding(true);
                 }}
               >
                 Add column

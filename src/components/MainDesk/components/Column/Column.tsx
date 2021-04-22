@@ -25,8 +25,8 @@ export interface ColumnProps {
     value: string
   ) => void;
   onCardClick: (id: string) => void;
-  isThisNewCardEdit: boolean;
-  onThisNewCardEdit: () => void;
+  isNewCardAdding: boolean;
+  onAddCardClick: () => void;
 }
 
 const Column: FC<ColumnProps> = ({
@@ -39,20 +39,18 @@ const Column: FC<ColumnProps> = ({
   onCardPropertyChange,
   onCardClick,
   comments,
-  isThisNewCardEdit,
-  onThisNewCardEdit,
+  isNewCardAdding,
+  onAddCardClick,
 }) => {
   const filteredCardsArray = useMemo(
     () => Object.values(cards).filter((card) => card.columnId === column.id),
     [cards, column.id]
   );
-  const [isNewCardEdit, setIsNewCardEdit] = useState(false);
   const [newCardTitle, setNewCardTitle] = useState("");
 
   const [newColumnTitle, setNewColumnTitle] = useState(column.title);
 
   const handleTitleEdittingCloseClick = () => {
-    setIsNewCardEdit(false);
     setNewCardTitle("");
   };
 
@@ -129,7 +127,7 @@ const Column: FC<ColumnProps> = ({
           );
         })}
       </CardList>
-      {isNewCardEdit && isThisNewCardEdit ? (
+      {isNewCardAdding ? (
         <>
           <TextArea
             autoFocus
@@ -146,13 +144,7 @@ const Column: FC<ColumnProps> = ({
           <button onClick={handleTitleEdittingCloseClick}>x</button>
         </>
       ) : (
-        <AddCardButton
-          title="Add card"
-          onClick={() => {
-            setIsNewCardEdit(true);
-            onThisNewCardEdit();
-          }}
-        >
+        <AddCardButton title="Add card" onClick={onAddCardClick}>
           +
         </AddCardButton>
       )}
