@@ -47,6 +47,10 @@ function App() {
     setColumnIdWithCardAdding(columnId);
   };
 
+  const onCardAddingClose = () => {
+    setColumnIdWithCardAdding("");
+  };
+
   const onCardModalClose = () => {
     setCardIdForModalView("");
   };
@@ -184,6 +188,7 @@ function App() {
           onCardClick={onCardClick}
           comments={comments}
           columnIdWithCardAdding={columnIdWithCardAdding}
+          onCardAddingClose={onCardAddingClose}
           onAddCardClick={onAddCardClick}
         />
       ) : (

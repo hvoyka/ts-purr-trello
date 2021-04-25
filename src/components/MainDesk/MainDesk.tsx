@@ -22,6 +22,7 @@ export interface MainDeskProps {
   ) => void;
   onCardClick: (id: string) => void;
   columnIdWithCardAdding: string;
+  onCardAddingClose: () => void;
   onAddCardClick: (columnId: string) => void;
 }
 
@@ -37,6 +38,7 @@ const MainDesk: FC<MainDeskProps> = ({
   onCardClick,
   comments,
   columnIdWithCardAdding,
+  onCardAddingClose,
   onAddCardClick,
 }) => {
   const [isColumnAdding, setIsColumnAdding] = useState(false);
@@ -76,6 +78,7 @@ const MainDesk: FC<MainDeskProps> = ({
                   onCardClick={onCardClick}
                   comments={comments}
                   isNewCardAdding={columnIdWithCardAdding === column.id}
+                  onCardAddingClose={onCardAddingClose}
                   onAddCardClick={() => onAddCardClick(column.id)}
                 />
               );

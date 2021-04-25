@@ -27,6 +27,7 @@ export interface ColumnProps {
   onCardClick: (id: string) => void;
   isNewCardAdding: boolean;
   onAddCardClick: () => void;
+  onCardAddingClose: () => void;
 }
 
 const Column: FC<ColumnProps> = ({
@@ -40,6 +41,7 @@ const Column: FC<ColumnProps> = ({
   onCardClick,
   comments,
   isNewCardAdding,
+  onCardAddingClose,
   onAddCardClick,
 }) => {
   const filteredCardsArray = useMemo(
@@ -52,6 +54,7 @@ const Column: FC<ColumnProps> = ({
 
   const handleTitleEdittingCloseClick = () => {
     setNewCardTitle("");
+    onCardAddingClose();
   };
 
   const handleAddCardClick = () => {
@@ -70,6 +73,7 @@ const Column: FC<ColumnProps> = ({
       event.currentTarget.blur();
     }
   };
+
   const handleCardAreaEnterPress = (
     event: KeyboardEvent<HTMLTextAreaElement>
   ) => {
@@ -78,6 +82,7 @@ const Column: FC<ColumnProps> = ({
       event.currentTarget.blur();
     }
   };
+
   const handleCardTitleAreaBlur = (
     event: React.ChangeEvent<HTMLTextAreaElement>
   ) => {
