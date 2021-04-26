@@ -109,6 +109,7 @@ const MainDesk: FC<MainDeskProps> = ({
                       autoFocus
                       maxRows={1}
                       placeholder="Column title"
+                      spellCheck={false}
                       validate={notEmpty}
                       onKeyDown={handleColumnAreaEnterPress}
                       render={({
@@ -125,13 +126,15 @@ const MainDesk: FC<MainDeskProps> = ({
                         );
                       }}
                     />
-
-                    <div className="buttons">
-                      <button type="submit">Add card</button>
-                      <button type="button" onClick={handleEditTitleClose}>
+                    <CardButtonsWrapper>
+                      <AddCardBtn type="submit">Add column</AddCardBtn>
+                      <CloseAddCardBlockBtn
+                        type="button"
+                        onClick={handleEditTitleClose}
+                      >
                         x
-                      </button>
-                    </div>
+                      </CloseAddCardBlockBtn>
+                    </CardButtonsWrapper>
                   </form>
                 )}
               />
@@ -155,12 +158,14 @@ const MainDesk: FC<MainDeskProps> = ({
 const Main = styled.main`
   flex-grow: 1;
 `;
+
 const DeskWrapper = styled.div`
   overflow-x: auto;
   overflow-y: hidden;
   height: calc(100vh - 70px);
   display: flex;
 `;
+
 const ColumnList = styled.ul`
   display: flex;
   align-items: flex-start;
@@ -169,6 +174,7 @@ const ColumnList = styled.ul`
   white-space: nowrap;
   margin-bottom: 8px;
 `;
+
 const EmptyColumn = styled.div`
   position: relative;
   flex: 0 0 272px;
@@ -181,6 +187,17 @@ const EmptyColumn = styled.div`
   padding-right: 5px;
   padding-left: 5px;
   margin: 10px 4px;
+`;
+
+const CardButtonsWrapper = styled.div`
+  display: flex;
+`;
+
+const AddCardBtn = styled.button`
+  flex: 1 0 50%;
+`;
+const CloseAddCardBlockBtn = styled.button`
+  flex: 1 0 50%;
 `;
 
 export default MainDesk;

@@ -55,7 +55,7 @@ const Comments: FC<CommentsProps> = ({
         <Form
           onSubmit={onSubmit}
           render={({ handleSubmit, submitting, pristine }) => (
-            <form onSubmit={handleSubmit}>
+            <AddCommentForm onSubmit={handleSubmit}>
               <Field<string>
                 name="newCommentText"
                 spellCheck={false}
@@ -72,7 +72,7 @@ const Comments: FC<CommentsProps> = ({
               <button type="submit" disabled={submitting || pristine}>
                 Add
               </button>
-            </form>
+            </AddCommentForm>
           )}
         />
       </AddCommentWrapper>
@@ -91,6 +91,11 @@ const AddCommentWrapper = styled.div`
   padding: 1rem 1rem;
   border-radius: 5px;
   display: flex;
+`;
+
+const AddCommentForm = styled.form`
+  display: flex;
+  width: 100%;
 `;
 
 export default Comments;
