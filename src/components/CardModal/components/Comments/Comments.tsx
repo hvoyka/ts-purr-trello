@@ -56,20 +56,18 @@ const Comments: FC<CommentsProps> = ({
           onSubmit={onSubmit}
           render={({ handleSubmit, submitting, pristine }) => (
             <form onSubmit={handleSubmit}>
-              <div>
-                <Field<string>
-                  name="newCommentText"
-                  spellCheck={false}
-                  maxRows={2}
-                  placeholder="New comment text"
-                  validate={notEmpty}
-                  render={({ input: { onChange, value }, ...props }) => {
-                    return (
-                      <TextArea onChange={onChange} value={value} {...props} />
-                    );
-                  }}
-                />
-              </div>
+              <Field<string>
+                name="newCommentText"
+                spellCheck={false}
+                maxRows={2}
+                placeholder="New comment text"
+                validate={notEmpty}
+                render={({ input: { onChange, value }, meta, ...props }) => {
+                  return (
+                    <TextArea onChange={onChange} value={value} {...props} />
+                  );
+                }}
+              />
 
               <button type="submit" disabled={submitting || pristine}>
                 Add

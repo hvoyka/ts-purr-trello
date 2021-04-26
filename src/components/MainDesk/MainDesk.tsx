@@ -104,25 +104,27 @@ const MainDesk: FC<MainDeskProps> = ({
                 onSubmit={onSubmit}
                 render={({ handleSubmit, submitting, pristine }) => (
                   <form onSubmit={handleSubmit}>
-                    <div>
-                      <Field<string>
-                        name="columnTitle"
-                        autoFocus
-                        maxRows={1}
-                        placeholder="Column title"
-                        validate={notEmpty}
-                        onKeyDown={handleColumnAreaEnterPress}
-                        render={({ input: { onChange, value }, ...props }) => {
-                          return (
-                            <TextArea
-                              onChange={onChange}
-                              value={value}
-                              {...props}
-                            />
-                          );
-                        }}
-                      />
-                    </div>
+                    <Field<string>
+                      name="columnTitle"
+                      autoFocus
+                      maxRows={1}
+                      placeholder="Column title"
+                      validate={notEmpty}
+                      onKeyDown={handleColumnAreaEnterPress}
+                      render={({
+                        input: { onChange, value },
+                        meta,
+                        ...props
+                      }) => {
+                        return (
+                          <TextArea
+                            onChange={onChange}
+                            value={value}
+                            {...props}
+                          />
+                        );
+                      }}
+                    />
 
                     <div className="buttons">
                       <button type="submit">Add card</button>

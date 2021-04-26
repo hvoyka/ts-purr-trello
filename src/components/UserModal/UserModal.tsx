@@ -26,16 +26,14 @@ const UserModal: FC<UserModalProps> = ({ onConfirmClick, isVisible }) => {
           onSubmit={onSubmit}
           render={({ handleSubmit, submitting, pristine }) => (
             <form onSubmit={handleSubmit}>
-              <div>
-                <Field<string>
-                  name="userName"
-                  placeholder="User name"
-                  validate={notEmpty}
-                  render={(props) => {
-                    return <TextInput {...props} />;
-                  }}
-                />
-              </div>
+              <Field<string>
+                name="userName"
+                placeholder="User name"
+                validate={notEmpty}
+                render={(props) => {
+                  return <TextInput {...props} />;
+                }}
+              />
 
               <div className="buttons">
                 <Button type="submit" disabled={submitting || pristine}>
