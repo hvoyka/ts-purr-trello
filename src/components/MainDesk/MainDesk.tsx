@@ -10,12 +10,12 @@ import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import {
   onColumnAdd,
   onColumnRemove,
+  onColumnTitleChange,
 } from "../../redux/ducks/columns/columnsSlice";
 
 export interface MainDeskProps {
   cards: ColumnCards;
   comments: CardComments;
-  onColumnTitleChange: (title: string, id: string) => void;
   onCardAdd: (columnId: string, title: string, text?: string) => void;
   onCardRemoveClick: (id: string) => void;
 
@@ -35,7 +35,6 @@ interface Values {
 }
 
 const MainDesk: FC<MainDeskProps> = ({
-  onColumnTitleChange,
   cards,
   onCardAdd,
   onCardPropertyChange,
@@ -76,6 +75,10 @@ const MainDesk: FC<MainDeskProps> = ({
   const handleColumnRemove = (id: string) => {
     dispatch(onColumnRemove(id));
   };
+  const handleColumnTitleChange = (id: string, title: string) => {
+    dispatch(onColumnTitleChange(id, title));
+  };
+
   return (
     <Main>
       <Container fluid>
@@ -87,7 +90,7 @@ const MainDesk: FC<MainDeskProps> = ({
                   column={column}
                   key={column.id}
                   onTitleChange={(value) =>
-                    onColumnTitleChange(column.id, value)
+                    handleColumnTitleChange(column.id, value)
                   }
                   onRemoveClick={() => handleColumnRemove(column.id)}
                   cards={cards}

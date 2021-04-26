@@ -80,13 +80,6 @@ function App() {
     setToLocalStorage(name, LocalStorageKeys.USER_NAME);
   };
 
-  const onColumnTitleChange = (id: string, title: string) => {
-    const cloneColumns = { ...columns };
-    cloneColumns[id] = { id, title };
-
-    setColumnsData(cloneColumns);
-  };
-
   const onCardPropertyChange = (
     id: string,
     propertyName: keyof ColumnCard,
@@ -162,7 +155,6 @@ function App() {
 
       {userName ? (
         <MainDesk
-          onColumnTitleChange={onColumnTitleChange}
           cards={cards}
           onCardAdd={onCardAdd}
           onCardRemoveClick={onCardRemoveClick}

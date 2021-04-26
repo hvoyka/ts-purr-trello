@@ -1,6 +1,5 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction, nanoid } from "@reduxjs/toolkit";
 import { defaultColumns } from "../../../utils/default-data";
-import { v1 as uuid } from "uuid";
 
 export type DeskColumns = Record<string, DeskColumn>;
 
@@ -22,7 +21,7 @@ export const columnSlice = createSlice({
       prepare(title) {
         return {
           payload: {
-            id: uuid(),
+            id: nanoid(),
             title,
           },
         };
@@ -31,9 +30,27 @@ export const columnSlice = createSlice({
     onColumnRemove(state, action) {
       delete state[action.payload];
     },
+    onColumnTitleChange: {
+      reducer(state, action: PayloadAction<DeskColumn>) {
+        const { id, title } = action.payload;
+        state[id].title = title;
+      },
+      prepare(id, title) {
+        return {
+          payload: {
+            id,
+            title,
+          },
+        };
+      },
+    },
   },
 });
 
-export const { onColumnAdd, onColumnRemove } = columnSlice.actions;
+export const {
+  onColumnAdd,
+  onColumnRemove,
+  onColumnTitleChange,
+} = columnSlice.actions;
 
 export default columnSlice.reducer;
