@@ -2,8 +2,9 @@ import { Container, Button } from "react-bootstrap";
 import { DeskColumns, ColumnCards, ColumnCard, CardComments } from "../../App";
 import { Column } from "./components";
 import styled from "styled-components";
-import { FC, useState, ChangeEvent } from "react";
+import { FC, useState, KeyboardEvent } from "react";
 import { TextArea } from "../ui";
+import { Form, Field } from "react-final-form";
 
 export interface MainDeskProps {
   columns: DeskColumns;
@@ -26,6 +27,10 @@ export interface MainDeskProps {
   onAddCardClick: (columnId: string) => void;
 }
 
+interface Values {
+  columnTitle?: string;
+}
+
 const MainDesk: FC<MainDeskProps> = ({
   columns,
   onColumnAdd,
@@ -42,17 +47,25 @@ const MainDesk: FC<MainDeskProps> = ({
   onAddCardClick,
 }) => {
   const [isColumnAdding, setIsColumnAdding] = useState(false);
-  const [newColumnTitle, setNewColumnTitle] = useState("");
 
   const handleEditTitleClose = () => {
     setIsColumnAdding(false);
-    setNewColumnTitle("");
   };
 
-  const handleColumnAddClick = () => {
-    const trimmedTitle = newColumnTitle.trim();
-    if (trimmedTitle) {
-      onColumnAdd(newColumnTitle);
+  const onSubmit = async ({ columnTitle }: Values) => {
+    if (columnTitle) {
+      onColumnAdd(columnTitle);
+      handleEditTitleClose();
+    }
+  };
+  const handleColumnAreaEnterPress = (
+    event: KeyboardEvent<HTMLTextAreaElement>
+  ) => {
+    if (event.key === "Enter") {
+      const trimmedValue = event.currentTarget.value.trim();
+      if (trimmedValue) {
+        onColumnAdd(trimmedValue);
+      }
       handleEditTitleClose();
     }
   };
@@ -86,21 +99,38 @@ const MainDesk: FC<MainDeskProps> = ({
           </ColumnList>
           <EmptyColumn>
             {isColumnAdding ? (
-              <>
-                <TextArea
-                  autoFocus
-                  maxRows={1}
-                  placeholder="Column title"
-                  value={newColumnTitle}
-                  onChange={(event: ChangeEvent<HTMLTextAreaElement>) =>
-                    setNewColumnTitle(event.target.value)
-                  }
-                />
+              <Form
+                onSubmit={onSubmit}
+                render={({ handleSubmit, submitting, pristine }) => (
+                  <form onSubmit={handleSubmit}>
+                    <div>
+                      <Field<string>
+                        name="columnTitle"
+                        autoFocus
+                        maxRows={1}
+                        placeholder="Column title"
+                        onKeyDown={handleColumnAreaEnterPress}
+                        render={({ input: { onChange, value }, ...props }) => {
+                          return (
+                            <TextArea
+                              onChange={onChange}
+                              value={value}
+                              {...props}
+                            />
+                          );
+                        }}
+                      />
+                    </div>
 
-                <button onClick={handleColumnAddClick}>Add column</button>
-
-                <button onClick={handleEditTitleClose}>x</button>
-              </>
+                    <div className="buttons">
+                      <button type="submit">Add card</button>
+                      <button type="button" onClick={handleEditTitleClose}>
+                        x
+                      </button>
+                    </div>
+                  </form>
+                )}
+              />
             ) : (
               <Button
                 variant="secondary"
