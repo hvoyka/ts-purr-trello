@@ -12,6 +12,7 @@ import React, { FC, useMemo, useState, KeyboardEvent } from "react";
 import { TextArea } from "../../../ui";
 import { Form, Field } from "react-final-form";
 import { notEmpty } from "../../../../utils/validate";
+import { FormApi } from "final-form";
 
 export interface ColumnProps {
   column: DeskColumn;
@@ -68,8 +69,13 @@ const Column: FC<ColumnProps> = ({
     onCardAddingClose();
   };
 
-  const onSubmit = async ({ cardTitle }: Values) => {
-    if (cardTitle) onCardAdd(column.id, cardTitle);
+  const onSubmit = async ({ cardTitle }: Values, form: FormApi) => {
+    if (cardTitle) {
+      onCardAdd(column.id, cardTitle);
+
+      onCardAddingClose();
+      form.reset();
+    }
   };
 
   const handleCardAreaEnterPress = (
@@ -153,15 +159,15 @@ const Column: FC<ColumnProps> = ({
                 }}
               />
 
-              <div className="buttons">
-                <button type="submit">Add card</button>
-                <button
+              <CardButtonsWrapper>
+                <AddCardBtn type="submit">Add card</AddCardBtn>
+                <CloseAddCardBlockBtn
                   type="button"
                   onClick={handleCardTitleEdittingCloseClick}
                 >
                   x
-                </button>
-              </div>
+                </CloseAddCardBlockBtn>
+              </CardButtonsWrapper>
             </form>
           )}
         />
@@ -194,6 +200,7 @@ const Root = styled.li`
 
   margin: 10px 4px;
 `;
+
 const RemoveColumnButton = styled(Button)`
   position: absolute;
   right: 4px;
@@ -203,6 +210,18 @@ const RemoveColumnButton = styled(Button)`
   font-size: 15px;
   line-height: 15px;
 `;
+
+const CardButtonsWrapper = styled.div`
+  display: flex;
+`;
+
+const AddCardBtn = styled.button`
+  flex: 1 0 50%;
+`;
+const CloseAddCardBlockBtn = styled.button`
+  flex: 1 0 50%;
+`;
+
 const AddCardButton = styled(Button)`
   width: 100%;
   z-index: 1;
@@ -220,6 +239,7 @@ const ListHeader = styled.div`
   min-height: 20px;
   padding-right: 36px;
 `;
+
 const CardList = styled.ul`
   padding: 0;
   margin: 0;
