@@ -1,19 +1,21 @@
 import { Container, Button } from "react-bootstrap";
-import { DeskColumns, ColumnCards, ColumnCard, CardComments } from "../../App";
+import { ColumnCards, ColumnCard, CardComments } from "../../App";
 import { Column } from "./components";
 import styled from "styled-components";
 import { FC, useState, KeyboardEvent } from "react";
 import { TextArea } from "../ui";
 import { Form, Field } from "react-final-form";
 import { notEmpty } from "../../utils/validate";
+import { useAppDispatch, useAppSelector } from "../../redux/hooks";
+import {
+  onColumnAdd,
+  onColumnRemove,
+} from "../../redux/ducks/columns/columnsSlice";
 
 export interface MainDeskProps {
-  columns: DeskColumns;
   cards: ColumnCards;
   comments: CardComments;
-  onColumnAdd: (title: string) => void;
   onColumnTitleChange: (title: string, id: string) => void;
-  onColumnRemoveClick: (id: string) => void;
   onCardAdd: (columnId: string, title: string, text?: string) => void;
   onCardRemoveClick: (id: string) => void;
 
@@ -33,14 +35,11 @@ interface Values {
 }
 
 const MainDesk: FC<MainDeskProps> = ({
-  columns,
-  onColumnAdd,
   onColumnTitleChange,
-  onColumnRemoveClick,
   cards,
   onCardAdd,
-  onCardRemoveClick,
   onCardPropertyChange,
+  onCardRemoveClick,
   onCardClick,
   comments,
   columnIdWithCardAdding,
@@ -49,13 +48,17 @@ const MainDesk: FC<MainDeskProps> = ({
 }) => {
   const [isColumnAdding, setIsColumnAdding] = useState(false);
 
+  const columns = useAppSelector((state) => state.columns);
+  const dispatch = useAppDispatch();
+
   const handleEditTitleClose = () => {
     setIsColumnAdding(false);
   };
 
   const onSubmit = async ({ columnTitle }: Values) => {
     if (columnTitle) {
-      onColumnAdd(columnTitle);
+      dispatch(onColumnAdd(columnTitle));
+
       handleEditTitleClose();
     }
   };
@@ -65,12 +68,14 @@ const MainDesk: FC<MainDeskProps> = ({
     if (event.key === "Enter") {
       const trimmedValue = event.currentTarget.value.trim();
       if (trimmedValue) {
-        onColumnAdd(trimmedValue);
+        dispatch(onColumnAdd(trimmedValue));
       }
       handleEditTitleClose();
     }
   };
-
+  const handleColumnRemove = (id: string) => {
+    dispatch(onColumnRemove(id));
+  };
   return (
     <Main>
       <Container fluid>
@@ -84,7 +89,7 @@ const MainDesk: FC<MainDeskProps> = ({
                   onTitleChange={(value) =>
                     onColumnTitleChange(column.id, value)
                   }
-                  onRemoveClick={() => onColumnRemoveClick(column.id)}
+                  onRemoveClick={() => handleColumnRemove(column.id)}
                   cards={cards}
                   onCardAdd={onCardAdd}
                   onCardRemoveClick={onCardRemoveClick}
@@ -127,7 +132,13 @@ const MainDesk: FC<MainDeskProps> = ({
                       }}
                     />
                     <CardButtonsWrapper>
-                      <AddCardBtn type="submit">Add column</AddCardBtn>
+                      <AddCardBtn
+                        type="submit"
+                        disabled={submitting || pristine}
+                      >
+                        Add column
+                      </AddCardBtn>
+
                       <CloseAddCardBlockBtn
                         type="button"
                         onClick={handleEditTitleClose}
