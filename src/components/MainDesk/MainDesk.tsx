@@ -5,6 +5,7 @@ import styled from "styled-components";
 import { FC, useState, KeyboardEvent } from "react";
 import { TextArea } from "../ui";
 import { Form, Field } from "react-final-form";
+import { notEmpty } from "../../utils/validate";
 
 export interface MainDeskProps {
   columns: DeskColumns;
@@ -109,6 +110,7 @@ const MainDesk: FC<MainDeskProps> = ({
                         autoFocus
                         maxRows={1}
                         placeholder="Column title"
+                        validate={notEmpty}
                         onKeyDown={handleColumnAreaEnterPress}
                         render={({ input: { onChange, value }, ...props }) => {
                           return (

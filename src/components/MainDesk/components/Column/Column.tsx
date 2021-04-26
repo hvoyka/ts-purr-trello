@@ -11,6 +11,7 @@ import { getCommentsCount } from "./utils";
 import React, { FC, useMemo, useState, KeyboardEvent } from "react";
 import { TextArea } from "../../../ui";
 import { Form, Field } from "react-final-form";
+import { notEmpty } from "../../../../utils/validate";
 
 export interface ColumnProps {
   column: DeskColumn;
@@ -145,6 +146,7 @@ const Column: FC<ColumnProps> = ({
                   maxRows={8}
                   placeholder="Card title"
                   onKeyDown={handleCardAreaEnterPress}
+                  validate={notEmpty}
                   render={({ input: { onChange, value }, ...props }) => {
                     return (
                       <TextArea onChange={onChange} value={value} {...props} />

@@ -1,8 +1,11 @@
 import styled from "styled-components";
-import React, { useState, useMemo, FC } from "react";
+import React, { useMemo, FC } from "react";
+import { Form, Field } from "react-final-form";
+import { notEmpty } from "../../../../utils/validate";
 import { CardComments } from "../../../../App";
 import { Comment } from "./../Comment";
 import { TextArea } from "../../../ui";
+import { FormApi } from "final-form";
 
 export interface CommentsProps {
   cardId: string;
@@ -12,6 +15,10 @@ export interface CommentsProps {
   onCommentChange: (id: string, text: string) => void;
 }
 
+interface Values {
+  newCommentText?: string;
+}
+
 const Comments: FC<CommentsProps> = ({
   cardId,
   comments,
@@ -19,18 +26,16 @@ const Comments: FC<CommentsProps> = ({
   onCommentRemoveClick,
   onCommentChange,
 }) => {
-  const [newCommentText, setNewCommentText] = useState("");
-
   const filteredCommentsArray = useMemo(
     () =>
       Object.values(comments).filter((comment) => comment.cardId === cardId),
     [comments, cardId]
   );
-  const handleCommentAddClick = () => {
-    const trimmedNewCommentText = newCommentText.trim();
-    if (trimmedNewCommentText) {
+
+  const onSubmit = async ({ newCommentText }: Values, form: FormApi) => {
+    if (newCommentText) {
       onCommentAdd(cardId, newCommentText);
-      setNewCommentText("");
+      form.reset();
     }
   };
 
@@ -47,14 +52,31 @@ const Comments: FC<CommentsProps> = ({
         ))}
       </CommentsList>
       <AddCommentWrapper>
-        <TextArea
-          spellCheck={false}
-          maxRows={2}
-          placeholder="New comment text"
-          value={newCommentText}
-          onChange={(e) => setNewCommentText(e.target.value)}
+        <Form
+          onSubmit={onSubmit}
+          render={({ handleSubmit, submitting, pristine }) => (
+            <form onSubmit={handleSubmit}>
+              <div>
+                <Field<string>
+                  name="newCommentText"
+                  spellCheck={false}
+                  maxRows={2}
+                  placeholder="New comment text"
+                  validate={notEmpty}
+                  render={({ input: { onChange, value }, ...props }) => {
+                    return (
+                      <TextArea onChange={onChange} value={value} {...props} />
+                    );
+                  }}
+                />
+              </div>
+
+              <button type="submit" disabled={submitting || pristine}>
+                Add
+              </button>
+            </form>
+          )}
         />
-        <button onClick={handleCommentAddClick}>Add</button>
       </AddCommentWrapper>
     </>
   );
