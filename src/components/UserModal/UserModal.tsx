@@ -29,9 +29,11 @@ const UserModal: FC<UserModalProps> = ({ onConfirmClick, isVisible }) => {
               <div>
                 <Field<string>
                   name="userName"
-                  component={TextInput}
                   placeholder="User name"
                   validate={notEmpty}
+                  render={(props) => {
+                    return <TextInput {...props} />;
+                  }}
                 />
               </div>
 

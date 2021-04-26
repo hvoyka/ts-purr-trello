@@ -1,6 +1,7 @@
 import { FC, KeyboardEvent, ChangeEvent } from "react";
 import styled, { CSSProp } from "styled-components";
 import TextareaAutosize from "react-textarea-autosize";
+import { FieldRenderProps } from "react-final-form";
 
 interface TextAreaProps {
   maxRows?: number;

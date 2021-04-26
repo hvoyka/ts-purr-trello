@@ -10,6 +10,7 @@ import { Card } from "../Card";
 import { getCommentsCount } from "./utils";
 import React, { FC, useMemo, useState, KeyboardEvent } from "react";
 import { TextArea } from "../../../ui";
+import { Form, Field } from "react-final-form";
 
 export interface ColumnProps {
   column: DeskColumn;
@@ -28,6 +29,9 @@ export interface ColumnProps {
   isNewCardAdding: boolean;
   onAddCardClick: () => void;
   onCardAddingClose: () => void;
+}
+interface Values {
+  cardTitle?: string;
 }
 
 const Column: FC<ColumnProps> = ({
@@ -48,42 +52,38 @@ const Column: FC<ColumnProps> = ({
     () => Object.values(cards).filter((card) => card.columnId === column.id),
     [cards, column.id]
   );
-  const [newCardTitle, setNewCardTitle] = useState("");
 
   const [newColumnTitle, setNewColumnTitle] = useState(column.title);
 
-  const handleTitleEdittingCloseClick = () => {
-    setNewCardTitle("");
-    onCardAddingClose();
-  };
-
-  const handleAddCardClick = () => {
-    const trimmedTitle = newCardTitle.trim();
-
-    if (trimmedTitle) {
-      onCardAdd(column.id, newCardTitle);
-      handleTitleEdittingCloseClick();
-    }
-  };
-
-  const handleTitleAreaEnterPress = (
+  const handleColumnTitleAreaEnterPress = (
     event: KeyboardEvent<HTMLTextAreaElement>
   ) => {
     if (event.key === "Enter") {
       event.currentTarget.blur();
     }
+  };
+
+  const handleCardTitleEdittingCloseClick = () => {
+    onCardAddingClose();
+  };
+
+  const onSubmit = async ({ cardTitle }: Values) => {
+    if (cardTitle) onCardAdd(column.id, cardTitle);
   };
 
   const handleCardAreaEnterPress = (
     event: KeyboardEvent<HTMLTextAreaElement>
   ) => {
     if (event.key === "Enter") {
-      handleAddCardClick();
-      event.currentTarget.blur();
+      const trimmedValue = event.currentTarget.value.trim();
+      if (trimmedValue) {
+        onCardAdd(column.id, trimmedValue);
+      }
+      onCardAddingClose();
     }
   };
 
-  const handleCardTitleAreaBlur = (
+  const handleColumnTitleAreaBlur = (
     event: React.ChangeEvent<HTMLTextAreaElement>
   ) => {
     const trimmedColumnTitle = event.target.value.trim();
@@ -102,8 +102,8 @@ const Column: FC<ColumnProps> = ({
           maxRows={8}
           placeholder="Column title"
           defaultValue={newColumnTitle}
-          onBlur={handleCardTitleAreaBlur}
-          onKeyDown={handleTitleAreaEnterPress}
+          onBlur={handleColumnTitleAreaBlur}
+          onKeyDown={handleColumnTitleAreaEnterPress}
           columnHeader
         />
 
@@ -133,21 +133,38 @@ const Column: FC<ColumnProps> = ({
         })}
       </CardList>
       {isNewCardAdding ? (
-        <>
-          <TextArea
-            autoFocus
-            spellCheck={false}
-            maxRows={8}
-            placeholder="Card title"
-            value={newCardTitle}
-            onChange={(e) => setNewCardTitle(e.target.value)}
-            onKeyDown={handleCardAreaEnterPress}
-          />
+        <Form
+          onSubmit={onSubmit}
+          render={({ handleSubmit, submitting, pristine }) => (
+            <form onSubmit={handleSubmit}>
+              <div>
+                <Field<string>
+                  name="cardTitle"
+                  autoFocus
+                  spellCheck={false}
+                  maxRows={8}
+                  placeholder="Card title"
+                  onKeyDown={handleCardAreaEnterPress}
+                  render={({ input: { onChange, value }, ...props }) => {
+                    return (
+                      <TextArea onChange={onChange} value={value} {...props} />
+                    );
+                  }}
+                />
+              </div>
 
-          <button onClick={handleAddCardClick}>Add card</button>
-
-          <button onClick={handleTitleEdittingCloseClick}>x</button>
-        </>
+              <div className="buttons">
+                <button type="submit">Add card</button>
+                <button
+                  type="button"
+                  onClick={handleCardTitleEdittingCloseClick}
+                >
+                  x
+                </button>
+              </div>
+            </form>
+          )}
+        />
       ) : (
         <AddCardButton title="Add card" onClick={onAddCardClick}>
           +
