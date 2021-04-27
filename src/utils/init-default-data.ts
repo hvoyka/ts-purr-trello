@@ -3,19 +3,8 @@ import {
   setToLocalStorage,
   getFromLocalStorage,
 } from "./local-storage";
-import { ColumnCards, CardComments } from ".././App";
-import { defaultCards, defaultComments } from "./default-data";
-
-export const initCardsData = (): ColumnCards => {
-  const cardsFromStorage = getFromLocalStorage(LocalStorageKeys.CARDS);
-
-  if (cardsFromStorage) {
-    return cardsFromStorage;
-  } else {
-    setToLocalStorage(defaultCards, LocalStorageKeys.CARDS);
-    return defaultCards;
-  }
-};
+import { CardComments } from ".././App";
+import { defaultComments } from "./default-data";
 
 export const initCommentsData = (): CardComments => {
   const commentsFromStorage = getFromLocalStorage(LocalStorageKeys.COMMENTS);

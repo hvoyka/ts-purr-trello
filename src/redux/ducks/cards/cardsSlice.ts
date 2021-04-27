@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction, nanoid } from "@reduxjs/toolkit";
-import { initCardsData } from "../../../utils/init-default-data";
+import { defaultCards } from "../../../utils/default-data";
 
 export type ColumnCards = Record<string, ColumnCard>;
 
@@ -12,7 +12,7 @@ export interface ColumnCard {
 }
 
 const initialState = {
-  data: initCardsData(),
+  data: defaultCards as ColumnCards,
 };
 
 export const cardsSlice = createSlice({
@@ -23,7 +23,7 @@ export const cardsSlice = createSlice({
       reducer(state, action: PayloadAction<ColumnCard>) {
         state.data[action.payload.id] = action.payload;
       },
-      prepare(columnId, title, author) {
+      prepare(columnId: string, title: string, author: string) {
         return {
           payload: {
             id: nanoid(),
@@ -35,12 +35,45 @@ export const cardsSlice = createSlice({
         };
       },
     },
+    onCardTitleChange: {
+      reducer(state, action: PayloadAction<{ id: string; title: string }>) {
+        const { id, title } = action.payload;
+        state.data[id].title = title;
+      },
+      prepare(id: string, title: string) {
+        return {
+          payload: {
+            id,
+            title,
+          },
+        };
+      },
+    },
+    onCardTextChange: {
+      reducer(state, action: PayloadAction<{ id: string; text: string }>) {
+        const { id, text } = action.payload;
+        state.data[id].text = text;
+      },
+      prepare(id: string, text: string) {
+        return {
+          payload: {
+            id,
+            text,
+          },
+        };
+      },
+    },
     onCardRemove(state, action) {
       delete state.data[action.payload];
     },
   },
 });
 
-export const { onCardAdd, onCardRemove } = cardsSlice.actions;
+export const {
+  onCardAdd,
+  onCardRemove,
+  onCardTitleChange,
+  onCardTextChange,
+} = cardsSlice.actions;
 
 export default cardsSlice.reducer;

@@ -13,7 +13,8 @@ interface CardModalProps {
   onCommentAdd: (cardId: string, text: string) => void;
   onCommentRemoveClick: (id: string) => void;
   onCommentChange: (id: string, text: string) => void;
-  onTextAreaChange: (propertyName: keyof ColumnCard, value: string) => void;
+  onCardTitleChange: (title: string) => void;
+  onCardTextChange: (text: string) => void;
   columnTitle: string;
 }
 
@@ -21,7 +22,8 @@ const CardModal: FC<CardModalProps> = ({
   card,
   isVisible,
   onClose,
-  onTextAreaChange,
+  onCardTitleChange,
+  onCardTextChange,
   comments,
   onCommentAdd,
   onCommentRemoveClick,
@@ -35,7 +37,7 @@ const CardModal: FC<CardModalProps> = ({
   ) => {
     const trimmedCardTitle = event.target.value.trim();
     if (trimmedCardTitle) {
-      onTextAreaChange("title", trimmedCardTitle);
+      onCardTitleChange(trimmedCardTitle);
     }
   };
 
@@ -44,7 +46,7 @@ const CardModal: FC<CardModalProps> = ({
   ) => {
     const trimmedCardText = event.target.value.trim();
     if (trimmedCardText) {
-      onTextAreaChange("text", event.target.value);
+      onCardTextChange(event.target.value);
     }
   };
 

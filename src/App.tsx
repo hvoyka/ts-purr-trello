@@ -6,6 +6,10 @@ import { CardModal } from "./components/CardModal";
 import { LocalStorageKeys, setToLocalStorage } from "./utils/local-storage";
 import { useAppDispatch, useAppSelector } from "./redux/hooks";
 import { onAddUser } from "./redux/ducks/user/userSlice";
+import {
+  onCardTitleChange,
+  onCardTextChange,
+} from "./redux/ducks/cards/cardsSlice";
 
 import { initCommentsData } from "./utils/init-default-data";
 
@@ -133,8 +137,11 @@ function App() {
         card={cards[cardIdForModalView]}
         columnTitle={getColumnTitle(cardIdForModalView)}
         comments={comments}
-        onTextAreaChange={(propertyName, value) =>
-          onCardPropertyChange(cardIdForModalView, propertyName, value)
+        onCardTitleChange={(title) =>
+          dispatch(onCardTitleChange(cardIdForModalView, title))
+        }
+        onCardTextChange={(text) =>
+          dispatch(onCardTextChange(cardIdForModalView, text))
         }
         onCommentAdd={onCommentAdd}
         onCommentRemoveClick={onCommentRemoveClick}
