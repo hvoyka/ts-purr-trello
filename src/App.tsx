@@ -4,6 +4,8 @@ import { Header, MainDesk, UserModal } from "./components";
 import { CardModal } from "./components/CardModal";
 
 import { LocalStorageKeys, setToLocalStorage } from "./utils/local-storage";
+import { useAppDispatch, useAppSelector } from "./redux/hooks";
+import { onAddUser } from "./redux/ducks/user/userSlice";
 
 import {
   initUserNameData,
@@ -39,9 +41,11 @@ function App() {
   const [columns, setColumns] = useState<DeskColumns>(initColumnsData);
   const [cards, setCards] = useState<ColumnCards>(initCardsData);
   const [comments, setComments] = useState<CardComments>(initCommentsData);
-  const [userName, setUserName] = useState(initUserNameData);
   const [cardIdForModalView, setCardIdForModalView] = useState("");
   const [columnIdWithCardAdding, setColumnIdWithCardAdding] = useState("");
+
+  const userName = useAppSelector((state) => state.user.name);
+  const dispatch = useAppDispatch();
 
   const onAddCardClick = (columnId: string) => {
     setColumnIdWithCardAdding(columnId);
@@ -76,8 +80,7 @@ function App() {
   };
 
   const onUserNameAdd = (name: string) => {
-    setUserName(name);
-    setToLocalStorage(name, LocalStorageKeys.USER_NAME);
+    dispatch(onAddUser(name));
   };
 
   const onCardPropertyChange = (

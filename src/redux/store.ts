@@ -6,21 +6,29 @@ import userReducer from "./ducks/user/userSlice";
 import columnsReducer from "./ducks/columns/columnsSlice";
 import cardsReducer from "./ducks/cards/cardsSlice";
 
-const reducers = combineReducers({
-  columns: columnsReducer,
-  cards: cardsReducer,
-  user: userReducer,
-});
+const columnsPersistConfig = {
+  key: "columns",
+  storage: storage,
+};
 
-const persistConfig = {
-  key: "root",
+const cardsPersistConfig = {
+  key: "cards",
+  storage: storage,
+};
+
+const userPersistConfig = {
+  key: "user",
   storage,
 };
 
-const persistedReducer = persistReducer(persistConfig, reducers);
+const rootReducer = combineReducers({
+  user: persistReducer(userPersistConfig, userReducer),
+  columns: persistReducer(columnsPersistConfig, columnsReducer),
+  cards: persistReducer(cardsPersistConfig, cardsReducer),
+});
 
 const store = configureStore({
-  reducer: persistedReducer,
+  reducer: rootReducer,
   devTools: process.env.NODE_ENV !== "production",
   middleware: [],
 });
