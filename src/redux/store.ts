@@ -1,9 +1,11 @@
 import { configureStore } from "@reduxjs/toolkit";
 import columnsReducer from "./ducks/columns/columnsSlice";
+import cardsReducer from "./ducks/cards/cardsSlice";
 
 const store = configureStore({
   reducer: {
     columns: columnsReducer,
+    cards: cardsReducer,
   },
 });
 
