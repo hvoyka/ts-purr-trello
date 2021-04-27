@@ -6,7 +6,7 @@ import { FC, useState, KeyboardEvent } from "react";
 import { TextArea } from "../ui";
 import { Form, Field } from "react-final-form";
 import { notEmpty } from "../../utils/validate";
-import { useAppDispatch, useAppSelector } from "../../redux/hooks";
+import { useAppDispatch } from "../../redux/hooks";
 import {
   onColumnAdd,
   onColumnRemove,

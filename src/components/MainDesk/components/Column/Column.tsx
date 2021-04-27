@@ -1,11 +1,6 @@
 import styled from "styled-components";
 import { Button } from "react-bootstrap";
-import {
-  ColumnCards,
-  ColumnCard,
-  DeskColumn,
-  CardComments,
-} from "../../../../App";
+import { ColumnCards, ColumnCard, CardComments } from "../../../../App";
 import { Card } from "../Card";
 import { getCommentsCount } from "./utils";
 import React, { FC, useMemo, useState, KeyboardEvent } from "react";
@@ -13,6 +8,7 @@ import { TextArea } from "../../../ui";
 import { Form, Field } from "react-final-form";
 import { notEmpty } from "../../../../utils/validate";
 import { FormApi } from "final-form";
+import { DeskColumn } from "../../../../redux/ducks/columns/columnsSlice";
 
 export interface ColumnProps {
   column: DeskColumn;

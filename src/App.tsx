@@ -9,10 +9,6 @@ import { onAddUser } from "./redux/ducks/user/userSlice";
 
 import { initCommentsData } from "./utils/init-default-data";
 
-export interface DeskColumn {
-  id: string;
-  title: string;
-}
 export interface ColumnCard {
   id: string;
   columnId: string;

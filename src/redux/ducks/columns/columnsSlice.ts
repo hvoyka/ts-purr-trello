@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction, nanoid } from "@reduxjs/toolkit";
-import { initColumnsData } from "../../../utils/init-default-data";
+import { defaultColumns } from "../../../utils/default-data";
 
 export type DeskColumns = Record<string, DeskColumn>;
 
@@ -9,7 +9,7 @@ export interface DeskColumn {
 }
 
 const initialState = {
-  data: initColumnsData(),
+  data: defaultColumns as DeskColumns,
 };
 
 export const columnsSlice = createSlice({
