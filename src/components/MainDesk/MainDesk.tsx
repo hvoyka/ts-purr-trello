@@ -18,8 +18,6 @@ export interface MainDeskProps {
   cards: ColumnCards;
   comments: CardComments;
   columns: DeskColumns;
-  onCardAdd: (columnId: string, title: string, text?: string) => void;
-  onCardRemoveClick: (id: string) => void;
 
   onCardPropertyChange: (
     id: string,
@@ -39,9 +37,8 @@ interface Values {
 const MainDesk: FC<MainDeskProps> = ({
   columns,
   cards,
-  onCardAdd,
+
   onCardPropertyChange,
-  onCardRemoveClick,
   onCardClick,
   comments,
   columnIdWithCardAdding,
@@ -97,8 +94,6 @@ const MainDesk: FC<MainDeskProps> = ({
                   }
                   onRemoveClick={() => handleColumnRemove(column.id)}
                   cards={cards}
-                  onCardAdd={onCardAdd}
-                  onCardRemoveClick={onCardRemoveClick}
                   onCardPropertyChange={onCardPropertyChange}
                   onCardClick={onCardClick}
                   comments={comments}

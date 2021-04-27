@@ -72,24 +72,6 @@ function App() {
     cloneCards[id][propertyName] = value;
   };
 
-  const onCardAdd = (columnId: string, title: string, text: string = "") => {
-    const cloneCards = { ...cards };
-    const cardID = uuid();
-
-    cloneCards[cardID] = {
-      id: cardID,
-      columnId,
-      title,
-      text,
-      author: userName,
-    };
-  };
-
-  const onCardRemoveClick = (id: string) => {
-    const cloneCards = { ...cards };
-    delete cloneCards[id];
-  };
-
   const onCommentAdd = (cardId: string, text: string) => {
     const cloneComments = { ...comments };
     const commentID = uuid();
@@ -134,8 +116,6 @@ function App() {
         <MainDesk
           columns={columns}
           cards={cards}
-          onCardAdd={onCardAdd}
-          onCardRemoveClick={onCardRemoveClick}
           onCardPropertyChange={onCardPropertyChange}
           onCardClick={onCardClick}
           comments={comments}

@@ -8,7 +8,12 @@ import { TextArea } from "../../../ui";
 import { Form, Field } from "react-final-form";
 import { notEmpty } from "../../../../utils/validate";
 import { FormApi } from "final-form";
+import { useAppDispatch, useAppSelector } from "../../../../redux/hooks";
 import { DeskColumn } from "../../../../redux/ducks/columns/columnsSlice";
+import {
+  onCardAdd,
+  onCardRemove,
+} from "../../../../redux/ducks/cards/cardsSlice";
 
 export interface ColumnProps {
   column: DeskColumn;
@@ -16,8 +21,6 @@ export interface ColumnProps {
   comments: CardComments;
   onTitleChange: (title: string) => void;
   onRemoveClick: () => void;
-  onCardAdd: (columnId: string, title: string, text?: string) => void;
-  onCardRemoveClick: (id: string) => void;
   onCardPropertyChange: (
     id: string,
     propertyName: keyof ColumnCard,
@@ -37,8 +40,6 @@ const Column: FC<ColumnProps> = ({
   onTitleChange,
   onRemoveClick,
   cards,
-  onCardAdd,
-  onCardRemoveClick,
   onCardPropertyChange,
   onCardClick,
   comments,
@@ -46,6 +47,9 @@ const Column: FC<ColumnProps> = ({
   onCardAddingClose,
   onAddCardClick,
 }) => {
+  const dispatch = useAppDispatch();
+  const user = useAppSelector((state) => state.user.name);
+
   const filteredCardsArray = useMemo(
     () => Object.values(cards).filter((card) => card.columnId === column.id),
     [cards, column.id]
@@ -67,7 +71,7 @@ const Column: FC<ColumnProps> = ({
 
   const onSubmit = async ({ cardTitle }: Values, form: FormApi) => {
     if (cardTitle) {
-      onCardAdd(column.id, cardTitle);
+      dispatch(onCardAdd(column.id, cardTitle, user));
 
       onCardAddingClose();
       form.reset();
@@ -80,7 +84,7 @@ const Column: FC<ColumnProps> = ({
     if (event.key === "Enter") {
       const trimmedValue = event.currentTarget.value.trim();
       if (trimmedValue) {
-        onCardAdd(column.id, trimmedValue);
+        dispatch(onCardAdd(column.id, trimmedValue, user));
       }
       onCardAddingClose();
     }
@@ -129,7 +133,7 @@ const Column: FC<ColumnProps> = ({
                 onCardPropertyChange(filteredCard.id, propertyName, value)
               }
               onClick={() => onCardClick(filteredCard.id)}
-              onRemoveClick={() => onCardRemoveClick(filteredCard.id)}
+              onRemoveClick={() => dispatch(onCardRemove(filteredCard.id))}
               commentsCount={getCommentsCount(comments, filteredCard.id)}
             />
           );
