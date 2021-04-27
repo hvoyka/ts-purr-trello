@@ -47,7 +47,7 @@ const MainDesk: FC<MainDeskProps> = ({
 }) => {
   const [isColumnAdding, setIsColumnAdding] = useState(false);
 
-  const columns = useAppSelector((state) => state.columns);
+  const columns = useAppSelector((state) => state.columns.data);
   const dispatch = useAppDispatch();
 
   const handleEditTitleClose = () => {
@@ -85,6 +85,7 @@ const MainDesk: FC<MainDeskProps> = ({
         <DeskWrapper>
           <ColumnList>
             {Object.values(columns).map((column) => {
+              console.log(column);
               return (
                 <Column
                   column={column}

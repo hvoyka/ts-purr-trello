@@ -8,7 +8,9 @@ export interface DeskColumn {
   title: string;
 }
 
-const initialState: DeskColumns = initColumnsData();
+const initialState = {
+  data: initColumnsData(),
+};
 
 export const columnsSlice = createSlice({
   name: "columns",
@@ -16,7 +18,7 @@ export const columnsSlice = createSlice({
   reducers: {
     onColumnAdd: {
       reducer(state, action: PayloadAction<DeskColumn>) {
-        state[action.payload.id] = action.payload;
+        state.data[action.payload.id] = action.payload;
       },
       prepare(title) {
         return {
@@ -28,12 +30,12 @@ export const columnsSlice = createSlice({
       },
     },
     onColumnRemove(state, action) {
-      delete state[action.payload];
+      delete state.data[action.payload];
     },
     onColumnTitleChange: {
       reducer(state, action: PayloadAction<DeskColumn>) {
         const { id, title } = action.payload;
-        state[id].title = title;
+        state.data[id].title = title;
       },
       prepare(id, title) {
         return {

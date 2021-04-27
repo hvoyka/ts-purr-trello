@@ -8,7 +8,6 @@ import { useAppDispatch, useAppSelector } from "./redux/hooks";
 import { onAddUser } from "./redux/ducks/user/userSlice";
 
 import {
-  initUserNameData,
   initColumnsData,
   initCardsData,
   initCommentsData,
@@ -62,11 +61,6 @@ function App() {
   const onCardClick = (id: string) => {
     setCardIdForModalView(id);
     setColumnIdWithCardAdding("");
-  };
-
-  const setColumnsData = (cloneColumns: SetStateAction<DeskColumns>) => {
-    setColumns(cloneColumns);
-    setToLocalStorage(cloneColumns, LocalStorageKeys.COLUMNS);
   };
 
   const setCardsData = (cloneCards: SetStateAction<ColumnCards>) => {

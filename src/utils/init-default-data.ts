@@ -6,13 +6,6 @@ import {
 import { DeskColumns, ColumnCards, CardComments } from ".././App";
 import { defaultColumns, defaultCards, defaultComments } from "./default-data";
 
-export const initUserNameData = (): string => {
-  const userNameFromStorage = getFromLocalStorage(LocalStorageKeys.USER_NAME);
-
-  if (userNameFromStorage) return userNameFromStorage;
-  return "";
-};
-
 export const initColumnsData = (): DeskColumns => {
   const columnsFromStorage = getFromLocalStorage(LocalStorageKeys.COLUMNS);
 
