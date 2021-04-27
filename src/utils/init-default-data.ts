@@ -3,8 +3,9 @@ import {
   setToLocalStorage,
   getFromLocalStorage,
 } from "./local-storage";
-import { DeskColumns, ColumnCards, CardComments } from ".././App";
+import { ColumnCards, CardComments } from ".././App";
 import { defaultColumns, defaultCards, defaultComments } from "./default-data";
+import { DeskColumns } from "../redux/ducks/columns/columnsSlice";
 
 export const initColumnsData = (): DeskColumns => {
   const columnsFromStorage = getFromLocalStorage(LocalStorageKeys.COLUMNS);

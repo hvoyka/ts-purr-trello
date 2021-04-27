@@ -11,7 +11,9 @@ export interface ColumnCard {
   author: string;
 }
 
-const initialState: ColumnCards = initCardsData();
+const initialState = {
+  data: initCardsData(),
+};
 
 export const cardsSlice = createSlice({
   name: "cards",
@@ -19,7 +21,7 @@ export const cardsSlice = createSlice({
   reducers: {
     onCardAdd: {
       reducer(state, action: PayloadAction<ColumnCard>) {
-        state[action.payload.id] = action.payload;
+        state.data[action.payload.id] = action.payload;
       },
       prepare(columnId, title, author) {
         return {
@@ -34,7 +36,7 @@ export const cardsSlice = createSlice({
       },
     },
     onCardRemove(state, action) {
-      delete state[action.payload];
+      delete state.data[action.payload];
     },
   },
 });

@@ -7,11 +7,7 @@ import { LocalStorageKeys, setToLocalStorage } from "./utils/local-storage";
 import { useAppDispatch, useAppSelector } from "./redux/hooks";
 import { onAddUser } from "./redux/ducks/user/userSlice";
 
-import {
-  initColumnsData,
-  initCardsData,
-  initCommentsData,
-} from "./utils/init-default-data";
+import { initCommentsData } from "./utils/init-default-data";
 
 export interface DeskColumn {
   id: string;
@@ -32,18 +28,17 @@ export interface CardComment {
   author: string;
 }
 
-export type DeskColumns = Record<string, DeskColumn>;
 export type ColumnCards = Record<string, ColumnCard>;
 export type CardComments = Record<string, CardComment>;
 
 function App() {
-  const [columns, setColumns] = useState<DeskColumns>(initColumnsData);
-  const [cards, setCards] = useState<ColumnCards>(initCardsData);
   const [comments, setComments] = useState<CardComments>(initCommentsData);
   const [cardIdForModalView, setCardIdForModalView] = useState("");
   const [columnIdWithCardAdding, setColumnIdWithCardAdding] = useState("");
 
   const userName = useAppSelector((state) => state.user.name);
+  const cards = useAppSelector((state) => state.cards.data);
+  const columns = useAppSelector((state) => state.columns.data);
   const dispatch = useAppDispatch();
 
   const onAddCardClick = (columnId: string) => {
@@ -63,11 +58,6 @@ function App() {
     setColumnIdWithCardAdding("");
   };
 
-  const setCardsData = (cloneCards: SetStateAction<ColumnCards>) => {
-    setCards(cloneCards);
-    setToLocalStorage(cloneCards, LocalStorageKeys.CARDS);
-  };
-
   const setCommentsData = (cloneComments: SetStateAction<CardComments>) => {
     setComments(cloneComments);
     setToLocalStorage(cloneComments, LocalStorageKeys.COMMENTS);
@@ -84,8 +74,6 @@ function App() {
   ) => {
     const cloneCards = { ...cards };
     cloneCards[id][propertyName] = value;
-
-    setCardsData(cloneCards);
   };
 
   const onCardAdd = (columnId: string, title: string, text: string = "") => {
@@ -99,15 +87,11 @@ function App() {
       text,
       author: userName,
     };
-
-    setCardsData(cloneCards);
   };
 
   const onCardRemoveClick = (id: string) => {
     const cloneCards = { ...cards };
     delete cloneCards[id];
-
-    setCardsData(cloneCards);
   };
 
   const onCommentAdd = (cardId: string, text: string) => {
@@ -152,6 +136,7 @@ function App() {
 
       {userName ? (
         <MainDesk
+          columns={columns}
           cards={cards}
           onCardAdd={onCardAdd}
           onCardRemoveClick={onCardRemoveClick}

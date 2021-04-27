@@ -11,11 +11,13 @@ import {
   onColumnAdd,
   onColumnRemove,
   onColumnTitleChange,
+  DeskColumns,
 } from "../../redux/ducks/columns/columnsSlice";
 
 export interface MainDeskProps {
   cards: ColumnCards;
   comments: CardComments;
+  columns: DeskColumns;
   onCardAdd: (columnId: string, title: string, text?: string) => void;
   onCardRemoveClick: (id: string) => void;
 
@@ -35,6 +37,7 @@ interface Values {
 }
 
 const MainDesk: FC<MainDeskProps> = ({
+  columns,
   cards,
   onCardAdd,
   onCardPropertyChange,
@@ -47,7 +50,6 @@ const MainDesk: FC<MainDeskProps> = ({
 }) => {
   const [isColumnAdding, setIsColumnAdding] = useState(false);
 
-  const columns = useAppSelector((state) => state.columns.data);
   const dispatch = useAppDispatch();
 
   const handleEditTitleClose = () => {
