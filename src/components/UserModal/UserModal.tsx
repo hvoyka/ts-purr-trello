@@ -1,6 +1,6 @@
 import React, { FC } from "react";
 import { Form, Field } from "react-final-form";
-import { notEmpty } from "../../utils/validate";
+import { required } from "../../utils/validators";
 
 import { Button } from "react-bootstrap";
 import { Modal, TextInput } from "../ui";
@@ -10,12 +10,12 @@ interface UserModalProps {
   onConfirmClick: (name: string) => void;
 }
 
-interface Values {
+interface AddUserNameFromValues {
   userName?: string;
 }
 
 const UserModal: FC<UserModalProps> = ({ onConfirmClick, isVisible }) => {
-  const onSubmit = async ({ userName }: Values) => {
+  const onSubmit = ({ userName }: AddUserNameFromValues) => {
     if (userName) onConfirmClick(userName);
   };
 
@@ -28,10 +28,9 @@ const UserModal: FC<UserModalProps> = ({ onConfirmClick, isVisible }) => {
             <form onSubmit={handleSubmit}>
               <Field<string>
                 name="userName"
-                placeholder="User name"
-                validate={notEmpty}
+                validate={required}
                 render={(props) => {
-                  return <TextInput {...props} />;
+                  return <TextInput placeholder="User name" {...props} />;
                 }}
               />
 

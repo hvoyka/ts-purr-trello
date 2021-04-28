@@ -9,6 +9,8 @@ interface ModalProps {
 }
 
 const Modal: FC<ModalProps> = ({ isVisible, onClose, children, title }) => {
+  if (typeof onClose !== "function") onClose = () => {};
+
   return (
     <BoostrapModal onHide={onClose} show={isVisible} animation={false} centered>
       <BoostrapModal.Header closeButton={!!onClose}>
