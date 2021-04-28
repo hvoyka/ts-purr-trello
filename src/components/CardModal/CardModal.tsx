@@ -11,9 +11,6 @@ interface CardModalProps {
   isVisible: boolean;
   comments: CardComments;
   onClose: () => void;
-  onCommentAdd: (cardId: string, text: string) => void;
-  onCommentRemoveClick: (id: string) => void;
-  onCommentChange: (id: string, text: string) => void;
   onCardTitleChange: (title: string) => void;
   onCardTextChange: (text: string) => void;
   columnTitle: string;
@@ -26,9 +23,6 @@ const CardModal: FC<CardModalProps> = ({
   onCardTitleChange,
   onCardTextChange,
   comments,
-  onCommentAdd,
-  onCommentRemoveClick,
-  onCommentChange,
   columnTitle,
 }) => {
   if (!card) return null;
@@ -74,13 +68,7 @@ const CardModal: FC<CardModalProps> = ({
         defaultValue={card.text}
         onBlur={handleDescriptionAreaBlur}
       />
-      <Comments
-        cardId={card.id}
-        comments={comments}
-        onCommentAdd={onCommentAdd}
-        onCommentRemoveClick={onCommentRemoveClick}
-        onCommentChange={onCommentChange}
-      />
+      <Comments cardId={card.id} comments={comments} />
       <Info>
         Card author: <b>{card.author}</b> - column: <b>{columnTitle}</b>
       </Info>

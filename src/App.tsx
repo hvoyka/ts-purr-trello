@@ -41,28 +41,6 @@ function App() {
     dispatch(onAddUser(name));
   };
 
-  const onCommentAdd = (cardId: string, text: string) => {
-    const cloneComments = { ...comments };
-    const commentID = uuid();
-
-    cloneComments[commentID] = {
-      id: commentID,
-      cardId,
-      text,
-      author: userName,
-    };
-  };
-
-  const onCommentRemoveClick = (id: string) => {
-    const cloneComments = { ...comments };
-    delete cloneComments[id];
-  };
-
-  const onCommentChange = (id: string, text: string) => {
-    const cloneComments = { ...comments };
-    cloneComments[id].text = text;
-  };
-
   const getColumnTitle = (cardIdForModalView: string): string => {
     const cardForModalView = cards[cardIdForModalView];
     const columnIdFromCard = cardForModalView?.columnId;
@@ -101,9 +79,6 @@ function App() {
         onCardTextChange={(text) =>
           dispatch(onCardTextChange(cardIdForModalView, text))
         }
-        onCommentAdd={onCommentAdd}
-        onCommentRemoveClick={onCommentRemoveClick}
-        onCommentChange={onCommentChange}
       />
     </div>
   );
