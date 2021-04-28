@@ -10,6 +10,9 @@ import { Card } from "../Card";
 import { getCommentsCount } from "./utils";
 import React, { FC, useMemo, useState, KeyboardEvent } from "react";
 import { TextArea } from "../../../ui";
+import { Form, Field } from "react-final-form";
+import { notEmpty } from "../../../../utils/validate";
+import { FormApi } from "final-form";
 
 export interface ColumnProps {
   column: DeskColumn;
@@ -27,6 +30,10 @@ export interface ColumnProps {
   onCardClick: (id: string) => void;
   isNewCardAdding: boolean;
   onAddCardClick: () => void;
+  onCardAddingClose: () => void;
+}
+interface Values {
+  cardTitle?: string;
 }
 
 const Column: FC<ColumnProps> = ({
@@ -40,45 +47,50 @@ const Column: FC<ColumnProps> = ({
   onCardClick,
   comments,
   isNewCardAdding,
+  onCardAddingClose,
   onAddCardClick,
 }) => {
   const filteredCardsArray = useMemo(
     () => Object.values(cards).filter((card) => card.columnId === column.id),
     [cards, column.id]
   );
-  const [newCardTitle, setNewCardTitle] = useState("");
 
   const [newColumnTitle, setNewColumnTitle] = useState(column.title);
 
-  const handleTitleEdittingCloseClick = () => {
-    setNewCardTitle("");
-  };
-
-  const handleAddCardClick = () => {
-    const trimmedTitle = newCardTitle.trim();
-
-    if (trimmedTitle) {
-      onCardAdd(column.id, newCardTitle);
-      handleTitleEdittingCloseClick();
-    }
-  };
-
-  const handleTitleAreaEnterPress = (
+  const handleColumnTitleAreaEnterPress = (
     event: KeyboardEvent<HTMLTextAreaElement>
   ) => {
     if (event.key === "Enter") {
       event.currentTarget.blur();
     }
   };
+
+  const handleCardTitleEdittingCloseClick = () => {
+    onCardAddingClose();
+  };
+
+  const onSubmit = async ({ cardTitle }: Values, form: FormApi) => {
+    if (cardTitle) {
+      onCardAdd(column.id, cardTitle);
+
+      onCardAddingClose();
+      form.reset();
+    }
+  };
+
   const handleCardAreaEnterPress = (
     event: KeyboardEvent<HTMLTextAreaElement>
   ) => {
     if (event.key === "Enter") {
-      handleAddCardClick();
-      event.currentTarget.blur();
+      const trimmedValue = event.currentTarget.value.trim();
+      if (trimmedValue) {
+        onCardAdd(column.id, trimmedValue);
+      }
+      onCardAddingClose();
     }
   };
-  const handleCardTitleAreaBlur = (
+
+  const handleColumnTitleAreaBlur = (
     event: React.ChangeEvent<HTMLTextAreaElement>
   ) => {
     const trimmedColumnTitle = event.target.value.trim();
@@ -97,8 +109,8 @@ const Column: FC<ColumnProps> = ({
           maxRows={8}
           placeholder="Column title"
           defaultValue={newColumnTitle}
-          onBlur={handleCardTitleAreaBlur}
-          onKeyDown={handleTitleAreaEnterPress}
+          onBlur={handleColumnTitleAreaBlur}
+          onKeyDown={handleColumnTitleAreaEnterPress}
           columnHeader
         />
 
@@ -128,21 +140,37 @@ const Column: FC<ColumnProps> = ({
         })}
       </CardList>
       {isNewCardAdding ? (
-        <>
-          <TextArea
-            autoFocus
-            spellCheck={false}
-            maxRows={8}
-            placeholder="Card title"
-            value={newCardTitle}
-            onChange={(e) => setNewCardTitle(e.target.value)}
-            onKeyDown={handleCardAreaEnterPress}
-          />
+        <Form
+          onSubmit={onSubmit}
+          render={({ handleSubmit, submitting, pristine }) => (
+            <form onSubmit={handleSubmit}>
+              <Field<string>
+                name="cardTitle"
+                autoFocus
+                spellCheck={false}
+                maxRows={8}
+                placeholder="Card title"
+                onKeyDown={handleCardAreaEnterPress}
+                validate={notEmpty}
+                render={({ input: { onChange, value }, meta, ...props }) => {
+                  return (
+                    <TextArea onChange={onChange} value={value} {...props} />
+                  );
+                }}
+              />
 
-          <button onClick={handleAddCardClick}>Add card</button>
-
-          <button onClick={handleTitleEdittingCloseClick}>x</button>
-        </>
+              <CardButtonsWrapper>
+                <AddCardBtn type="submit">Add card</AddCardBtn>
+                <CloseAddCardBlockBtn
+                  type="button"
+                  onClick={handleCardTitleEdittingCloseClick}
+                >
+                  x
+                </CloseAddCardBlockBtn>
+              </CardButtonsWrapper>
+            </form>
+          )}
+        />
       ) : (
         <AddCardButton title="Add card" onClick={onAddCardClick}>
           +
@@ -172,6 +200,7 @@ const Root = styled.li`
 
   margin: 10px 4px;
 `;
+
 const RemoveColumnButton = styled(Button)`
   position: absolute;
   right: 4px;
@@ -181,6 +210,18 @@ const RemoveColumnButton = styled(Button)`
   font-size: 15px;
   line-height: 15px;
 `;
+
+const CardButtonsWrapper = styled.div`
+  display: flex;
+`;
+
+const AddCardBtn = styled.button`
+  flex: 1 0 50%;
+`;
+const CloseAddCardBlockBtn = styled.button`
+  flex: 1 0 50%;
+`;
+
 const AddCardButton = styled(Button)`
   width: 100%;
   z-index: 1;
@@ -198,6 +239,7 @@ const ListHeader = styled.div`
   min-height: 20px;
   padding-right: 36px;
 `;
+
 const CardList = styled.ul`
   padding: 0;
   margin: 0;

@@ -2,8 +2,10 @@ import { Container, Button } from "react-bootstrap";
 import { DeskColumns, ColumnCards, ColumnCard, CardComments } from "../../App";
 import { Column } from "./components";
 import styled from "styled-components";
-import { FC, useState, ChangeEvent } from "react";
+import { FC, useState, KeyboardEvent } from "react";
 import { TextArea } from "../ui";
+import { Form, Field } from "react-final-form";
+import { notEmpty } from "../../utils/validate";
 
 export interface MainDeskProps {
   columns: DeskColumns;
@@ -22,7 +24,12 @@ export interface MainDeskProps {
   ) => void;
   onCardClick: (id: string) => void;
   columnIdWithCardAdding: string;
+  onCardAddingClose: () => void;
   onAddCardClick: (columnId: string) => void;
+}
+
+interface Values {
+  columnTitle?: string;
 }
 
 const MainDesk: FC<MainDeskProps> = ({
@@ -37,20 +44,29 @@ const MainDesk: FC<MainDeskProps> = ({
   onCardClick,
   comments,
   columnIdWithCardAdding,
+  onCardAddingClose,
   onAddCardClick,
 }) => {
   const [isColumnAdding, setIsColumnAdding] = useState(false);
-  const [newColumnTitle, setNewColumnTitle] = useState("");
 
   const handleEditTitleClose = () => {
     setIsColumnAdding(false);
-    setNewColumnTitle("");
   };
 
-  const handleColumnAddClick = () => {
-    const trimmedTitle = newColumnTitle.trim();
-    if (trimmedTitle) {
-      onColumnAdd(newColumnTitle);
+  const onSubmit = async ({ columnTitle }: Values) => {
+    if (columnTitle) {
+      onColumnAdd(columnTitle);
+      handleEditTitleClose();
+    }
+  };
+  const handleColumnAreaEnterPress = (
+    event: KeyboardEvent<HTMLTextAreaElement>
+  ) => {
+    if (event.key === "Enter") {
+      const trimmedValue = event.currentTarget.value.trim();
+      if (trimmedValue) {
+        onColumnAdd(trimmedValue);
+      }
       handleEditTitleClose();
     }
   };
@@ -76,6 +92,7 @@ const MainDesk: FC<MainDeskProps> = ({
                   onCardClick={onCardClick}
                   comments={comments}
                   isNewCardAdding={columnIdWithCardAdding === column.id}
+                  onCardAddingClose={onCardAddingClose}
                   onAddCardClick={() => onAddCardClick(column.id)}
                 />
               );
@@ -83,21 +100,44 @@ const MainDesk: FC<MainDeskProps> = ({
           </ColumnList>
           <EmptyColumn>
             {isColumnAdding ? (
-              <>
-                <TextArea
-                  autoFocus
-                  maxRows={1}
-                  placeholder="Column title"
-                  value={newColumnTitle}
-                  onChange={(event: ChangeEvent<HTMLTextAreaElement>) =>
-                    setNewColumnTitle(event.target.value)
-                  }
-                />
-
-                <button onClick={handleColumnAddClick}>Add column</button>
-
-                <button onClick={handleEditTitleClose}>x</button>
-              </>
+              <Form
+                onSubmit={onSubmit}
+                render={({ handleSubmit, submitting, pristine }) => (
+                  <form onSubmit={handleSubmit}>
+                    <Field<string>
+                      name="columnTitle"
+                      autoFocus
+                      maxRows={1}
+                      placeholder="Column title"
+                      spellCheck={false}
+                      validate={notEmpty}
+                      onKeyDown={handleColumnAreaEnterPress}
+                      render={({
+                        input: { onChange, value },
+                        meta,
+                        ...props
+                      }) => {
+                        return (
+                          <TextArea
+                            onChange={onChange}
+                            value={value}
+                            {...props}
+                          />
+                        );
+                      }}
+                    />
+                    <CardButtonsWrapper>
+                      <AddCardBtn type="submit">Add column</AddCardBtn>
+                      <CloseAddCardBlockBtn
+                        type="button"
+                        onClick={handleEditTitleClose}
+                      >
+                        x
+                      </CloseAddCardBlockBtn>
+                    </CardButtonsWrapper>
+                  </form>
+                )}
+              />
             ) : (
               <Button
                 variant="secondary"
@@ -118,12 +158,14 @@ const MainDesk: FC<MainDeskProps> = ({
 const Main = styled.main`
   flex-grow: 1;
 `;
+
 const DeskWrapper = styled.div`
   overflow-x: auto;
   overflow-y: hidden;
   height: calc(100vh - 70px);
   display: flex;
 `;
+
 const ColumnList = styled.ul`
   display: flex;
   align-items: flex-start;
@@ -132,6 +174,7 @@ const ColumnList = styled.ul`
   white-space: nowrap;
   margin-bottom: 8px;
 `;
+
 const EmptyColumn = styled.div`
   position: relative;
   flex: 0 0 272px;
@@ -144,6 +187,17 @@ const EmptyColumn = styled.div`
   padding-right: 5px;
   padding-left: 5px;
   margin: 10px 4px;
+`;
+
+const CardButtonsWrapper = styled.div`
+  display: flex;
+`;
+
+const AddCardBtn = styled.button`
+  flex: 1 0 50%;
+`;
+const CloseAddCardBlockBtn = styled.button`
+  flex: 1 0 50%;
 `;
 
 export default MainDesk;

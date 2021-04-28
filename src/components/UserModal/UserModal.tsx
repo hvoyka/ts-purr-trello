@@ -1,70 +1,51 @@
-import React, { useState, FC, KeyboardEvent } from "react";
-import styled from "styled-components";
+import React, { FC } from "react";
+import { Form, Field } from "react-final-form";
+import { notEmpty } from "../../utils/validate";
+
 import { Button } from "react-bootstrap";
-import { Modal } from "../ui";
+import { Modal, TextInput } from "../ui";
 
 interface UserModalProps {
   isVisible: boolean;
   onConfirmClick: (name: string) => void;
 }
 
+interface Values {
+  userName?: string;
+}
+
 const UserModal: FC<UserModalProps> = ({ onConfirmClick, isVisible }) => {
-  const [user, setUser] = useState("");
-
-  const handleConfirmClick = () => {
-    const trimmedUser = user.trim();
-    if (trimmedUser) {
-      onConfirmClick(trimmedUser);
-    }
-  };
-
-  const handleEnterPress = (event: KeyboardEvent<HTMLInputElement>) => {
-    if (event.key === "Enter") {
-      handleConfirmClick();
-    }
+  const onSubmit = async ({ userName }: Values) => {
+    if (userName) onConfirmClick(userName);
   };
 
   return (
     <>
       <Modal title="Enter your name" isVisible={isVisible}>
-        <Input
-          type="text"
-          maxLength={40}
-          placeholder="User name"
-          onChange={(event) => {
-            setUser(event.target.value);
-          }}
-          defaultValue={user}
-          onKeyDown={handleEnterPress}
+        <Form
+          onSubmit={onSubmit}
+          render={({ handleSubmit, submitting, pristine }) => (
+            <form onSubmit={handleSubmit}>
+              <Field<string>
+                name="userName"
+                placeholder="User name"
+                validate={notEmpty}
+                render={(props) => {
+                  return <TextInput {...props} />;
+                }}
+              />
+
+              <div className="buttons">
+                <Button type="submit" disabled={submitting || pristine}>
+                  Submit
+                </Button>
+              </div>
+            </form>
+          )}
         />
-        <Button onClick={handleConfirmClick} variant="primary">
-          Confirm
-        </Button>
       </Modal>
     </>
   );
 };
-
-const Input = styled.input`
-  background: transparent;
-  border-radius: 3px;
-  box-shadow: none;
-  font-weight: 600;
-  min-height: 20px;
-  padding: 4px 8px;
-  max-height: 256px;
-  width: 100%;
-  outline: none;
-  border: 1px solid var(--blue3);
-  -webkit-appearance: none;
-  display: block;
-  padding: 10px 20px;
-  color: var(--blue2);
-  margin-bottom: 15px;
-  &:focus {
-    background-color: var(--white);
-    box-shadow: inset 0 0 0 2px var(--blue2);
-  }
-`;
 
 export default UserModal;
