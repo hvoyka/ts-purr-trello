@@ -2,7 +2,7 @@ import styled from "styled-components";
 import React, { useMemo, FC } from "react";
 import { Form, Field } from "react-final-form";
 import { notEmpty } from "../../../../utils/validate";
-import { CardComments } from "../../../../App";
+import { CardComments } from "../../../../redux/ducks/comments/commentsSlice";
 import { Comment } from "./../Comment";
 import { TextArea } from "../../../ui";
 import { FormApi } from "final-form";

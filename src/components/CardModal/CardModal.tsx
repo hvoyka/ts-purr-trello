@@ -1,6 +1,6 @@
 import React, { FC, KeyboardEvent } from "react";
 import { Modal } from "../ui";
-import { CardComments } from "../../App";
+import { CardComments } from "../../redux/ducks/comments/commentsSlice";
 import { ColumnCard } from "../../redux/ducks/cards/cardsSlice";
 import { Comments } from "./components";
 import { TextArea } from "../ui";

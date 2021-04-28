@@ -5,6 +5,12 @@ import { persistReducer } from "redux-persist";
 import userReducer from "./ducks/user/userSlice";
 import columnsReducer from "./ducks/columns/columnsSlice";
 import cardsReducer from "./ducks/cards/cardsSlice";
+import commentsReducer from "./ducks/comments/commentsSlice";
+
+const userPersistConfig = {
+  key: "user",
+  storage,
+};
 
 const columnsPersistConfig = {
   key: "columns",
@@ -16,15 +22,16 @@ const cardsPersistConfig = {
   storage: storage,
 };
 
-const userPersistConfig = {
-  key: "user",
-  storage,
+const commentsPersistConfig = {
+  key: "comments",
+  storage: storage,
 };
 
 const rootReducer = combineReducers({
   user: persistReducer(userPersistConfig, userReducer),
   columns: persistReducer(columnsPersistConfig, columnsReducer),
   cards: persistReducer(cardsPersistConfig, cardsReducer),
+  comments: persistReducer(commentsPersistConfig, commentsReducer),
 });
 
 const store = configureStore({

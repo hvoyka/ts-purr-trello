@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { Button } from "react-bootstrap";
-import { CardComments } from "../../../../App";
+import { CardComments } from "../../../../redux/ducks/comments/commentsSlice";
 import { Card } from "../Card";
 import { getCommentsCount } from "./utils";
 import React, { FC, useMemo, useState, KeyboardEvent } from "react";

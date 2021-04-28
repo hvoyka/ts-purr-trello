@@ -1,9 +1,8 @@
-import React, { useState, SetStateAction } from "react";
+import React, { useState } from "react";
 import { v1 as uuid } from "uuid";
 import { Header, MainDesk, UserModal } from "./components";
 import { CardModal } from "./components/CardModal";
 
-import { LocalStorageKeys, setToLocalStorage } from "./utils/local-storage";
 import { useAppDispatch, useAppSelector } from "./redux/hooks";
 import { onAddUser } from "./redux/ducks/user/userSlice";
 import {
@@ -11,25 +10,14 @@ import {
   onCardTextChange,
 } from "./redux/ducks/cards/cardsSlice";
 
-import { initCommentsData } from "./utils/init-default-data";
-
-export interface CardComment {
-  id: string;
-  cardId: string;
-  text: string;
-  author: string;
-}
-
-export type CardComments = Record<string, CardComment>;
-
 function App() {
-  const [comments, setComments] = useState<CardComments>(initCommentsData);
   const [cardIdForModalView, setCardIdForModalView] = useState("");
   const [columnIdWithCardAdding, setColumnIdWithCardAdding] = useState("");
 
   const userName = useAppSelector((state) => state.user.name);
   const cards = useAppSelector((state) => state.cards.data);
   const columns = useAppSelector((state) => state.columns.data);
+  const comments = useAppSelector((state) => state.comments.data);
   const dispatch = useAppDispatch();
 
   const onAddCardClick = (columnId: string) => {
@@ -49,11 +37,6 @@ function App() {
     setColumnIdWithCardAdding("");
   };
 
-  const setCommentsData = (cloneComments: SetStateAction<CardComments>) => {
-    setComments(cloneComments);
-    setToLocalStorage(cloneComments, LocalStorageKeys.COMMENTS);
-  };
-
   const onUserNameAdd = (name: string) => {
     dispatch(onAddUser(name));
   };
@@ -68,22 +51,16 @@ function App() {
       text,
       author: userName,
     };
-
-    setCommentsData(cloneComments);
   };
 
   const onCommentRemoveClick = (id: string) => {
     const cloneComments = { ...comments };
     delete cloneComments[id];
-
-    setCommentsData(cloneComments);
   };
 
   const onCommentChange = (id: string, text: string) => {
     const cloneComments = { ...comments };
     cloneComments[id].text = text;
-
-    setCommentsData(cloneComments);
   };
 
   const getColumnTitle = (cardIdForModalView: string): string => {

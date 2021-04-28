@@ -3,7 +3,7 @@ import {
   setToLocalStorage,
   getFromLocalStorage,
 } from "./local-storage";
-import { CardComments } from ".././App";
+import { CardComments } from ".././redux/ducks/comments/commentsSlice";
 import { defaultComments } from "./default-data";
 
 export const initCommentsData = (): CardComments => {

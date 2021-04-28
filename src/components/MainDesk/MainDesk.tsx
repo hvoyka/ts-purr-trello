@@ -1,5 +1,5 @@
 import { Container, Button } from "react-bootstrap";
-import { CardComments } from "../../App";
+import { CardComments } from "../../redux/ducks/comments/commentsSlice";
 import { Column } from "./components";
 import styled from "styled-components";
 import { FC, useState, KeyboardEvent } from "react";
