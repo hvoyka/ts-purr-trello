@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { v1 as uuid } from "uuid";
 import { Header, MainDesk, UserModal } from "./components";
 import { CardModal } from "./components/CardModal";
 

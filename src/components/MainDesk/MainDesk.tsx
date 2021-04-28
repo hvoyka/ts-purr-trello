@@ -77,7 +77,6 @@ const MainDesk: FC<MainDeskProps> = ({
         <DeskWrapper>
           <ColumnList>
             {Object.values(columns).map((column) => {
-              console.log(column);
               return (
                 <Column
                   column={column}
