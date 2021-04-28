@@ -13,8 +13,10 @@ import {
   onColumnTitleChange,
   DeskColumns,
 } from "../../redux/ducks/columns/columnsSlice";
-import { ColumnCards } from "../../redux/ducks/cards/cardsSlice";
-
+import {
+  ColumnCards,
+  onColumnRemoveClearCards,
+} from "../../redux/ducks/cards/cardsSlice";
 export interface MainDeskProps {
   cards: ColumnCards;
   comments: CardComments;
@@ -66,6 +68,7 @@ const MainDesk: FC<MainDeskProps> = ({
   };
   const handleColumnRemove = (id: string) => {
     dispatch(onColumnRemove(id));
+    dispatch(onColumnRemoveClearCards(id));
   };
   const handleColumnTitleChange = (id: string, title: string) => {
     dispatch(onColumnTitleChange(id, title));

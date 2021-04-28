@@ -10,6 +10,7 @@ import { notEmpty } from "../../../../utils/validate";
 import { FormApi } from "final-form";
 import { useAppDispatch, useAppSelector } from "../../../../redux/hooks";
 import { DeskColumn } from "../../../../redux/ducks/columns/columnsSlice";
+import { onCardRemoveClearComments } from "../../../../redux/ducks/comments/commentsSlice";
 import {
   onCardAdd,
   onCardRemove,
@@ -130,7 +131,10 @@ const Column: FC<ColumnProps> = ({
                 dispatch(onCardTitleChange(filteredCard.id, title))
               }
               onClick={() => onCardClick(filteredCard.id)}
-              onRemoveClick={() => dispatch(onCardRemove(filteredCard.id))}
+              onRemoveClick={() => {
+                dispatch(onCardRemove(filteredCard.id));
+                dispatch(onCardRemoveClearComments(filteredCard.id));
+              }}
               commentsCount={getCommentsCount(comments, filteredCard.id)}
             />
           );

@@ -66,6 +66,14 @@ export const cardsSlice = createSlice({
     onCardRemove(state, action) {
       delete state.data[action.payload];
     },
+    onColumnRemoveClearCards(state, action) {
+      const columnId = action.payload;
+      Object.values(state.data).forEach((card) => {
+        if ((card.columnId = columnId)) {
+          delete state.data[card.id];
+        }
+      });
+    },
   },
 });
 
@@ -74,6 +82,7 @@ export const {
   onCardRemove,
   onCardTitleChange,
   onCardTextChange,
+  onColumnRemoveClearCards,
 } = cardsSlice.actions;
 
 export default cardsSlice.reducer;

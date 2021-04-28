@@ -50,6 +50,14 @@ export const commentsSlice = createSlice({
     onCommentRemove(state, action) {
       delete state.data[action.payload];
     },
+    onCardRemoveClearComments(state, action) {
+      const cardId = action.payload;
+      Object.values(state.data).forEach((comment) => {
+        if ((comment.cardId = cardId)) {
+          delete state.data[comment.id];
+        }
+      });
+    },
   },
 });
 
@@ -57,6 +65,7 @@ export const {
   onCommentAdd,
   onCommentChange,
   onCommentRemove,
+  onCardRemoveClearComments,
 } = commentsSlice.actions;
 
 export default commentsSlice.reducer;
