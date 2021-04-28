@@ -13,14 +13,6 @@ import {
 
 import { initCommentsData } from "./utils/init-default-data";
 
-export interface ColumnCard {
-  id: string;
-  columnId: string;
-  title: string;
-  text: string;
-  author: string;
-}
-
 export interface CardComment {
   id: string;
   cardId: string;
@@ -28,7 +20,6 @@ export interface CardComment {
   author: string;
 }
 
-export type ColumnCards = Record<string, ColumnCard>;
 export type CardComments = Record<string, CardComment>;
 
 function App() {
@@ -65,15 +56,6 @@ function App() {
 
   const onUserNameAdd = (name: string) => {
     dispatch(onAddUser(name));
-  };
-
-  const onCardPropertyChange = (
-    id: string,
-    propertyName: keyof ColumnCard,
-    value: string
-  ) => {
-    const cloneCards = { ...cards };
-    cloneCards[id][propertyName] = value;
   };
 
   const onCommentAdd = (cardId: string, text: string) => {
@@ -120,7 +102,6 @@ function App() {
         <MainDesk
           columns={columns}
           cards={cards}
-          onCardPropertyChange={onCardPropertyChange}
           onCardClick={onCardClick}
           comments={comments}
           columnIdWithCardAdding={columnIdWithCardAdding}

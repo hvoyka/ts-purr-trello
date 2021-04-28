@@ -1,6 +1,7 @@
 import React, { FC, KeyboardEvent } from "react";
 import { Modal } from "../ui";
-import { ColumnCard, CardComments } from "../../App";
+import { CardComments } from "../../App";
+import { ColumnCard } from "../../redux/ducks/cards/cardsSlice";
 import { Comments } from "./components";
 import { TextArea } from "../ui";
 import styled from "styled-components";

@@ -1,5 +1,5 @@
 import { Container, Button } from "react-bootstrap";
-import { ColumnCards, ColumnCard, CardComments } from "../../App";
+import { CardComments } from "../../App";
 import { Column } from "./components";
 import styled from "styled-components";
 import { FC, useState, KeyboardEvent } from "react";
@@ -13,17 +13,12 @@ import {
   onColumnTitleChange,
   DeskColumns,
 } from "../../redux/ducks/columns/columnsSlice";
+import { ColumnCards } from "../../redux/ducks/cards/cardsSlice";
 
 export interface MainDeskProps {
   cards: ColumnCards;
   comments: CardComments;
   columns: DeskColumns;
-
-  onCardPropertyChange: (
-    id: string,
-    propertyName: keyof ColumnCard,
-    value: string
-  ) => void;
   onCardClick: (id: string) => void;
   columnIdWithCardAdding: string;
   onCardAddingClose: () => void;
@@ -37,8 +32,6 @@ interface Values {
 const MainDesk: FC<MainDeskProps> = ({
   columns,
   cards,
-
-  onCardPropertyChange,
   onCardClick,
   comments,
   columnIdWithCardAdding,
@@ -94,7 +87,6 @@ const MainDesk: FC<MainDeskProps> = ({
                   }
                   onRemoveClick={() => handleColumnRemove(column.id)}
                   cards={cards}
-                  onCardPropertyChange={onCardPropertyChange}
                   onCardClick={onCardClick}
                   comments={comments}
                   isNewCardAdding={columnIdWithCardAdding === column.id}

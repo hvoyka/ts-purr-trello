@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { Button } from "react-bootstrap";
-import { ColumnCards, ColumnCard, CardComments } from "../../../../App";
+import { CardComments } from "../../../../App";
 import { Card } from "../Card";
 import { getCommentsCount } from "./utils";
 import React, { FC, useMemo, useState, KeyboardEvent } from "react";
@@ -13,6 +13,8 @@ import { DeskColumn } from "../../../../redux/ducks/columns/columnsSlice";
 import {
   onCardAdd,
   onCardRemove,
+  onCardTitleChange,
+  ColumnCards,
 } from "../../../../redux/ducks/cards/cardsSlice";
 
 export interface ColumnProps {
@@ -21,11 +23,7 @@ export interface ColumnProps {
   comments: CardComments;
   onTitleChange: (title: string) => void;
   onRemoveClick: () => void;
-  onCardPropertyChange: (
-    id: string,
-    propertyName: keyof ColumnCard,
-    value: string
-  ) => void;
+
   onCardClick: (id: string) => void;
   isNewCardAdding: boolean;
   onAddCardClick: () => void;
@@ -40,7 +38,6 @@ const Column: FC<ColumnProps> = ({
   onTitleChange,
   onRemoveClick,
   cards,
-  onCardPropertyChange,
   onCardClick,
   comments,
   isNewCardAdding,
@@ -129,8 +126,8 @@ const Column: FC<ColumnProps> = ({
             <Card
               key={filteredCard.id}
               card={filteredCard}
-              onTextAreaChange={(propertyName, value) =>
-                onCardPropertyChange(filteredCard.id, propertyName, value)
+              onCardTitleChange={(title) =>
+                dispatch(onCardTitleChange(filteredCard.id, title))
               }
               onClick={() => onCardClick(filteredCard.id)}
               onRemoveClick={() => dispatch(onCardRemove(filteredCard.id))}
