@@ -69,7 +69,7 @@ export const cardsSlice = createSlice({
     onColumnRemoveClearCards(state, action) {
       const columnId = action.payload;
       Object.values(state.data).forEach((card) => {
-        if ((card.columnId = columnId)) {
+        if (card.columnId === columnId) {
           delete state.data[card.id];
         }
       });

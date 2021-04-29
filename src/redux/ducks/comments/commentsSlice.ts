@@ -53,7 +53,7 @@ export const commentsSlice = createSlice({
     onCardRemoveClearComments(state, action) {
       const cardId = action.payload;
       Object.values(state.data).forEach((comment) => {
-        if ((comment.cardId = cardId)) {
+        if (comment.cardId === cardId) {
           delete state.data[comment.id];
         }
       });
