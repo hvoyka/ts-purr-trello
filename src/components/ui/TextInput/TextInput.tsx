@@ -2,13 +2,13 @@ import React from "react";
 import { FieldRenderProps } from "react-final-form";
 import styled from "styled-components";
 
-type Props = FieldRenderProps<string, any>;
+type TextInputProps = FieldRenderProps<string, any>;
 
-const TextInput: React.FC<Props> = ({ input, meta, ...rest }: Props) => (
-  <>
+const TextInput: React.FC<TextInputProps> = ({ input, meta, ...rest }) => (
+  <div>
     <Input type="text" {...input} {...rest} />
     {meta.touched && meta.error && <ErrorText>{meta.error}</ErrorText>}
-  </>
+  </div>
 );
 
 const Input = styled.input`
