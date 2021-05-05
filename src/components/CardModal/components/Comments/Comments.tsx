@@ -1,8 +1,14 @@
 import styled from "styled-components";
 import React, { useMemo, FC } from "react";
 import { Form, Field } from "react-final-form";
+import {
+  onCommentAdd,
+  onCommentRemove,
+  onCommentChange,
+  CardComments,
+} from "../../../../redux/ducks/comments/commentsSlice";
+import { useAppDispatch, useAppSelector } from "../../../../redux/hooks";
 import { required } from "../../../../utils/validators";
-import { CardComments } from "../../../../App";
 import { Comment } from "./../Comment";
 import { TextArea } from "../../../ui";
 import { FormApi } from "final-form";
@@ -10,22 +16,16 @@ import { FormApi } from "final-form";
 export interface CommentsProps {
   cardId: string;
   comments: CardComments;
-  onCommentAdd: (cardId: string, text: string) => void;
-  onCommentRemoveClick: (id: string) => void;
-  onCommentChange: (id: string, text: string) => void;
 }
 
 interface AddCommentFormValues {
   newCommentText?: string;
 }
 
-const Comments: FC<CommentsProps> = ({
-  cardId,
-  comments,
-  onCommentAdd,
-  onCommentRemoveClick,
-  onCommentChange,
-}) => {
+const Comments: FC<CommentsProps> = ({ cardId, comments }) => {
+  const dispatch = useAppDispatch();
+  const userName = useAppSelector((state) => state.user.name);
+
   const filteredCommentsArray = useMemo(
     () =>
       Object.values(comments).filter((comment) => comment.cardId === cardId),
@@ -37,7 +37,7 @@ const Comments: FC<CommentsProps> = ({
     form: FormApi
   ) => {
     if (newCommentText) {
-      onCommentAdd(cardId, newCommentText);
+      dispatch(onCommentAdd(cardId, newCommentText, userName));
       form.reset();
     }
   };
@@ -49,8 +49,10 @@ const Comments: FC<CommentsProps> = ({
           <Comment
             key={filteredComment.id}
             comment={filteredComment}
-            onRemoveClick={() => onCommentRemoveClick(filteredComment.id)}
-            onSave={(value) => onCommentChange(filteredComment.id, value)}
+            onRemoveClick={() => dispatch(onCommentRemove(filteredComment.id))}
+            onSave={(value) =>
+              dispatch(onCommentChange(filteredComment.id, value))
+            }
           />
         ))}
       </CommentsList>

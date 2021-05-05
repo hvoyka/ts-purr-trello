@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import { ColumnCard } from "../../../../App";
 import React, { FC, useState, KeyboardEvent } from "react";
 import { FaRegCommentDots } from "react-icons/fa";
 import {
@@ -8,19 +7,20 @@ import {
   AiOutlineCloseCircle,
 } from "react-icons/ai";
 import { TextArea } from "../../../ui";
+import { ColumnCard } from "./../../../../redux/ducks/cards/cardsSlice";
 
 export interface CardProps {
   card: ColumnCard;
   commentsCount: number;
   onRemoveClick: () => void;
   onClick: () => void;
-  onTextAreaChange: (propertyName: keyof ColumnCard, value: string) => void;
+  onCardTitleChange: (title: string) => void;
 }
 
 const Card: FC<CardProps> = ({
   card,
+  onCardTitleChange,
   commentsCount,
-  onTextAreaChange,
   onRemoveClick,
   onClick,
 }) => {
@@ -39,7 +39,7 @@ const Card: FC<CardProps> = ({
     const trimmedCardTitle = event.target.value.trim();
 
     if (trimmedCardTitle) {
-      onTextAreaChange("title", trimmedCardTitle);
+      onCardTitleChange(trimmedCardTitle);
     }
     setIsCardTitleEdit(false);
   };

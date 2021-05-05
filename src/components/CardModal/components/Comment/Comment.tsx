@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { useState, FC } from "react";
-import { CardComment } from "../../../../App";
+import { CardComment } from "../../../../redux/ducks/comments/commentsSlice";
 import { TextArea } from "../../../ui";
 
 export interface CommentProps {

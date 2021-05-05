@@ -1,11 +1,6 @@
 import styled from "styled-components";
 import { Button } from "react-bootstrap";
-import {
-  ColumnCards,
-  ColumnCard,
-  DeskColumn,
-  CardComments,
-} from "../../../../App";
+import { CardComments } from "../../../../redux/ducks/comments/commentsSlice";
 import { Card } from "../Card";
 import { getCommentsCount } from "./utils";
 import React, { FC, useMemo, useState, KeyboardEvent } from "react";
@@ -13,6 +8,15 @@ import { TextArea } from "../../../ui";
 import { Form, Field } from "react-final-form";
 import { required } from "../../../../utils/validators";
 import { FormApi } from "final-form";
+import { useAppDispatch, useAppSelector } from "../../../../redux/hooks";
+import { DeskColumn } from "../../../../redux/ducks/columns/columnsSlice";
+import { onCardRemoveClearComments } from "../../../../redux/ducks/comments/commentsSlice";
+import {
+  onCardAdd,
+  onCardRemove,
+  onCardTitleChange,
+  ColumnCards,
+} from "../../../../redux/ducks/cards/cardsSlice";
 
 export interface ColumnProps {
   column: DeskColumn;
@@ -20,13 +24,7 @@ export interface ColumnProps {
   comments: CardComments;
   onTitleChange: (title: string) => void;
   onRemoveClick: () => void;
-  onCardAdd: (columnId: string, title: string, text?: string) => void;
-  onCardRemoveClick: (id: string) => void;
-  onCardPropertyChange: (
-    id: string,
-    propertyName: keyof ColumnCard,
-    value: string
-  ) => void;
+
   onCardClick: (id: string) => void;
   isNewCardAdding: boolean;
   onAddCardClick: () => void;
@@ -41,15 +39,15 @@ const Column: FC<ColumnProps> = ({
   onTitleChange,
   onRemoveClick,
   cards,
-  onCardAdd,
-  onCardRemoveClick,
-  onCardPropertyChange,
   onCardClick,
   comments,
   isNewCardAdding,
   onCardAddingClose,
   onAddCardClick,
 }) => {
+  const dispatch = useAppDispatch();
+  const user = useAppSelector((state) => state.user.name);
+
   const filteredCardsArray = useMemo(
     () => Object.values(cards).filter((card) => card.columnId === column.id),
     [cards, column.id]
@@ -67,7 +65,7 @@ const Column: FC<ColumnProps> = ({
 
   const onSubmit = ({ cardTitle }: AddCardFormValues, form: FormApi) => {
     if (cardTitle) {
-      onCardAdd(column.id, cardTitle);
+      dispatch(onCardAdd(column.id, cardTitle, user));
 
       onCardAddingClose();
       form.reset();
@@ -113,11 +111,14 @@ const Column: FC<ColumnProps> = ({
             <Card
               key={filteredCard.id}
               card={filteredCard}
-              onTextAreaChange={(propertyName, value) =>
-                onCardPropertyChange(filteredCard.id, propertyName, value)
+              onCardTitleChange={(title) =>
+                dispatch(onCardTitleChange(filteredCard.id, title))
               }
               onClick={() => onCardClick(filteredCard.id)}
-              onRemoveClick={() => onCardRemoveClick(filteredCard.id)}
+              onRemoveClick={() => {
+                dispatch(onCardRemove(filteredCard.id));
+                dispatch(onCardRemoveClearComments(filteredCard.id));
+              }}
               commentsCount={getCommentsCount(comments, filteredCard.id)}
             />
           );

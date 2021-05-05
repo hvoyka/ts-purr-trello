@@ -1,6 +1,7 @@
 import React, { FC, KeyboardEvent } from "react";
 import { Modal } from "../ui";
-import { ColumnCard, CardComments } from "../../App";
+import { CardComments } from "../../redux/ducks/comments/commentsSlice";
+import { ColumnCard } from "../../redux/ducks/cards/cardsSlice";
 import { Comments } from "./components";
 import { TextArea } from "../ui";
 import styled from "styled-components";
@@ -10,10 +11,8 @@ interface CardModalProps {
   isVisible: boolean;
   comments: CardComments;
   onClose: () => void;
-  onCommentAdd: (cardId: string, text: string) => void;
-  onCommentRemoveClick: (id: string) => void;
-  onCommentChange: (id: string, text: string) => void;
-  onTextAreaChange: (propertyName: keyof ColumnCard, value: string) => void;
+  onCardTitleChange: (title: string) => void;
+  onCardTextChange: (text: string) => void;
   columnTitle: string;
 }
 
@@ -21,11 +20,9 @@ const CardModal: FC<CardModalProps> = ({
   card,
   isVisible,
   onClose,
-  onTextAreaChange,
+  onCardTitleChange,
+  onCardTextChange,
   comments,
-  onCommentAdd,
-  onCommentRemoveClick,
-  onCommentChange,
   columnTitle,
 }) => {
   if (!card) return null;
@@ -35,7 +32,7 @@ const CardModal: FC<CardModalProps> = ({
   ) => {
     const trimmedCardTitle = event.target.value.trim();
     if (trimmedCardTitle) {
-      onTextAreaChange("title", trimmedCardTitle);
+      onCardTitleChange(trimmedCardTitle);
     }
   };
 
@@ -44,7 +41,7 @@ const CardModal: FC<CardModalProps> = ({
   ) => {
     const trimmedCardText = event.target.value.trim();
     if (trimmedCardText) {
-      onTextAreaChange("text", event.target.value);
+      onCardTextChange(event.target.value);
     }
   };
 
@@ -71,13 +68,7 @@ const CardModal: FC<CardModalProps> = ({
         defaultValue={card.text}
         onBlur={handleDescriptionAreaBlur}
       />
-      <Comments
-        cardId={card.id}
-        comments={comments}
-        onCommentAdd={onCommentAdd}
-        onCommentRemoveClick={onCommentRemoveClick}
-        onCommentChange={onCommentChange}
-      />
+      <Comments cardId={card.id} comments={comments} />
       <Info>
         Card author: <b>{card.author}</b> - column: <b>{columnTitle}</b>
       </Info>

@@ -1,47 +1,23 @@
-import React, { useState, SetStateAction } from "react";
-import { v1 as uuid } from "uuid";
+import React, { useState } from "react";
 import { Header, MainDesk, UserModal } from "./components";
 import { CardModal } from "./components/CardModal";
 
-import { LocalStorageKeys, setToLocalStorage } from "./utils/local-storage";
-
+import { useAppDispatch, useAppSelector } from "./redux/hooks";
+import { onAddUser } from "./redux/ducks/user/userSlice";
 import {
-  initUserNameData,
-  initColumnsData,
-  initCardsData,
-  initCommentsData,
-} from "./utils/init-default-data";
-
-export interface DeskColumn {
-  id: string;
-  title: string;
-}
-export interface ColumnCard {
-  id: string;
-  columnId: string;
-  title: string;
-  text: string;
-  author: string;
-}
-
-export interface CardComment {
-  id: string;
-  cardId: string;
-  text: string;
-  author: string;
-}
-
-export type DeskColumns = Record<string, DeskColumn>;
-export type ColumnCards = Record<string, ColumnCard>;
-export type CardComments = Record<string, CardComment>;
+  onCardTitleChange,
+  onCardTextChange,
+} from "./redux/ducks/cards/cardsSlice";
 
 function App() {
-  const [columns, setColumns] = useState<DeskColumns>(initColumnsData);
-  const [cards, setCards] = useState<ColumnCards>(initCardsData);
-  const [comments, setComments] = useState<CardComments>(initCommentsData);
-  const [userName, setUserName] = useState(initUserNameData);
   const [cardIdForModalView, setCardIdForModalView] = useState("");
   const [columnIdWithCardAdding, setColumnIdWithCardAdding] = useState("");
+
+  const userName = useAppSelector((state) => state.user.name);
+  const cards = useAppSelector((state) => state.cards.data);
+  const columns = useAppSelector((state) => state.columns.data);
+  const comments = useAppSelector((state) => state.comments.data);
+  const dispatch = useAppDispatch();
 
   const onAddCardClick = (columnId: string) => {
     setColumnIdWithCardAdding(columnId);
@@ -60,107 +36,8 @@ function App() {
     setColumnIdWithCardAdding("");
   };
 
-  const setColumnsData = (cloneColumns: SetStateAction<DeskColumns>) => {
-    setColumns(cloneColumns);
-    setToLocalStorage(cloneColumns, LocalStorageKeys.COLUMNS);
-  };
-
-  const setCardsData = (cloneCards: SetStateAction<ColumnCards>) => {
-    setCards(cloneCards);
-    setToLocalStorage(cloneCards, LocalStorageKeys.CARDS);
-  };
-
-  const setCommentsData = (cloneComments: SetStateAction<CardComments>) => {
-    setComments(cloneComments);
-    setToLocalStorage(cloneComments, LocalStorageKeys.COMMENTS);
-  };
-
   const onUserNameAdd = (name: string) => {
-    setUserName(name);
-    setToLocalStorage(name, LocalStorageKeys.USER_NAME);
-  };
-
-  const onColumnTitleChange = (id: string, title: string) => {
-    const cloneColumns = { ...columns };
-    cloneColumns[id] = { id, title };
-
-    setColumnsData(cloneColumns);
-  };
-
-  const onColumnAdd = (title: string) => {
-    const cloneColumns = { ...columns };
-    const columnID = uuid();
-    cloneColumns[columnID] = { id: columnID, title };
-
-    setColumnsData(cloneColumns);
-  };
-
-  const onColumnRemoveClick = (id: string) => {
-    const cloneColumns = { ...columns };
-    delete cloneColumns[id];
-
-    setColumnsData(cloneColumns);
-  };
-
-  const onCardPropertyChange = (
-    id: string,
-    propertyName: keyof ColumnCard,
-    value: string
-  ) => {
-    const cloneCards = { ...cards };
-    cloneCards[id][propertyName] = value;
-
-    setCardsData(cloneCards);
-  };
-
-  const onCardAdd = (columnId: string, title: string, text: string = "") => {
-    const cloneCards = { ...cards };
-    const cardID = uuid();
-
-    cloneCards[cardID] = {
-      id: cardID,
-      columnId,
-      title,
-      text,
-      author: userName,
-    };
-
-    setCardsData(cloneCards);
-  };
-
-  const onCardRemoveClick = (id: string) => {
-    const cloneCards = { ...cards };
-    delete cloneCards[id];
-
-    setCardsData(cloneCards);
-  };
-
-  const onCommentAdd = (cardId: string, text: string) => {
-    const cloneComments = { ...comments };
-    const commentID = uuid();
-
-    cloneComments[commentID] = {
-      id: commentID,
-      cardId,
-      text,
-      author: userName,
-    };
-
-    setCommentsData(cloneComments);
-  };
-
-  const onCommentRemoveClick = (id: string) => {
-    const cloneComments = { ...comments };
-    delete cloneComments[id];
-
-    setCommentsData(cloneComments);
-  };
-
-  const onCommentChange = (id: string, text: string) => {
-    const cloneComments = { ...comments };
-    cloneComments[id].text = text;
-
-    setCommentsData(cloneComments);
+    dispatch(onAddUser(name));
   };
 
   const getColumnTitle = (cardIdForModalView: string): string => {
@@ -178,13 +55,7 @@ function App() {
       {userName ? (
         <MainDesk
           columns={columns}
-          onColumnAdd={onColumnAdd}
-          onColumnTitleChange={onColumnTitleChange}
-          onColumnRemoveClick={onColumnRemoveClick}
           cards={cards}
-          onCardAdd={onCardAdd}
-          onCardRemoveClick={onCardRemoveClick}
-          onCardPropertyChange={onCardPropertyChange}
           onCardClick={onCardClick}
           comments={comments}
           columnIdWithCardAdding={columnIdWithCardAdding}
@@ -201,12 +72,12 @@ function App() {
         card={cards[cardIdForModalView]}
         columnTitle={getColumnTitle(cardIdForModalView)}
         comments={comments}
-        onTextAreaChange={(propertyName, value) =>
-          onCardPropertyChange(cardIdForModalView, propertyName, value)
+        onCardTitleChange={(title) =>
+          dispatch(onCardTitleChange(cardIdForModalView, title))
         }
-        onCommentAdd={onCommentAdd}
-        onCommentRemoveClick={onCommentRemoveClick}
-        onCommentChange={onCommentChange}
+        onCardTextChange={(text) =>
+          dispatch(onCardTextChange(cardIdForModalView, text))
+        }
       />
     </div>
   );
