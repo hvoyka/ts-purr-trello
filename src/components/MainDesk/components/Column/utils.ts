@@ -1,4 +1,4 @@
-import { CardComments } from "../../../../App";
+import { CardComments } from "../../../../redux/ducks/comments/commentsSlice";
 
 export const getCommentsCount = (
   comments: CardComments,
