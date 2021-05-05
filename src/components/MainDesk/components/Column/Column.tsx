@@ -112,7 +112,7 @@ const Column: FC<ColumnProps> = ({
               key={filteredCard.id}
               card={filteredCard}
               onCardTitleChange={(title) =>
-                dispatch(onCardTitleChange(filteredCard.id, title))
+                dispatch(onCardTitleChange({ id: filteredCard.id, title }))
               }
               onClick={() => onCardClick(filteredCard.id)}
               onRemoveClick={() => {

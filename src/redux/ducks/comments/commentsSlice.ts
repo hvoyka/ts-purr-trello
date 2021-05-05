@@ -25,23 +25,19 @@ export const commentsSlice = createSlice({
         };
       },
     },
-    onCommentChange: {
-      reducer(state, action: PayloadAction<{ id: string; text: string }>) {
-        const { id, text } = action.payload;
-        state.data[id].text = text;
-      },
-      prepare(id: string, text: string) {
-        return {
-          payload: {
-            id,
-            text,
-          },
-        };
-      },
+
+    onCommentChange(
+      state,
+      action: PayloadAction<{ id: string; text: string }>
+    ) {
+      const { id, text } = action.payload;
+      state.data[id].text = text;
     },
+
     onCommentRemove(state, action) {
       delete state.data[action.payload];
     },
+
     onCardRemoveClearComments(state, action) {
       const cardId = action.payload;
       Object.values(state.data).forEach((comment) => {

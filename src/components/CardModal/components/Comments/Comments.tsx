@@ -45,16 +45,20 @@ const Comments: FC<CommentsProps> = ({ cardId, comments }) => {
   return (
     <>
       <CommentsList>
-        {filteredCommentsArray.map((filteredComment) => (
-          <Comment
-            key={filteredComment.id}
-            comment={filteredComment}
-            onRemoveClick={() => dispatch(onCommentRemove(filteredComment.id))}
-            onSave={(value) =>
-              dispatch(onCommentChange(filteredComment.id, value))
-            }
-          />
-        ))}
+        {filteredCommentsArray.map((filteredComment) => {
+          return (
+            <Comment
+              key={filteredComment.id}
+              comment={filteredComment}
+              onRemoveClick={() =>
+                dispatch(onCommentRemove(filteredComment.id))
+              }
+              onSave={(text) =>
+                dispatch(onCommentChange({ id: filteredComment.id, text }))
+              }
+            />
+          );
+        })}
       </CommentsList>
       <AddCommentWrapper>
         <Form

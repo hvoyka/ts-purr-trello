@@ -70,7 +70,7 @@ function App() {
         columnTitle={getColumnTitle(cardIdForModalView)}
         comments={comments}
         onCardTitleChange={(title) =>
-          dispatch(onCardTitleChange(cardIdForModalView, title))
+          dispatch(onCardTitleChange({ id: cardIdForModalView, title }))
         }
         onCardTextChange={(text) =>
           dispatch(onCardTextChange(cardIdForModalView, text))

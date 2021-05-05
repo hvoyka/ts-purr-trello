@@ -1,5 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
 import storage from "redux-persist/lib/storage";
+import { persistStore } from "redux-persist";
 import { combineReducers } from "redux";
 import { persistReducer } from "redux-persist";
 import { userReducer } from "./ducks/user";
@@ -39,6 +40,8 @@ const store = configureStore({
   devTools: process.env.NODE_ENV !== "production",
   middleware: [],
 });
+
+export let persistor = persistStore(store);
 
 export type RootState = ReturnType<typeof store.getState>;
 

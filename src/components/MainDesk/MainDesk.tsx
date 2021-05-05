@@ -59,7 +59,7 @@ const MainDesk: FC<MainDeskProps> = ({
     dispatch(onColumnRemoveClearCards(id));
   };
   const handleColumnTitleChange = (id: string, title: string) => {
-    dispatch(onColumnTitleChange(id, title));
+    dispatch(onColumnTitleChange({ id, title }));
   };
 
   return (

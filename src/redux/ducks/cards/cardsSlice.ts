@@ -26,19 +26,12 @@ export const cardsSlice = createSlice({
         };
       },
     },
-    onCardTitleChange: {
-      reducer(state, action: PayloadAction<{ id: string; title: string }>) {
-        const { id, title } = action.payload;
-        state.data[id].title = title;
-      },
-      prepare(id: string, title: string) {
-        return {
-          payload: {
-            id,
-            title,
-          },
-        };
-      },
+    onCardTitleChange(
+      state,
+      action: PayloadAction<{ id: string; title: string }>
+    ) {
+      const { id, title } = action.payload;
+      state.data[id].title = title;
     },
     onCardTextChange: {
       reducer(state, action: PayloadAction<{ id: string; text: string }>) {

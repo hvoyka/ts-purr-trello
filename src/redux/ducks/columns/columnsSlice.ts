@@ -26,19 +26,12 @@ export const columnsSlice = createSlice({
     onColumnRemove(state, action) {
       delete state.data[action.payload];
     },
-    onColumnTitleChange: {
-      reducer(state, action: PayloadAction<DeskColumn>) {
-        const { id, title } = action.payload;
-        state.data[id].title = title;
-      },
-      prepare(id, title) {
-        return {
-          payload: {
-            id,
-            title,
-          },
-        };
-      },
+    onColumnTitleChange(
+      state,
+      action: PayloadAction<{ id: string; title: string }>
+    ) {
+      const { id, title } = action.payload;
+      state.data[id].title = title;
     },
   },
 });
