@@ -5,7 +5,7 @@ import styled from "styled-components";
 import { FC, useState, KeyboardEvent } from "react";
 import { TextArea } from "../ui";
 import { Form, Field } from "react-final-form";
-import { notEmpty } from "../../utils/validate";
+
 import { useAppDispatch } from "../../redux/hooks";
 import {
   onColumnAdd,
@@ -17,6 +17,7 @@ import {
   ColumnCards,
   onColumnRemoveClearCards,
 } from "../../redux/ducks/cards/cardsSlice";
+import { required } from "../../utils/validators";
 export interface MainDeskProps {
   cards: ColumnCards;
   comments: CardComments;
@@ -27,7 +28,7 @@ export interface MainDeskProps {
   onAddCardClick: (columnId: string) => void;
 }
 
-interface Values {
+interface AddColumnFormValues {
   columnTitle?: string;
 }
 
@@ -48,13 +49,14 @@ const MainDesk: FC<MainDeskProps> = ({
     setIsColumnAdding(false);
   };
 
-  const onSubmit = async ({ columnTitle }: Values) => {
+  const onSubmit = ({ columnTitle }: AddColumnFormValues) => {
     if (columnTitle) {
       dispatch(onColumnAdd(columnTitle));
 
       handleEditTitleClose();
     }
   };
+
   const handleColumnAreaEnterPress = (
     event: KeyboardEvent<HTMLTextAreaElement>
   ) => {
@@ -73,6 +75,7 @@ const MainDesk: FC<MainDeskProps> = ({
   const handleColumnTitleChange = (id: string, title: string) => {
     dispatch(onColumnTitleChange(id, title));
   };
+
 
   return (
     <Main>
@@ -106,41 +109,37 @@ const MainDesk: FC<MainDeskProps> = ({
                   <form onSubmit={handleSubmit}>
                     <Field<string>
                       name="columnTitle"
-                      autoFocus
-                      maxRows={1}
-                      placeholder="Column title"
-                      spellCheck={false}
-                      validate={notEmpty}
-                      onKeyDown={handleColumnAreaEnterPress}
-                      render={({
-                        input: { onChange, value },
-                        meta,
-                        ...props
-                      }) => {
+                      validate={required}
+                      onKeyDown={(
+                        event: KeyboardEvent<HTMLTextAreaElement>
+                      ) => {
+                        if (event.key === "Enter") handleSubmit();
+                      }}
+                      render={({ input: { onChange, value } }) => {
                         return (
                           <TextArea
                             onChange={onChange}
                             value={value}
-                            {...props}
+                            autoFocus
+                            maxRows={1}
+                            placeholder="Column title"
+                            spellCheck={false}
                           />
                         );
                       }}
                     />
-                    <CardButtonsWrapper>
-                      <AddCardBtn
-                        type="submit"
-                        disabled={submitting || pristine}
-                      >
-                        Add column
-                      </AddCardBtn>
 
-                      <CloseAddCardBlockBtn
+                    <ColumnButtonsWrapper>
+                      <AddColumnBtn disabled={submitting || pristine}>
+                        Add column
+                      </AddColumnBtn>
+                      <CloseAddColumnBlockBtn
                         type="button"
                         onClick={handleEditTitleClose}
                       >
                         x
-                      </CloseAddCardBlockBtn>
-                    </CardButtonsWrapper>
+                      </CloseAddColumnBlockBtn>
+                    </ColumnButtonsWrapper>
                   </form>
                 )}
               />
@@ -195,14 +194,14 @@ const EmptyColumn = styled.div`
   margin: 10px 4px;
 `;
 
-const CardButtonsWrapper = styled.div`
+const ColumnButtonsWrapper = styled.div`
   display: flex;
 `;
 
-const AddCardBtn = styled.button`
+const AddColumnBtn = styled.button`
   flex: 1 0 50%;
 `;
-const CloseAddCardBlockBtn = styled.button`
+const CloseAddColumnBlockBtn = styled.button`
   flex: 1 0 50%;
 `;
 

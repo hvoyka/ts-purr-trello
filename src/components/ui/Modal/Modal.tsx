@@ -10,7 +10,12 @@ interface ModalProps {
 
 const Modal: FC<ModalProps> = ({ isVisible, onClose, children, title }) => {
   return (
-    <BoostrapModal onHide={onClose} show={isVisible} animation={false} centered>
+    <BoostrapModal
+      onHide={onClose || (() => {})}
+      show={isVisible}
+      animation={false}
+      centered
+    >
       <BoostrapModal.Header closeButton={!!onClose}>
         {title}
       </BoostrapModal.Header>

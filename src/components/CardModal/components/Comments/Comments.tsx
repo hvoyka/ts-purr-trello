@@ -1,7 +1,6 @@
 import styled from "styled-components";
 import React, { useMemo, FC } from "react";
 import { Form, Field } from "react-final-form";
-import { notEmpty } from "../../../../utils/validate";
 import {
   onCommentAdd,
   onCommentRemove,
@@ -9,6 +8,7 @@ import {
   CardComments,
 } from "../../../../redux/ducks/comments/commentsSlice";
 import { useAppDispatch, useAppSelector } from "../../../../redux/hooks";
+import { required } from "../../../../utils/validators";
 import { Comment } from "./../Comment";
 import { TextArea } from "../../../ui";
 import { FormApi } from "final-form";
@@ -18,7 +18,7 @@ export interface CommentsProps {
   comments: CardComments;
 }
 
-interface Values {
+interface AddCommentFormValues {
   newCommentText?: string;
 }
 
@@ -32,7 +32,10 @@ const Comments: FC<CommentsProps> = ({ cardId, comments }) => {
     [comments, cardId]
   );
 
-  const onSubmit = async ({ newCommentText }: Values, form: FormApi) => {
+  const onSubmit = (
+    { newCommentText }: AddCommentFormValues,
+    form: FormApi
+  ) => {
     if (newCommentText) {
       dispatch(onCommentAdd(cardId, newCommentText, userName));
       form.reset();
@@ -60,20 +63,21 @@ const Comments: FC<CommentsProps> = ({ cardId, comments }) => {
             <AddCommentForm onSubmit={handleSubmit}>
               <Field<string>
                 name="newCommentText"
-                spellCheck={false}
-                maxRows={2}
-                placeholder="New comment text"
-                validate={notEmpty}
-                render={({ input: { onChange, value }, meta, ...props }) => {
+                validate={required}
+                render={({ input: { onChange, value }, meta }) => {
                   return (
-                    <TextArea onChange={onChange} value={value} {...props} />
+                    <TextArea
+                      spellCheck={false}
+                      maxRows={2}
+                      onChange={onChange}
+                      value={value}
+                      placeholder="New comment text"
+                    />
                   );
                 }}
               />
 
-              <button type="submit" disabled={submitting || pristine}>
-                Add
-              </button>
+              <button disabled={submitting || pristine}>Add</button>
             </AddCommentForm>
           )}
         />

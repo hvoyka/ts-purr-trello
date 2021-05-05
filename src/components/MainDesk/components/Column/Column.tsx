@@ -6,7 +6,7 @@ import { getCommentsCount } from "./utils";
 import React, { FC, useMemo, useState, KeyboardEvent } from "react";
 import { TextArea } from "../../../ui";
 import { Form, Field } from "react-final-form";
-import { notEmpty } from "../../../../utils/validate";
+import { required } from "../../../../utils/validators";
 import { FormApi } from "final-form";
 import { useAppDispatch, useAppSelector } from "../../../../redux/hooks";
 import { DeskColumn } from "../../../../redux/ducks/columns/columnsSlice";
@@ -30,7 +30,7 @@ export interface ColumnProps {
   onAddCardClick: () => void;
   onCardAddingClose: () => void;
 }
-interface Values {
+interface AddCardFormValues {
   cardTitle?: string;
 }
 
@@ -63,11 +63,7 @@ const Column: FC<ColumnProps> = ({
     }
   };
 
-  const handleCardTitleEdittingCloseClick = () => {
-    onCardAddingClose();
-  };
-
-  const onSubmit = async ({ cardTitle }: Values, form: FormApi) => {
+  const onSubmit = ({ cardTitle }: AddCardFormValues, form: FormApi) => {
     if (cardTitle) {
       dispatch(onCardAdd(column.id, cardTitle, user));
 
@@ -75,7 +71,7 @@ const Column: FC<ColumnProps> = ({
       form.reset();
     }
   };
-
+    
   const handleCardAreaEnterPress = (
     event: KeyboardEvent<HTMLTextAreaElement>
   ) => {
@@ -147,25 +143,29 @@ const Column: FC<ColumnProps> = ({
             <form onSubmit={handleSubmit}>
               <Field<string>
                 name="cardTitle"
-                autoFocus
-                spellCheck={false}
-                maxRows={8}
-                placeholder="Card title"
-                onKeyDown={handleCardAreaEnterPress}
-                validate={notEmpty}
-                render={({ input: { onChange, value }, meta, ...props }) => {
+                onKeyDown={(event: KeyboardEvent<HTMLTextAreaElement>) => {
+                  if (event.key === "Enter") handleSubmit();
+                }}
+                validate={required}
+                render={({ input: { onChange, value }, meta }) => {
                   return (
-                    <TextArea onChange={onChange} value={value} {...props} />
+                    <TextArea
+                      autoFocus
+                      spellCheck={false}
+                      maxRows={8}
+                      placeholder="Card title"
+                      onChange={onChange}
+                      value={value}
+                    />
                   );
                 }}
               />
 
               <CardButtonsWrapper>
-                <AddCardBtn type="submit">Add card</AddCardBtn>
-                <CloseAddCardBlockBtn
-                  type="button"
-                  onClick={handleCardTitleEdittingCloseClick}
-                >
+                <AddCardBtn disabled={submitting || pristine}>
+                  Add card
+                </AddCardBtn>
+                <CloseAddCardBlockBtn type="button" onClick={onCardAddingClose}>
                   x
                 </CloseAddCardBlockBtn>
               </CardButtonsWrapper>
