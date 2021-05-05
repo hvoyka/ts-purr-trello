@@ -1,6 +1,4 @@
 export const required = (value: string) => {
-  if (typeof value === "string") {
-    return value.trim() ? undefined : `Required`;
-  }
-  return value ? undefined : `Required`;
+  const currentValue = typeof value === "string" ? value.trim() : value;
+  return currentValue ? undefined : `Required`;
 };
