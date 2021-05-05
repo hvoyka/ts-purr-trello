@@ -57,17 +57,6 @@ const MainDesk: FC<MainDeskProps> = ({
     }
   };
 
-  const handleColumnAreaEnterPress = (
-    event: KeyboardEvent<HTMLTextAreaElement>
-  ) => {
-    if (event.key === "Enter") {
-      const trimmedValue = event.currentTarget.value.trim();
-      if (trimmedValue) {
-        dispatch(onColumnAdd(trimmedValue));
-      }
-      handleEditTitleClose();
-    }
-  };
   const handleColumnRemove = (id: string) => {
     dispatch(onColumnRemove(id));
     dispatch(onColumnRemoveClearCards(id));
@@ -75,7 +64,6 @@ const MainDesk: FC<MainDeskProps> = ({
   const handleColumnTitleChange = (id: string, title: string) => {
     dispatch(onColumnTitleChange(id, title));
   };
-
 
   return (
     <Main>

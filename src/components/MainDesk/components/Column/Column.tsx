@@ -71,18 +71,6 @@ const Column: FC<ColumnProps> = ({
       form.reset();
     }
   };
-    
-  const handleCardAreaEnterPress = (
-    event: KeyboardEvent<HTMLTextAreaElement>
-  ) => {
-    if (event.key === "Enter") {
-      const trimmedValue = event.currentTarget.value.trim();
-      if (trimmedValue) {
-        dispatch(onCardAdd(column.id, trimmedValue, user));
-      }
-      onCardAddingClose();
-    }
-  };
 
   const handleColumnTitleAreaBlur = (
     event: React.ChangeEvent<HTMLTextAreaElement>
