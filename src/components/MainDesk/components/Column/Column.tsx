@@ -1,22 +1,22 @@
 import styled from "styled-components";
 import { Button } from "react-bootstrap";
-import { CardComments } from "../../../../redux/ducks/comments/commentsSlice";
+import { CardComments } from "../../../../redux/ducks/comments";
 import { Card } from "../Card";
 import { getCommentsCount } from "./utils";
-import React, { FC, useMemo, useState, KeyboardEvent } from "react";
+import { FC, useMemo, useState, KeyboardEvent, ChangeEvent } from "react";
 import { TextArea } from "../../../ui";
 import { Form, Field } from "react-final-form";
 import { required } from "../../../../utils/validators";
 import { FormApi } from "final-form";
 import { useAppDispatch, useAppSelector } from "../../../../redux/hooks";
-import { DeskColumn } from "../../../../redux/ducks/columns/columnsSlice";
-import { onCardRemoveClearComments } from "../../../../redux/ducks/comments/commentsSlice";
+import { DeskColumn } from "../../../../redux/ducks/columns";
+import { onCardRemoveClearComments } from "../../../../redux/ducks/comments";
 import {
   onCardAdd,
   onCardRemove,
   onCardTitleChange,
   ColumnCards,
-} from "../../../../redux/ducks/cards/cardsSlice";
+} from "../../../../redux/ducks/cards";
 
 export interface ColumnProps {
   column: DeskColumn;
@@ -73,7 +73,7 @@ const Column: FC<ColumnProps> = ({
   };
 
   const handleColumnTitleAreaBlur = (
-    event: React.ChangeEvent<HTMLTextAreaElement>
+    event: ChangeEvent<HTMLTextAreaElement>
   ) => {
     const trimmedColumnTitle = event.target.value.trim();
     if (trimmedColumnTitle) {

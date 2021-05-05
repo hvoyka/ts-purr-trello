@@ -1,7 +1,7 @@
-import React, { FC, KeyboardEvent } from "react";
+import { FC, KeyboardEvent, ChangeEvent } from "react";
 import { Modal } from "../ui";
-import { CardComments } from "../../redux/ducks/comments/commentsSlice";
-import { ColumnCard } from "../../redux/ducks/cards/cardsSlice";
+import { CardComments } from "../../redux/ducks/comments";
+import { ColumnCard } from "../../redux/ducks/cards";
 import { Comments } from "./components";
 import { TextArea } from "../ui";
 import styled from "styled-components";
@@ -27,9 +27,7 @@ const CardModal: FC<CardModalProps> = ({
 }) => {
   if (!card) return null;
 
-  const handleTitleAreaBlur = (
-    event: React.ChangeEvent<HTMLTextAreaElement>
-  ) => {
+  const handleTitleAreaBlur = (event: ChangeEvent<HTMLTextAreaElement>) => {
     const trimmedCardTitle = event.target.value.trim();
     if (trimmedCardTitle) {
       onCardTitleChange(trimmedCardTitle);
@@ -37,7 +35,7 @@ const CardModal: FC<CardModalProps> = ({
   };
 
   const handleDescriptionAreaBlur = (
-    event: React.ChangeEvent<HTMLTextAreaElement>
+    event: ChangeEvent<HTMLTextAreaElement>
   ) => {
     const trimmedCardText = event.target.value.trim();
     if (trimmedCardText) {

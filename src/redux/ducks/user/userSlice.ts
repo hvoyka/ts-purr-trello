@@ -1,8 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-
-export interface User {
-  name: string;
-}
+import { User } from "./types";
 
 const initialState: User = { name: "" };
 

@@ -1,5 +1,5 @@
 import { Navbar } from "react-bootstrap";
-import React, { FC } from "react";
+import { FC } from "react";
 
 interface HeaderProps {
   name: string;

@@ -1,18 +1,9 @@
 import { createSlice, PayloadAction, nanoid } from "@reduxjs/toolkit";
 import { defaultCards } from "../../../utils/default-data";
+import { ColumnCards, ColumnCard } from "./types";
 
-export type ColumnCards = Record<string, ColumnCard>;
-
-export interface ColumnCard {
-  id: string;
-  columnId: string;
-  title: string;
-  text: string;
-  author: string;
-}
-
-const initialState = {
-  data: defaultCards as ColumnCards,
+const initialState: { data: ColumnCards } = {
+  data: defaultCards,
 };
 
 export const cardsSlice = createSlice({

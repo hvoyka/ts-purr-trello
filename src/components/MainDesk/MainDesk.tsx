@@ -1,5 +1,5 @@
 import { Container, Button } from "react-bootstrap";
-import { CardComments } from "../../redux/ducks/comments/commentsSlice";
+import { CardComments } from "../../redux/ducks/comments";
 import { Column } from "./components";
 import styled from "styled-components";
 import { FC, useState, KeyboardEvent } from "react";
@@ -12,11 +12,8 @@ import {
   onColumnRemove,
   onColumnTitleChange,
   DeskColumns,
-} from "../../redux/ducks/columns/columnsSlice";
-import {
-  ColumnCards,
-  onColumnRemoveClearCards,
-} from "../../redux/ducks/cards/cardsSlice";
+} from "../../redux/ducks/columns";
+import { ColumnCards, onColumnRemoveClearCards } from "../../redux/ducks/cards";
 import { required } from "../../utils/validators";
 export interface MainDeskProps {
   cards: ColumnCards;

@@ -1,13 +1,10 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Header, MainDesk, UserModal } from "./components";
 import { CardModal } from "./components/CardModal";
 
 import { useAppDispatch, useAppSelector } from "./redux/hooks";
-import { onAddUser } from "./redux/ducks/user/userSlice";
-import {
-  onCardTitleChange,
-  onCardTextChange,
-} from "./redux/ducks/cards/cardsSlice";
+import { onAddUser } from "./redux/ducks/user";
+import { onCardTitleChange, onCardTextChange } from "./redux/ducks/cards";
 
 function App() {
   const [cardIdForModalView, setCardIdForModalView] = useState("");

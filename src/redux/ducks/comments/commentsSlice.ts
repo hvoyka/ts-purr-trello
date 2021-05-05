@@ -1,14 +1,6 @@
 import { createSlice, PayloadAction, nanoid } from "@reduxjs/toolkit";
 import { defaultComments } from "../../../utils/default-data";
-
-export interface CardComment {
-  id: string;
-  cardId: string;
-  text: string;
-  author: string;
-}
-
-export type CardComments = Record<string, CardComment>;
+import { CardComments, CardComment } from "./types";
 
 const initialState = {
   data: defaultComments as CardComments,

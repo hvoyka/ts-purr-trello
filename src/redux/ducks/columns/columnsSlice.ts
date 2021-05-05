@@ -1,12 +1,6 @@
 import { createSlice, PayloadAction, nanoid } from "@reduxjs/toolkit";
 import { defaultColumns } from "../../../utils/default-data";
-
-export type DeskColumns = Record<string, DeskColumn>;
-
-export interface DeskColumn {
-  id: string;
-  title: string;
-}
+import { DeskColumns, DeskColumn } from "./types";
 
 const initialState = {
   data: defaultColumns as DeskColumns,

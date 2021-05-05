@@ -2,10 +2,10 @@ import { configureStore } from "@reduxjs/toolkit";
 import storage from "redux-persist/lib/storage";
 import { combineReducers } from "redux";
 import { persistReducer } from "redux-persist";
-import userReducer from "./ducks/user/userSlice";
-import columnsReducer from "./ducks/columns/columnsSlice";
-import cardsReducer from "./ducks/cards/cardsSlice";
-import commentsReducer from "./ducks/comments/commentsSlice";
+import { userReducer } from "./ducks/user";
+import { columnsReducer } from "./ducks/columns";
+import { cardsReducer } from "./ducks/cards";
+import { commentsReducer } from "./ducks/comments";
 
 const userPersistConfig = {
   key: "user",
