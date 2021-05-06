@@ -14,12 +14,12 @@ export interface CardProps {
   commentsCount: number;
   onRemoveClick: () => void;
   onClick: () => void;
-  onCardTitleChange: (title: string) => void;
+  changeCardTitle: (title: string) => void;
 }
 
 const Card: FC<CardProps> = ({
   card,
-  onCardTitleChange,
+  changeCardTitle,
   commentsCount,
   onRemoveClick,
   onClick,
@@ -37,7 +37,7 @@ const Card: FC<CardProps> = ({
     const trimmedCardTitle = event.target.value.trim();
 
     if (trimmedCardTitle) {
-      onCardTitleChange(trimmedCardTitle);
+      changeCardTitle(trimmedCardTitle);
     }
     setIsCardTitleEdit(false);
   };

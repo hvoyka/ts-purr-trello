@@ -3,8 +3,8 @@ import { Header, MainDesk, UserModal } from "./components";
 import { CardModal } from "./components/CardModal";
 
 import { useAppDispatch, useAppSelector } from "./redux/hooks";
-import { onAddUser } from "./redux/ducks/user";
-import { onCardTitleChange, onCardTextChange } from "./redux/ducks/cards";
+import { addUser } from "./redux/ducks/user";
+import { changeCardTitle, changeCardText } from "./redux/ducks/cards";
 
 function App() {
   const [cardIdForModalView, setCardIdForModalView] = useState("");
@@ -20,7 +20,7 @@ function App() {
     setColumnIdWithCardAdding(columnId);
   };
 
-  const onCardAddingClose = () => {
+  const addCardingClose = () => {
     setColumnIdWithCardAdding("");
   };
 
@@ -34,7 +34,7 @@ function App() {
   };
 
   const onUserNameAdd = (name: string) => {
-    dispatch(onAddUser(name));
+    dispatch(addUser(name));
   };
 
   const getColumnTitle = (cardIdForModalView: string): string => {
@@ -56,7 +56,7 @@ function App() {
           onCardClick={onCardClick}
           comments={comments}
           columnIdWithCardAdding={columnIdWithCardAdding}
-          onCardAddingClose={onCardAddingClose}
+          addCardingClose={addCardingClose}
           onAddCardClick={onAddCardClick}
         />
       ) : (
@@ -69,11 +69,11 @@ function App() {
         card={cards[cardIdForModalView]}
         columnTitle={getColumnTitle(cardIdForModalView)}
         comments={comments}
-        onCardTitleChange={(title) =>
-          dispatch(onCardTitleChange({ id: cardIdForModalView, title }))
+        changeCardTitle={(title) =>
+          dispatch(changeCardTitle({ id: cardIdForModalView, title }))
         }
-        onCardTextChange={(text) =>
-          dispatch(onCardTextChange(cardIdForModalView, text))
+        changeCardText={(text) =>
+          dispatch(changeCardText(cardIdForModalView, text))
         }
       />
     </div>

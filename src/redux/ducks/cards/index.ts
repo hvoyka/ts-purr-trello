@@ -1,9 +1,8 @@
 export {
   default as cardsReducer,
-  onCardAdd,
-  onCardTitleChange,
-  onCardTextChange,
-  onCardRemove,
-  onColumnRemoveClearCards,
+  addCard,
+  changeCardTitle,
+  changeCardText,
+  removeCard,
 } from "./cardsSlice";
 export type { ColumnCards, ColumnCard } from "./types";

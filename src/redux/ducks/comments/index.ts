@@ -1,8 +1,7 @@
 export {
   default as commentsReducer,
-  onCommentAdd,
-  onCommentChange,
-  onCommentRemove,
-  onCardRemoveClearComments,
+  addComment,
+  changeComment,
+  removeComment,
 } from "./commentsSlice";
 export type { CardComments, CardComment } from "./types";

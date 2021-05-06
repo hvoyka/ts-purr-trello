@@ -10,7 +10,7 @@ export const cardsSlice = createSlice({
   name: "cards",
   initialState,
   reducers: {
-    onCardAdd: {
+    addCard: {
       reducer(state, action: PayloadAction<ColumnCard>) {
         state.data[action.payload.id] = action.payload;
       },
@@ -26,14 +26,14 @@ export const cardsSlice = createSlice({
         };
       },
     },
-    onCardTitleChange(
+    changeCardTitle(
       state,
       action: PayloadAction<{ id: string; title: string }>
     ) {
       const { id, title } = action.payload;
       state.data[id].title = title;
     },
-    onCardTextChange: {
+    changeCardText: {
       reducer(state, action: PayloadAction<{ id: string; text: string }>) {
         const { id, text } = action.payload;
         state.data[id].text = text;
@@ -47,26 +47,17 @@ export const cardsSlice = createSlice({
         };
       },
     },
-    onCardRemove(state, action) {
+    removeCard(state, action) {
       delete state.data[action.payload];
-    },
-    onColumnRemoveClearCards(state, action) {
-      const columnId = action.payload;
-      Object.values(state.data).forEach((card) => {
-        if (card.columnId === columnId) {
-          delete state.data[card.id];
-        }
-      });
     },
   },
 });
 
 export const {
-  onCardAdd,
-  onCardRemove,
-  onCardTitleChange,
-  onCardTextChange,
-  onColumnRemoveClearCards,
+  addCard,
+  removeCard,
+  changeCardTitle,
+  changeCardText,
 } = cardsSlice.actions;
 
 export default cardsSlice.reducer;

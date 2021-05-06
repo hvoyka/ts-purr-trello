@@ -11,8 +11,8 @@ interface CardModalProps {
   isVisible: boolean;
   comments: CardComments;
   onClose: () => void;
-  onCardTitleChange: (title: string) => void;
-  onCardTextChange: (text: string) => void;
+  changeCardTitle: (title: string) => void;
+  changeCardText: (text: string) => void;
   columnTitle: string;
 }
 
@@ -20,8 +20,8 @@ const CardModal: FC<CardModalProps> = ({
   card,
   isVisible,
   onClose,
-  onCardTitleChange,
-  onCardTextChange,
+  changeCardTitle,
+  changeCardText,
   comments,
   columnTitle,
 }) => {
@@ -30,7 +30,7 @@ const CardModal: FC<CardModalProps> = ({
   const handleTitleAreaBlur = (event: ChangeEvent<HTMLTextAreaElement>) => {
     const trimmedCardTitle = event.target.value.trim();
     if (trimmedCardTitle) {
-      onCardTitleChange(trimmedCardTitle);
+      changeCardTitle(trimmedCardTitle);
     }
   };
 
@@ -39,7 +39,7 @@ const CardModal: FC<CardModalProps> = ({
   ) => {
     const trimmedCardText = event.target.value.trim();
     if (trimmedCardText) {
-      onCardTextChange(event.target.value);
+      changeCardText(event.target.value);
     }
   };
 

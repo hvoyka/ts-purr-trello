@@ -1,7 +1,7 @@
 export {
   default as columnsReducer,
-  onColumnAdd,
-  onColumnRemove,
-  onColumnTitleChange,
+  addColumn,
+  removeColumn,
+  changeColumnTitle,
 } from "./columnsSlice";
 export type { DeskColumns, DeskColumn } from "./types";

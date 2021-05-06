@@ -10,11 +10,10 @@ import { required } from "../../../../utils/validators";
 import { FormApi } from "final-form";
 import { useAppDispatch, useAppSelector } from "../../../../redux/hooks";
 import { DeskColumn } from "../../../../redux/ducks/columns";
-import { onCardRemoveClearComments } from "../../../../redux/ducks/comments";
 import {
-  onCardAdd,
-  onCardRemove,
-  onCardTitleChange,
+  addCard,
+  removeCard,
+  changeCardTitle,
   ColumnCards,
 } from "../../../../redux/ducks/cards";
 
@@ -28,7 +27,7 @@ export interface ColumnProps {
   onCardClick: (id: string) => void;
   isNewCardAdding: boolean;
   onAddCardClick: () => void;
-  onCardAddingClose: () => void;
+  addCardingClose: () => void;
 }
 interface AddCardFormValues {
   cardTitle?: string;
@@ -42,7 +41,7 @@ const Column: FC<ColumnProps> = ({
   onCardClick,
   comments,
   isNewCardAdding,
-  onCardAddingClose,
+  addCardingClose,
   onAddCardClick,
 }) => {
   const dispatch = useAppDispatch();
@@ -65,9 +64,9 @@ const Column: FC<ColumnProps> = ({
 
   const onSubmit = ({ cardTitle }: AddCardFormValues, form: FormApi) => {
     if (cardTitle) {
-      dispatch(onCardAdd(column.id, cardTitle, user));
+      dispatch(addCard(column.id, cardTitle, user));
 
-      onCardAddingClose();
+      addCardingClose();
       form.reset();
     }
   };
@@ -111,13 +110,12 @@ const Column: FC<ColumnProps> = ({
             <Card
               key={filteredCard.id}
               card={filteredCard}
-              onCardTitleChange={(title) =>
-                dispatch(onCardTitleChange({ id: filteredCard.id, title }))
+              changeCardTitle={(title) =>
+                dispatch(changeCardTitle({ id: filteredCard.id, title }))
               }
               onClick={() => onCardClick(filteredCard.id)}
               onRemoveClick={() => {
-                dispatch(onCardRemove(filteredCard.id));
-                dispatch(onCardRemoveClearComments(filteredCard.id));
+                dispatch(removeCard(filteredCard.id));
               }}
               commentsCount={getCommentsCount(comments, filteredCard.id)}
             />
@@ -153,7 +151,7 @@ const Column: FC<ColumnProps> = ({
                 <AddCardBtn disabled={submitting || pristine}>
                   Add card
                 </AddCardBtn>
-                <CloseAddCardBlockBtn type="button" onClick={onCardAddingClose}>
+                <CloseAddCardBlockBtn type="button" onClick={addCardingClose}>
                   x
                 </CloseAddCardBlockBtn>
               </CardButtonsWrapper>

@@ -10,7 +10,7 @@ export const columnsSlice = createSlice({
   name: "columns",
   initialState,
   reducers: {
-    onColumnAdd: {
+    addColumn: {
       reducer(state, action: PayloadAction<DeskColumn>) {
         state.data[action.payload.id] = action.payload;
       },
@@ -23,10 +23,10 @@ export const columnsSlice = createSlice({
         };
       },
     },
-    onColumnRemove(state, action) {
+    removeColumn(state, action) {
       delete state.data[action.payload];
     },
-    onColumnTitleChange(
+    changeColumnTitle(
       state,
       action: PayloadAction<{ id: string; title: string }>
     ) {
@@ -37,9 +37,9 @@ export const columnsSlice = createSlice({
 });
 
 export const {
-  onColumnAdd,
-  onColumnRemove,
-  onColumnTitleChange,
+  addColumn,
+  removeColumn,
+  changeColumnTitle,
 } = columnsSlice.actions;
 
 export default columnsSlice.reducer;
