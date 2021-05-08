@@ -1,10 +1,10 @@
-import React from "react";
+import { FC } from "react";
 import { FieldRenderProps } from "react-final-form";
 import styled from "styled-components";
 
 type TextInputProps = FieldRenderProps<string, any>;
 
-const TextInput: React.FC<TextInputProps> = ({ input, meta, ...rest }) => (
+const TextInput: FC<TextInputProps> = ({ input, meta, ...rest }) => (
   <div>
     <Input type="text" {...input} {...rest} />
     {meta.touched && meta.error && <ErrorText>{meta.error}</ErrorText>}

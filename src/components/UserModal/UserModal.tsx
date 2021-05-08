@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import { FC } from "react";
 import { Form, Field } from "react-final-form";
 import { required } from "../../utils/validators";
 
