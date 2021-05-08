@@ -1,7 +1,7 @@
-import React, { FC, KeyboardEvent } from "react";
+import { FC, KeyboardEvent, ChangeEvent } from "react";
 import { Modal } from "../ui";
-import { CardComments } from "../../redux/ducks/comments/commentsSlice";
-import { ColumnCard } from "../../redux/ducks/cards/cardsSlice";
+import { CardComments } from "../../redux/ducks/comments";
+import { ColumnCard } from "../../redux/ducks/cards";
 import { Comments } from "./components";
 import { TextArea } from "../ui";
 import styled from "styled-components";
@@ -11,8 +11,8 @@ interface CardModalProps {
   isVisible: boolean;
   comments: CardComments;
   onClose: () => void;
-  onCardTitleChange: (title: string) => void;
-  onCardTextChange: (text: string) => void;
+  changeCardTitle: (title: string) => void;
+  changeCardText: (text: string) => void;
   columnTitle: string;
 }
 
@@ -20,28 +20,26 @@ const CardModal: FC<CardModalProps> = ({
   card,
   isVisible,
   onClose,
-  onCardTitleChange,
-  onCardTextChange,
+  changeCardTitle,
+  changeCardText,
   comments,
   columnTitle,
 }) => {
   if (!card) return null;
 
-  const handleTitleAreaBlur = (
-    event: React.ChangeEvent<HTMLTextAreaElement>
-  ) => {
+  const handleTitleAreaBlur = (event: ChangeEvent<HTMLTextAreaElement>) => {
     const trimmedCardTitle = event.target.value.trim();
     if (trimmedCardTitle) {
-      onCardTitleChange(trimmedCardTitle);
+      changeCardTitle(trimmedCardTitle);
     }
   };
 
   const handleDescriptionAreaBlur = (
-    event: React.ChangeEvent<HTMLTextAreaElement>
+    event: ChangeEvent<HTMLTextAreaElement>
   ) => {
     const trimmedCardText = event.target.value.trim();
     if (trimmedCardText) {
-      onCardTextChange(event.target.value);
+      changeCardText(event.target.value);
     }
   };
 

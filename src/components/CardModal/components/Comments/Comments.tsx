@@ -1,12 +1,12 @@
 import styled from "styled-components";
-import React, { useMemo, FC } from "react";
+import { useMemo, FC } from "react";
 import { Form, Field } from "react-final-form";
 import {
-  onCommentAdd,
-  onCommentRemove,
-  onCommentChange,
+  addComment,
+  removeComment,
+  changeComment,
   CardComments,
-} from "../../../../redux/ducks/comments/commentsSlice";
+} from "../../../../redux/ducks/comments";
 import { useAppDispatch, useAppSelector } from "../../../../redux/hooks";
 import { required } from "../../../../utils/validators";
 import { Comment } from "./../Comment";
@@ -37,7 +37,7 @@ const Comments: FC<CommentsProps> = ({ cardId, comments }) => {
     form: FormApi
   ) => {
     if (newCommentText) {
-      dispatch(onCommentAdd(cardId, newCommentText, userName));
+      dispatch(addComment(cardId, newCommentText, userName));
       form.reset();
     }
   };
@@ -45,16 +45,18 @@ const Comments: FC<CommentsProps> = ({ cardId, comments }) => {
   return (
     <>
       <CommentsList>
-        {filteredCommentsArray.map((filteredComment) => (
-          <Comment
-            key={filteredComment.id}
-            comment={filteredComment}
-            onRemoveClick={() => dispatch(onCommentRemove(filteredComment.id))}
-            onSave={(value) =>
-              dispatch(onCommentChange(filteredComment.id, value))
-            }
-          />
-        ))}
+        {filteredCommentsArray.map((filteredComment) => {
+          return (
+            <Comment
+              key={filteredComment.id}
+              comment={filteredComment}
+              onRemoveClick={() => dispatch(removeComment(filteredComment.id))}
+              onSave={(text) =>
+                dispatch(changeComment({ id: filteredComment.id, text }))
+              }
+            />
+          );
+        })}
       </CommentsList>
       <AddCommentWrapper>
         <Form
