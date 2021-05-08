@@ -1,9 +1,9 @@
 import { createSlice, PayloadAction, nanoid } from "@reduxjs/toolkit";
 import { defaultComments } from "../../../utils/default-data";
-import { CardComments, CardComment } from "./types";
+import { CardComment, CommentsData } from "./types";
 
-const initialState = {
-  data: defaultComments as CardComments,
+const initialState: CommentsData = {
+  data: defaultComments,
 };
 
 export const commentsSlice = createSlice({
@@ -31,7 +31,7 @@ export const commentsSlice = createSlice({
       state.data[id].text = text;
     },
 
-    removeComment(state, action) {
+    removeComment(state, action: PayloadAction<string>) {
       delete state.data[action.payload];
     },
   },

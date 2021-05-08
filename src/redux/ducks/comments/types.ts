@@ -6,3 +6,7 @@ export interface CardComment {
 }
 
 export type CardComments = Record<string, CardComment>;
+
+export interface CommentsData {
+  data: CardComments;
+}

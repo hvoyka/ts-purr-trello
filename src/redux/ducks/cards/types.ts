@@ -7,3 +7,7 @@ export interface ColumnCard {
   text: string;
   author: string;
 }
+
+export interface CardsData {
+  data: ColumnCards;
+}

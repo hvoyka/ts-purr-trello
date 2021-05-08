@@ -73,7 +73,7 @@ function App() {
           dispatch(changeCardTitle({ id: cardIdForModalView, title }))
         }
         changeCardText={(text) =>
-          dispatch(changeCardText(cardIdForModalView, text))
+          dispatch(changeCardText({ id: cardIdForModalView, text }))
         }
       />
     </div>

@@ -1,9 +1,9 @@
 import { createSlice, PayloadAction, nanoid } from "@reduxjs/toolkit";
 import { defaultColumns } from "../../../utils/default-data";
-import { DeskColumns, DeskColumn } from "./types";
+import { DeskColumn, ColumnsData } from "./types";
 
-const initialState = {
-  data: defaultColumns as DeskColumns,
+const initialState: ColumnsData = {
+  data: defaultColumns,
 };
 
 export const columnsSlice = createSlice({
@@ -23,9 +23,11 @@ export const columnsSlice = createSlice({
         };
       },
     },
-    removeColumn(state, action) {
+
+    removeColumn(state, action: PayloadAction<string>) {
       delete state.data[action.payload];
     },
+
     changeColumnTitle(
       state,
       action: PayloadAction<{ id: string; title: string }>

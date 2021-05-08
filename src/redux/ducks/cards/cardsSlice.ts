@@ -1,8 +1,8 @@
 import { createSlice, PayloadAction, nanoid } from "@reduxjs/toolkit";
 import { defaultCards } from "../../../utils/default-data";
-import { ColumnCards, ColumnCard } from "./types";
+import { ColumnCard, CardsData } from "./types";
 
-const initialState: { data: ColumnCards } = {
+const initialState: CardsData = {
   data: defaultCards,
 };
 
@@ -33,21 +33,13 @@ export const cardsSlice = createSlice({
       const { id, title } = action.payload;
       state.data[id].title = title;
     },
-    changeCardText: {
-      reducer(state, action: PayloadAction<{ id: string; text: string }>) {
-        const { id, text } = action.payload;
-        state.data[id].text = text;
-      },
-      prepare(id: string, text: string) {
-        return {
-          payload: {
-            id,
-            text,
-          },
-        };
-      },
+
+    changeCardText(state, action: PayloadAction<{ id: string; text: string }>) {
+      const { id, text } = action.payload;
+      state.data[id].text = text;
     },
-    removeCard(state, action) {
+
+    removeCard(state, action: PayloadAction<string>) {
       delete state.data[action.payload];
     },
   },
