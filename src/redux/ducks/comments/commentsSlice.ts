@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction, nanoid } from "@reduxjs/toolkit";
 import { defaultComments } from "../../../utils/default-data";
-import { CardComment, CommentsData } from "./types";
+import { CardComment, CommentsData, ChangePayload } from "./types";
 
 const initialState: CommentsData = {
   data: defaultComments,
@@ -26,7 +26,7 @@ export const commentsSlice = createSlice({
       },
     },
 
-    changeComment(state, action: PayloadAction<{ id: string; text: string }>) {
+    changeComment(state, action: PayloadAction<ChangePayload>) {
       const { id, text } = action.payload;
       state.data[id].text = text;
     },

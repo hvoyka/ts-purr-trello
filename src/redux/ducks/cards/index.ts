@@ -1,8 +1,3 @@
-export {
-  default as cardsReducer,
-  addCard,
-  changeCardTitle,
-  changeCardText,
-  removeCard,
-} from "./cardsSlice";
+export { default as cardsReducer } from "./cardsSlice";
+export * from "./cardsSlice";
 export type { ColumnCards, ColumnCard } from "./types";

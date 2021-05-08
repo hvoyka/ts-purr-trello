@@ -11,3 +11,13 @@ export interface ColumnCard {
 export interface CardsData {
   data: ColumnCards;
 }
+
+export interface ChangeTitlePayload {
+  id: string;
+  title: string;
+}
+
+export interface ChangeTextPayload {
+  id: string;
+  text: string;
+}

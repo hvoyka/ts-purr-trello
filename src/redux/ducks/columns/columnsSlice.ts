@@ -28,10 +28,7 @@ export const columnsSlice = createSlice({
       delete state.data[action.payload];
     },
 
-    changeColumnTitle(
-      state,
-      action: PayloadAction<{ id: string; title: string }>
-    ) {
+    changeColumnTitle(state, action: PayloadAction<DeskColumn>) {
       const { id, title } = action.payload;
       state.data[id].title = title;
     },
